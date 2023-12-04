@@ -7,20 +7,12 @@ using Microsoft.EntityFrameworkCore;
 namespace StudentManagement.Server.Database;
 
 [Table("mon_hoc_thuoc_bo_mon")]
-public partial class MonHocThuocBoMon
+public partial class MonHocThuocBoMon : MonHoc
 {
-    [Key]
-    [Column("ma_mon_hoc")]
-    public long MaMonHoc { get; set; }
+	[Column("ma_bo_mon")]
+	public long MaBoMon { get; set; }
 
-    [Column("ma_bo_mon")]
-    public long MaBoMon { get; set; }
-
-    [ForeignKey("MaBoMon")]
-    [InverseProperty("MonHocThuocBoMons")]
-    public virtual BoMon BoMon { get; set; } = null!;
-
-    [ForeignKey("MaMonHoc")]
-    [InverseProperty("MonHocThuocBoMon")]
-    public virtual MonHoc MonHoc { get; set; } = null!;
+	[ForeignKey("MaBoMon")]
+	[InverseProperty("MonHocThuocBoMons")]
+	public virtual BoMon BoMon { get; set; } = null!;
 }

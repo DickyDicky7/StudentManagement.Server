@@ -63,7 +63,9 @@ public partial class ApplicationDbContext : DbContext
 
 	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-		=> optionsBuilder.UseNpgsql("Server=ep-polished-meadow-59893880.ap-southeast-1.aws.neon.tech;Port=5432;User Id=tuan.pham1973;Password=C3IARrfNS7no;Database=student_management;");
+		=> optionsBuilder
+		.UseLazyLoadingProxies()
+		.UseNpgsql("Server=ep-polished-meadow-59893880.ap-southeast-1.aws.neon.tech;Port=5432;User Id=tuan.pham1973;Password=C3IARrfNS7no;Database=student_management;");
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
@@ -101,28 +103,17 @@ public partial class ApplicationDbContext : DbContext
 
 		modelBuilder.Entity<GiangVien>(entity =>
 		{
+			entity.UseTptMappingStrategy();
 			entity.HasKey(e => e.MaGiangVien).HasName("giang_vien_pkey");
 		});
 
 		modelBuilder.Entity<GiangVienThuocBoMon>(entity =>
 		{
-			entity.HasKey(e => e.MaGiangVien).HasName("giang_vien_thuoc_bo_mon_pkey");
-
-			entity.Property(e => e.MaGiangVien).ValueGeneratedNever();
-
 			entity.HasOne(d => d.BoMon).WithMany(p => p.GiangVienThuocBoMons).HasConstraintName("giang_vien_thuoc_bo_mon_fkey_ma_bo_mon");
-
-			entity.HasOne(d => d.GiangVien).WithOne(p => p.GiangVienThuocBoMon).HasConstraintName("giang_vien_thuoc_bo_mon_fkey_ma_giang_vien");
 		});
 
 		modelBuilder.Entity<GiangVienThuocKhoaDaoTao>(entity =>
 		{
-			entity.HasKey(e => e.MaGiangVien).HasName("giang_vien_thuoc_khoa_dao_tao_pkey");
-
-			entity.Property(e => e.MaGiangVien).ValueGeneratedNever();
-
-			entity.HasOne(d => d.GiangVien).WithOne(p => p.GiangVienThuocKhoaDaoTao).HasConstraintName("giang_vien_thuoc_khoa_dao_tao_fkey_ma_giang_vien");
-
 			entity.HasOne(d => d.KhoaDaoTao).WithMany(p => p.GiangVienThuocKhoaDaoTaos).HasConstraintName("giang_vien_thuoc_khoa_dao_tao_fkey_ma_khoa_dao_tao");
 		});
 
@@ -197,29 +188,18 @@ public partial class ApplicationDbContext : DbContext
 
 		modelBuilder.Entity<MonHoc>(entity =>
 		{
+			entity.UseTptMappingStrategy();
 			entity.HasKey(e => e.MaMonHoc).HasName("mon_hoc_pkey");
 		});
 
 		modelBuilder.Entity<MonHocThuocBoMon>(entity =>
 		{
-			entity.HasKey(e => e.MaMonHoc).HasName("mon_hoc_thuoc_bo_mon_pkey");
-
-			entity.Property(e => e.MaMonHoc).ValueGeneratedNever();
-
 			entity.HasOne(d => d.BoMon).WithMany(p => p.MonHocThuocBoMons).HasConstraintName("mon_hoc_thuoc_bo_mon_fkey_ma_bo_mon");
-
-			entity.HasOne(d => d.MonHoc).WithOne(p => p.MonHocThuocBoMon).HasConstraintName("mon_hoc_thuoc_bo_mon_fkey_ma_mon_hoc");
 		});
 
 		modelBuilder.Entity<MonHocThuocKhoaDaoTao>(entity =>
 		{
-			entity.HasKey(e => e.MaMonHoc).HasName("mon_hoc_thuoc_khoa_dao_tao_pkey");
-
-			entity.Property(e => e.MaMonHoc).ValueGeneratedNever();
-
 			entity.HasOne(d => d.KhoaDaoTao).WithMany(p => p.MonHocThuocKhoaDaoTaos).HasConstraintName("mon_hoc_thuoc_khoa_dao_tao_fkey_ma_khoa_dao_tao");
-
-			entity.HasOne(d => d.MonHoc).WithOne(p => p.MonHocThuocKhoaDaoTao).HasConstraintName("mon_hoc_thuoc_khoa_dao_tao_fkey_ma_mon_hoc");
 		});
 
 		modelBuilder.Entity<SinhVien>(entity =>
