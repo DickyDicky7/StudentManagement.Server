@@ -16,9 +16,9 @@ public partial class HeDaoTao
     [Column("ten_he_dao_tao")]
     public string TenHeDaoTao { get; set; } = null!;
 
-    [InverseProperty("MaHeDaoTaoNavigation")]
+    [InverseProperty("HeDaoTao")]
     public virtual ICollection<HocPhan> HocPhans { get; set; } = new List<HocPhan>();
 
-    [InverseProperty("MaHeDaoTaoNavigation")]
+    [InverseProperty("HeDaoTao")]
     public virtual ICollection<SinhVien> SinhViens { get; set; } = new List<SinhVien>();
 }

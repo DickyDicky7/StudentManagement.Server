@@ -18,9 +18,9 @@ public partial class MonHocThuocBoMon
 
     [ForeignKey("MaBoMon")]
     [InverseProperty("MonHocThuocBoMons")]
-    public virtual BoMon MaBoMonNavigation { get; set; } = null!;
+    public virtual BoMon BoMon { get; set; } = null!;
 
     [ForeignKey("MaMonHoc")]
     [InverseProperty("MonHocThuocBoMon")]
-    public virtual MonHoc MaMonHocNavigation { get; set; } = null!;
+    public virtual MonHoc MonHoc { get; set; } = null!;
 }

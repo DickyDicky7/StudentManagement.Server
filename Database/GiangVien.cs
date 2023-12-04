@@ -16,15 +16,15 @@ public partial class GiangVien
     [Column("ten_giang_vien")]
     public string TenGiangVien { get; set; } = null!;
 
-    [InverseProperty("MaGiangVienNavigation")]
+    [InverseProperty("GiangVien")]
     public virtual GiangVienThuocBoMon? GiangVienThuocBoMon { get; set; }
 
-    [InverseProperty("MaGiangVienNavigation")]
+    [InverseProperty("GiangVien")]
     public virtual GiangVienThuocKhoaDaoTao? GiangVienThuocKhoaDaoTao { get; set; }
 
-    [InverseProperty("MaGiangVienNavigation")]
+    [InverseProperty("GiangVien")]
     public virtual ICollection<HocPhan> HocPhans { get; set; } = new List<HocPhan>();
 
-    [InverseProperty("MaCoVanHocTapNavigation")]
+    [InverseProperty("CoVanHocTap")]
     public virtual ICollection<KhoaHoc> KhoaHocs { get; set; } = new List<KhoaHoc>();
 }

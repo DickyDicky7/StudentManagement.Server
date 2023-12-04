@@ -43,25 +43,25 @@ public partial class HocPhan
     [Column("ghi_chu")]
     public string GhiChu { get; set; } = null!;
 
-    [InverseProperty("MaHocPhanNavigation")]
+    [InverseProperty("HocPhan")]
     public virtual ICollection<BangDiemHocPhan> BangDiemHocPhans { get; set; } = new List<BangDiemHocPhan>();
 
-    [InverseProperty("MaHocPhanNavigation")]
+    [InverseProperty("HocPhan")]
     public virtual ICollection<DanhSachDangKyHocPhan> DanhSachDangKyHocPhans { get; set; } = new List<DanhSachDangKyHocPhan>();
 
     [ForeignKey("MaGiangVien")]
     [InverseProperty("HocPhans")]
-    public virtual GiangVien MaGiangVienNavigation { get; set; } = null!;
+    public virtual GiangVien GiangVien { get; set; } = null!;
 
     [ForeignKey("MaHeDaoTao")]
     [InverseProperty("HocPhans")]
-    public virtual HeDaoTao MaHeDaoTaoNavigation { get; set; } = null!;
+    public virtual HeDaoTao HeDaoTao { get; set; } = null!;
 
     [ForeignKey("MaHocKyNamHoc")]
     [InverseProperty("HocPhans")]
-    public virtual HocKyNamHoc MaHocKyNamHocNavigation { get; set; } = null!;
+    public virtual HocKyNamHoc HocKyNamHoc { get; set; } = null!;
 
     [ForeignKey("MaMonHoc")]
     [InverseProperty("HocPhans")]
-    public virtual MonHoc MaMonHocNavigation { get; set; } = null!;
+    public virtual MonHoc MonHoc { get; set; } = null!;
 }

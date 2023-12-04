@@ -18,9 +18,9 @@ public partial class GiangVienThuocBoMon
 
     [ForeignKey("MaBoMon")]
     [InverseProperty("GiangVienThuocBoMons")]
-    public virtual BoMon MaBoMonNavigation { get; set; } = null!;
+    public virtual BoMon BoMon { get; set; } = null!;
 
     [ForeignKey("MaGiangVien")]
     [InverseProperty("GiangVienThuocBoMon")]
-    public virtual GiangVien MaGiangVienNavigation { get; set; } = null!;
+    public virtual GiangVien GiangVien { get; set; } = null!;
 }

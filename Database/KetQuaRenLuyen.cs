@@ -28,12 +28,12 @@ public partial class KetQuaRenLuyen
 
     [ForeignKey("MaHocKyNamHoc")]
     [InverseProperty("KetQuaRenLuyens")]
-    public virtual HocKyNamHoc MaHocKyNamHocNavigation { get; set; } = null!;
+    public virtual HocKyNamHoc HocKyNamHoc { get; set; } = null!;
 
     [ForeignKey("MaSinhVien")]
     [InverseProperty("KetQuaRenLuyens")]
-    public virtual SinhVien MaSinhVienNavigation { get; set; } = null!;
+    public virtual SinhVien SinhVien { get; set; } = null!;
 
-    [InverseProperty("MaKetQuaRenLuyenNavigation")]
+    [InverseProperty("KetQuaRenLuyen")]
     public virtual ICollection<ThongTinHocKyNamHoc> ThongTinHocKyNamHocs { get; set; } = new List<ThongTinHocKyNamHoc>();
 }

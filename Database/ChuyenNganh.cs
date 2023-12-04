@@ -21,8 +21,8 @@ public partial class ChuyenNganh
 
     [ForeignKey("MaKhoaDaoTao")]
     [InverseProperty("ChuyenNganhs")]
-    public virtual KhoaDaoTao MaKhoaDaoTaoNavigation { get; set; } = null!;
+    public virtual KhoaDaoTao KhoaDaoTao { get; set; } = null!;
 
-    [InverseProperty("MaChuyenNganhNavigation")]
+    [InverseProperty("ChuyenNganh")]
     public virtual ICollection<SinhVien> SinhViens { get; set; } = new List<SinhVien>();
 }

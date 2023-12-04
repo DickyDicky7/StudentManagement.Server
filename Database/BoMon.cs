@@ -16,9 +16,9 @@ public partial class BoMon
     [Column("ten_bo_mon")]
     public string TenBoMon { get; set; } = null!;
 
-    [InverseProperty("MaBoMonNavigation")]
+    [InverseProperty("BoMon")]
     public virtual ICollection<GiangVienThuocBoMon> GiangVienThuocBoMons { get; set; } = new List<GiangVienThuocBoMon>();
 
-    [InverseProperty("MaBoMonNavigation")]
+    [InverseProperty("BoMon")]
     public virtual ICollection<MonHocThuocBoMon> MonHocThuocBoMons { get; set; } = new List<MonHocThuocBoMon>();
 }

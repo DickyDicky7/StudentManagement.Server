@@ -30,5 +30,5 @@ public partial class HoSo
 
     [ForeignKey("MaSinhVien")]
     [InverseProperty("HoSos")]
-    public virtual SinhVien MaSinhVienNavigation { get; set; } = null!;
+    public virtual SinhVien SinhVien { get; set; } = null!;
 }

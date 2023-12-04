@@ -20,21 +20,21 @@ public partial class HocKyNamHoc
     [Column("ten_nam_hoc")]
     public string TenNamHoc { get; set; } = null!;
 
-    [InverseProperty("MaHocKyNamHocNavigation")]
+    [InverseProperty("HocKyNamHoc")]
     public virtual ICollection<HocPhan> HocPhans { get; set; } = new List<HocPhan>();
 
-    [InverseProperty("MaHocKyNamHocNavigation")]
+    [InverseProperty("HocKyNamHoc")]
     public virtual ICollection<KetQuaHocTap> KetQuaHocTaps { get; set; } = new List<KetQuaHocTap>();
 
-    [InverseProperty("MaHocKyNamHocNavigation")]
+    [InverseProperty("HocKyNamHoc")]
     public virtual ICollection<KetQuaRenLuyen> KetQuaRenLuyens { get; set; } = new List<KetQuaRenLuyen>();
 
-    [InverseProperty("MaHocKyNamHocNavigation")]
+    [InverseProperty("HocKyNamHoc")]
     public virtual ICollection<KhenThuong> KhenThuongs { get; set; } = new List<KhenThuong>();
 
-    [InverseProperty("MaHocKyNamHocNavigation")]
+    [InverseProperty("HocKyNamHoc")]
     public virtual ICollection<ThongTinHocKyNamHoc> ThongTinHocKyNamHocs { get; set; } = new List<ThongTinHocKyNamHoc>();
 
-    [InverseProperty("MaHocKyNamHocNavigation")]
+    [InverseProperty("HocKyNamHoc")]
     public virtual ICollection<ThongTinHocPhi> ThongTinHocPhis { get; set; } = new List<ThongTinHocPhi>();
 }

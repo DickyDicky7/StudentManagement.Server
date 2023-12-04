@@ -38,38 +38,38 @@ public partial class ThongTinHocKyNamHoc
     [Column("ma_thong_tin_hoc_ky_nam_hoc_truoc")]
     public long? MaThongTinHocKyNamHocTruoc { get; set; }
 
-    [InverseProperty("MaThongTinHocKyNamHocTruocNavigation")]
-    public virtual ICollection<ThongTinHocKyNamHoc> InverseMaThongTinHocKyNamHocTruocNavigation { get; set; } = new List<ThongTinHocKyNamHoc>();
-
     [ForeignKey("MaHocKyNamHoc")]
     [InverseProperty("ThongTinHocKyNamHocs")]
-    public virtual HocKyNamHoc MaHocKyNamHocNavigation { get; set; } = null!;
+    public virtual HocKyNamHoc HocKyNamHoc { get; set; } = null!;
+
+    [InverseProperty("ThongTinHocKyNamHocTruoc")]
+    public virtual ICollection<ThongTinHocKyNamHoc> InverseThongTinHocKyNamHocTruoc { get; set; } = new List<ThongTinHocKyNamHoc>();
 
     [ForeignKey("MaKetQuaHocTap")]
     [InverseProperty("ThongTinHocKyNamHocs")]
-    public virtual KetQuaHocTap MaKetQuaHocTapNavigation { get; set; } = null!;
+    public virtual KetQuaHocTap KetQuaHocTap { get; set; } = null!;
 
     [ForeignKey("MaKetQuaRenLuyen")]
     [InverseProperty("ThongTinHocKyNamHocs")]
-    public virtual KetQuaRenLuyen MaKetQuaRenLuyenNavigation { get; set; } = null!;
+    public virtual KetQuaRenLuyen KetQuaRenLuyen { get; set; } = null!;
 
     [ForeignKey("MaKhenThuong")]
     [InverseProperty("ThongTinHocKyNamHocs")]
-    public virtual KhenThuong MaKhenThuongNavigation { get; set; } = null!;
+    public virtual KhenThuong KhenThuong { get; set; } = null!;
 
     [ForeignKey("MaSinhVien")]
     [InverseProperty("ThongTinHocKyNamHocs")]
-    public virtual SinhVien MaSinhVienNavigation { get; set; } = null!;
+    public virtual SinhVien SinhVien { get; set; } = null!;
 
     [ForeignKey("MaThongTinDangKyHocPhan")]
     [InverseProperty("ThongTinHocKyNamHocs")]
-    public virtual ThongTinDangKyHocPhan MaThongTinDangKyHocPhanNavigation { get; set; } = null!;
+    public virtual ThongTinDangKyHocPhan ThongTinDangKyHocPhan { get; set; } = null!;
 
     [ForeignKey("MaThongTinHocKyNamHocTruoc")]
-    [InverseProperty("InverseMaThongTinHocKyNamHocTruocNavigation")]
-    public virtual ThongTinHocKyNamHoc? MaThongTinHocKyNamHocTruocNavigation { get; set; }
+    [InverseProperty("InverseThongTinHocKyNamHocTruoc")]
+    public virtual ThongTinHocKyNamHoc? ThongTinHocKyNamHocTruoc { get; set; }
 
     [ForeignKey("MaThongTinHocPhi")]
     [InverseProperty("ThongTinHocKyNamHocs")]
-    public virtual ThongTinHocPhi MaThongTinHocPhiNavigation { get; set; } = null!;
+    public virtual ThongTinHocPhi ThongTinHocPhi { get; set; } = null!;
 }

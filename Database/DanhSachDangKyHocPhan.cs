@@ -8,6 +8,7 @@ namespace StudentManagement.Server.Database;
 
 [PrimaryKey("MaThongTinDangKyHocPhan", "MaHocPhan")]
 [Table("danh_sach_dang_ky_hoc_phan")]
+[Index("MaBangDiemHocPhan", Name = "danh_sach_dang_ky_hoc_phan_unique_ma_bang_diem_hoc_phan", IsUnique = true)]
 public partial class DanhSachDangKyHocPhan
 {
     [Key]
@@ -25,14 +26,14 @@ public partial class DanhSachDangKyHocPhan
     public long MaBangDiemHocPhan { get; set; }
 
     [ForeignKey("MaBangDiemHocPhan")]
-    [InverseProperty("DanhSachDangKyHocPhans")]
-    public virtual BangDiemHocPhan MaBangDiemHocPhanNavigation { get; set; } = null!;
+    [InverseProperty("DanhSachDangKyHocPhan")]
+    public virtual BangDiemHocPhan BangDiemHocPhan { get; set; } = null!;
 
     [ForeignKey("MaHocPhan")]
     [InverseProperty("DanhSachDangKyHocPhans")]
-    public virtual HocPhan MaHocPhanNavigation { get; set; } = null!;
+    public virtual HocPhan HocPhan { get; set; } = null!;
 
     [ForeignKey("MaThongTinDangKyHocPhan")]
     [InverseProperty("DanhSachDangKyHocPhans")]
-    public virtual ThongTinDangKyHocPhan MaThongTinDangKyHocPhanNavigation { get; set; } = null!;
+    public virtual ThongTinDangKyHocPhan ThongTinDangKyHocPhan { get; set; } = null!;
 }

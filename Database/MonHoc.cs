@@ -34,12 +34,12 @@ public partial class MonHoc
     [Column("tom_tat_mon_hoc")]
     public string TomTatMonHoc { get; set; } = null!;
 
-    [InverseProperty("MaMonHocNavigation")]
+    [InverseProperty("MonHoc")]
     public virtual ICollection<HocPhan> HocPhans { get; set; } = new List<HocPhan>();
 
-    [InverseProperty("MaMonHocNavigation")]
+    [InverseProperty("MonHoc")]
     public virtual MonHocThuocBoMon? MonHocThuocBoMon { get; set; }
 
-    [InverseProperty("MaMonHocNavigation")]
+    [InverseProperty("MonHoc")]
     public virtual MonHocThuocKhoaDaoTao? MonHocThuocKhoaDaoTao { get; set; }
 }

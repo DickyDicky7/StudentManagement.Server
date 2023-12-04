@@ -24,8 +24,8 @@ public partial class KhoaHoc
 
     [ForeignKey("MaCoVanHocTap")]
     [InverseProperty("KhoaHocs")]
-    public virtual GiangVien MaCoVanHocTapNavigation { get; set; } = null!;
+    public virtual GiangVien CoVanHocTap { get; set; } = null!;
 
-    [InverseProperty("MaKhoaHocNavigation")]
+    [InverseProperty("KhoaHoc")]
     public virtual ICollection<SinhVien> SinhViens { get; set; } = new List<SinhVien>();
 }

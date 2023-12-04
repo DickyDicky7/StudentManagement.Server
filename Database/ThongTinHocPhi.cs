@@ -45,21 +45,21 @@ public partial class ThongTinHocPhi
     [Column("ma_sinh_vien")]
     public long MaSinhVien { get; set; }
 
-    [InverseProperty("MaThongTinHocPhiNavigation")]
-    public virtual ThongTinHocPhi? InverseMaThongTinHocPhiNavigation { get; set; }
-
     [ForeignKey("MaHocKyNamHoc")]
     [InverseProperty("ThongTinHocPhis")]
-    public virtual HocKyNamHoc MaHocKyNamHocNavigation { get; set; } = null!;
+    public virtual HocKyNamHoc HocKyNamHoc { get; set; } = null!;
+
+    [InverseProperty("ThongTinHocPhiHocKyTruoc")]
+    public virtual ThongTinHocPhi? InverseThongTinHocPhiHocKyTruoc { get; set; }
 
     [ForeignKey("MaSinhVien")]
     [InverseProperty("ThongTinHocPhis")]
-    public virtual SinhVien MaSinhVienNavigation { get; set; } = null!;
+    public virtual SinhVien SinhVien { get; set; } = null!;
 
-    [ForeignKey("MaThongTinHocPhi")]
-    [InverseProperty("InverseMaThongTinHocPhiNavigation")]
-    public virtual ThongTinHocPhi MaThongTinHocPhiNavigation { get; set; } = null!;
-
-    [InverseProperty("MaThongTinHocPhiNavigation")]
+    [InverseProperty("ThongTinHocPhi")]
     public virtual ICollection<ThongTinHocKyNamHoc> ThongTinHocKyNamHocs { get; set; } = new List<ThongTinHocKyNamHoc>();
+
+    [ForeignKey("MaThongTinHocPhiHocKyTruoc")]
+    [InverseProperty("InverseThongTinHocPhiHocKyTruoc")]
+    public virtual ThongTinHocPhi? ThongTinHocPhiHocKyTruoc { get; set; }
 }

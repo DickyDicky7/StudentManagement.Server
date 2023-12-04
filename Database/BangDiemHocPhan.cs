@@ -32,14 +32,14 @@ public partial class BangDiemHocPhan
     [Column("diem_cuoi_ky")]
     public float DiemCuoiKy { get; set; }
 
-    [InverseProperty("MaBangDiemHocPhanNavigation")]
-    public virtual ICollection<DanhSachDangKyHocPhan> DanhSachDangKyHocPhans { get; set; } = new List<DanhSachDangKyHocPhan>();
+    [InverseProperty("BangDiemHocPhan")]
+    public virtual DanhSachDangKyHocPhan? DanhSachDangKyHocPhan { get; set; }
 
     [ForeignKey("MaHocPhan")]
     [InverseProperty("BangDiemHocPhans")]
-    public virtual HocPhan MaHocPhanNavigation { get; set; } = null!;
+    public virtual HocPhan HocPhan { get; set; } = null!;
 
     [ForeignKey("MaSinhVien")]
     [InverseProperty("BangDiemHocPhans")]
-    public virtual SinhVien MaSinhVienNavigation { get; set; } = null!;
+    public virtual SinhVien SinhVien { get; set; } = null!;
 }

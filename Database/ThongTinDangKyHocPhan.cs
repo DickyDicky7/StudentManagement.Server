@@ -13,9 +13,9 @@ public partial class ThongTinDangKyHocPhan
     [Column("ma_thong_tin_dang_ky_hoc_phan")]
     public long MaThongTinDangKyHocPhan { get; set; }
 
-    [InverseProperty("MaThongTinDangKyHocPhanNavigation")]
+    [InverseProperty("ThongTinDangKyHocPhan")]
     public virtual ICollection<DanhSachDangKyHocPhan> DanhSachDangKyHocPhans { get; set; } = new List<DanhSachDangKyHocPhan>();
 
-    [InverseProperty("MaThongTinDangKyHocPhanNavigation")]
+    [InverseProperty("ThongTinDangKyHocPhan")]
     public virtual ICollection<ThongTinHocKyNamHoc> ThongTinHocKyNamHocs { get; set; } = new List<ThongTinHocKyNamHoc>();
 }

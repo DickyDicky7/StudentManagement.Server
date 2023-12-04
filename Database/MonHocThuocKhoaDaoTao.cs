@@ -18,9 +18,9 @@ public partial class MonHocThuocKhoaDaoTao
 
     [ForeignKey("MaKhoaDaoTao")]
     [InverseProperty("MonHocThuocKhoaDaoTaos")]
-    public virtual KhoaDaoTao MaKhoaDaoTaoNavigation { get; set; } = null!;
+    public virtual KhoaDaoTao KhoaDaoTao { get; set; } = null!;
 
     [ForeignKey("MaMonHoc")]
     [InverseProperty("MonHocThuocKhoaDaoTao")]
-    public virtual MonHoc MaMonHocNavigation { get; set; } = null!;
+    public virtual MonHoc MonHoc { get; set; } = null!;
 }

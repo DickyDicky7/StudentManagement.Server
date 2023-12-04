@@ -52,36 +52,36 @@ public partial class SinhVien
     [Column("anh_the_sinh_vien")]
     public string AnhTheSinhVien { get; set; } = null!;
 
-    [InverseProperty("MaSinhVienNavigation")]
+    [InverseProperty("SinhVien")]
     public virtual ICollection<BangDiemHocPhan> BangDiemHocPhans { get; set; } = new List<BangDiemHocPhan>();
-
-    [InverseProperty("MaSinhVienNavigation")]
-    public virtual ICollection<HoSo> HoSos { get; set; } = new List<HoSo>();
-
-    [InverseProperty("MaSinhVienNavigation")]
-    public virtual ICollection<KetQuaHocTap> KetQuaHocTaps { get; set; } = new List<KetQuaHocTap>();
-
-    [InverseProperty("MaSinhVienNavigation")]
-    public virtual ICollection<KetQuaRenLuyen> KetQuaRenLuyens { get; set; } = new List<KetQuaRenLuyen>();
-
-    [InverseProperty("MaSinhVienNavigation")]
-    public virtual ICollection<KhenThuong> KhenThuongs { get; set; } = new List<KhenThuong>();
 
     [ForeignKey("MaChuyenNganh")]
     [InverseProperty("SinhViens")]
-    public virtual ChuyenNganh MaChuyenNganhNavigation { get; set; } = null!;
+    public virtual ChuyenNganh ChuyenNganh { get; set; } = null!;
 
     [ForeignKey("MaHeDaoTao")]
     [InverseProperty("SinhViens")]
-    public virtual HeDaoTao MaHeDaoTaoNavigation { get; set; } = null!;
+    public virtual HeDaoTao HeDaoTao { get; set; } = null!;
+
+    [InverseProperty("SinhVien")]
+    public virtual ICollection<HoSo> HoSos { get; set; } = new List<HoSo>();
+
+    [InverseProperty("SinhVien")]
+    public virtual ICollection<KetQuaHocTap> KetQuaHocTaps { get; set; } = new List<KetQuaHocTap>();
+
+    [InverseProperty("SinhVien")]
+    public virtual ICollection<KetQuaRenLuyen> KetQuaRenLuyens { get; set; } = new List<KetQuaRenLuyen>();
+
+    [InverseProperty("SinhVien")]
+    public virtual ICollection<KhenThuong> KhenThuongs { get; set; } = new List<KhenThuong>();
 
     [ForeignKey("MaKhoaHoc")]
     [InverseProperty("SinhViens")]
-    public virtual KhoaHoc MaKhoaHocNavigation { get; set; } = null!;
+    public virtual KhoaHoc KhoaHoc { get; set; } = null!;
 
-    [InverseProperty("MaSinhVienNavigation")]
+    [InverseProperty("SinhVien")]
     public virtual ICollection<ThongTinHocKyNamHoc> ThongTinHocKyNamHocs { get; set; } = new List<ThongTinHocKyNamHoc>();
 
-    [InverseProperty("MaSinhVienNavigation")]
+    [InverseProperty("SinhVien")]
     public virtual ICollection<ThongTinHocPhi> ThongTinHocPhis { get; set; } = new List<ThongTinHocPhi>();
 }
