@@ -6,7 +6,7 @@
         {
             app
                 .MapPost(@"/thong-tin-hoc-phi/get-many", InternalMethods.ThongTinHocPhi_GetMany)
-                .WithTags(@"Get many");
+                .WithTags(@"Get many, execution order: [filter] where -> [skip] offset -> [take] limit");
 
             return app;
         }

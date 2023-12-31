@@ -6,7 +6,7 @@
         {
             app
                 .MapPost(@"/ho-so/get-many", InternalMethods.HoSo_GetMany)
-                .WithTags(@"Get many");
+                .WithTags(@"Get many, execution order: [filter] where -> [skip] offset -> [take] limit");
 
             return app;
         }

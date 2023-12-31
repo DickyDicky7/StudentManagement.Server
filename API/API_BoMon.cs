@@ -6,7 +6,7 @@
         {
             app
                 .MapPost(@"/bo-mon/get-many", InternalMethods.BoMon_GetMany)
-                .WithTags(@"Get many");
+                .WithTags(@"Get many, execution order: [filter] where -> [skip] offset -> [take] limit");
 
             return app;
         }
@@ -23,7 +23,8 @@
                     Result = await context.BoMons
                     .Where(boMon => reqBody
                     .Match(boMon))
-                    .Skip(offset).Take(limit).ToListAsync(),
+                    .Skip(offset).Take(limit)
+                    .ToListAsync(),
                 };
                 return resBody;
             }

@@ -6,7 +6,7 @@
         {
             app
                 .MapPost(@"/mon-hoc/get-many", InternalMethods.MonHoc_GetMany)
-                .WithTags(@"Get many");
+                .WithTags(@"Get many, execution order: [filter] where -> [skip] offset -> [take] limit");
 
             return app;
         }
@@ -20,11 +20,11 @@
             {
                 Common.ResBody<MonHoc> resBody = new()
                 {
-                    Result = await context.MonHocs
+                    Result = (await context.MonHocs
                     .Where(monHoc => reqBody
                     .Match(monHoc))
                     .Skip(offset).Take(limit)
-                    .ToListAsync(),
+                    .ToListAsync()),
                 };
                 return resBody;
             }

@@ -7,12 +7,13 @@ namespace StudentManagement.Server.Bodies.Req
         public virtual bool Match(T model)
         {
             bool matchingResult = true;
-            foreach (PropertyInfo propertyInfo in GetType().GetProperties())
+            foreach (PropertyInfo propertyInfo in this.GetType().GetProperties())
             {
                 if (propertyInfo.GetValue(this) != null)
                 {
                     matchingResult =
-                    matchingResult && Equals(propertyInfo.GetValue(this), propertyInfo.GetValue(model));
+                    matchingResult && Object.Equals(propertyInfo.GetValue(this), model.GetType().
+                    GetProperty(propertyInfo.Name)!.GetValue(model));
                 }
                 if (!matchingResult)
                 {

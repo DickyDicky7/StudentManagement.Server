@@ -6,7 +6,7 @@
         {
             app
                 .MapPost(@"/giang-vien-thuoc-bo-mon/get-many", InternalMethods.GiangVienThuocBoMon_GetMany)
-                .WithTags(@"Get many");
+                .WithTags(@"Get many, execution order: [filter] where -> [skip] offset -> [take] limit");
 
             return app;
         }

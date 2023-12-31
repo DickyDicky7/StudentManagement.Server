@@ -6,7 +6,7 @@
         {
             app
                 .MapPost(@"/khen-thuong/get-many", InternalMethods.KhenThuong_GetMany)
-                .WithTags(@"Get many");
+                .WithTags(@"Get many, execution order: [filter] where -> [skip] offset -> [take] limit");
 
             return app;
         }
@@ -23,7 +23,8 @@
                     Result = await context.KhenThuongs
                     .Where(khenThuong => reqBody
                     .Match(khenThuong))
-                    .Skip(offset).Take(limit).ToListAsync(),
+                    .Skip(offset).Take(limit)
+                    .ToListAsync(),
                 };
                 return resBody;
             }

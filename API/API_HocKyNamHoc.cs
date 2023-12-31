@@ -6,7 +6,7 @@
         {
             app
                 .MapPost(@"/hoc-ky-nam-hoc/get-many", InternalMethods.HocKyNamHoc_GetMany)
-                .WithTags(@"Get many");
+                .WithTags(@"Get many, execution order: [filter] where -> [skip] offset -> [take] limit");
 
             return app;
         }
@@ -23,7 +23,8 @@
                     Result = await context.HocKyNamHocs
                     .Where(hocKyNamHoc => reqBody
                     .Match(hocKyNamHoc))
-                    .Skip(offset).Take(limit).ToListAsync(),
+                    .Skip(offset).Take(limit)
+                    .ToListAsync(),
                 };
                 return resBody;
             }

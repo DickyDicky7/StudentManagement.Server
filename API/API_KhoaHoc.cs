@@ -6,7 +6,7 @@
         {
             app
                 .MapPost(@"/khoa-hoc/get-many", InternalMethods.KhoaHoc_GetMany)
-                .WithTags(@"Get many");
+                .WithTags(@"Get many, execution order: [filter] where -> [skip] offset -> [take] limit");
 
             return app;
         }

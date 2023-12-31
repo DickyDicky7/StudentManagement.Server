@@ -6,7 +6,7 @@
         {
             app
                 .MapPost(@"/he-dao-tao/get-many", InternalMethods.HeDaoTao_GetMany)
-                .WithTags(@"Get many");
+                .WithTags(@"Get many, execution order: [filter] where -> [skip] offset -> [take] limit");
 
             return app;
         }
@@ -23,7 +23,8 @@
                     Result = await context.HeDaoTaos
                     .Where(heDaoTao => reqBody
                     .Match(heDaoTao))
-                    .Skip(offset).Take(limit).ToListAsync(),
+                    .Skip(offset).Take(limit)
+                    .ToListAsync(),
                 };
                 return resBody;
             }

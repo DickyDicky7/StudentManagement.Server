@@ -6,7 +6,7 @@
         {
             app
                 .MapPost(@"/ket-qua-hoc-tap/get-many", InternalMethods.KetQuaHocTap_GetMany)
-                .WithTags(@"Get many");
+                .WithTags(@"Get many, execution order: [filter] where -> [skip] offset -> [take] limit");
 
             return app;
         }

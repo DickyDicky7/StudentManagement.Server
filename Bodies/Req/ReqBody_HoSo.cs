@@ -8,5 +8,21 @@
         public string  ? LoaiHoSo        { get; set; }
         public string[]? DanhSachDinhKem { get; set; }
         public long    ? MaSinhVien      { get; set; }
+
+        public override bool Match(HoSo model)
+        {
+            return (      this.MaHoSo          == null ||
+            Object.Equals(this.MaHoSo         , model.MaHoSo))          &&
+            (             this.HoanThanh       == null ||
+            Object.Equals(this.HoanThanh      , model.HoanThanh))       &&
+            (             this.GhiChu          == null ||
+            Object.Equals(this.GhiChu         , model.GhiChu))          &&
+            (             this.LoaiHoSo        == null ||
+            Object.Equals(this.LoaiHoSo       , model.LoaiHoSo))        &&
+            (             this.DanhSachDinhKem == null ||
+            Object.Equals(this.DanhSachDinhKem, model.DanhSachDinhKem)) &&
+            (             this.MaSinhVien      == null ||
+            Object.Equals(this.MaSinhVien     , model.MaSinhVien));
+        }
     }
 }

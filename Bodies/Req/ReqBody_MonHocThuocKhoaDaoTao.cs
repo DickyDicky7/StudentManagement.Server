@@ -11,5 +11,27 @@
         public short   ? SoTinChiThucHanh          { get; set; }
         public string  ? TomTatMonHoc              { get; set; }
         public long    ? MaKhoaDaoTao              { get; set; }
+
+        public override bool Match(MonHocThuocKhoaDaoTao model)
+        {
+            return       (this.MaMonHoc                  == null ||
+            Object.Equals(this.MaMonHoc                 , model.MaMonHoc))                  &&
+                         (this.TenMonHoc                 == null ||
+            Object.Equals(this.TenMonHoc                , model.TenMonHoc))                 &&
+                         (this.ConMoLop                  == null ||
+            Object.Equals(this.ConMoLop                 , model.ConMoLop))                  &&
+                         (this.LoaiMonHoc                == null ||
+            Object.Equals(this.LoaiMonHoc               , model.LoaiMonHoc))                &&
+                         (this.DanhSachMaMonHocTienQuyet == null ||
+            Object.Equals(this.DanhSachMaMonHocTienQuyet, model.DanhSachMaMonHocTienQuyet)) &&
+                         (this.SoTinChiLyThuyet          == null ||
+            Object.Equals(this.SoTinChiLyThuyet         , model.SoTinChiLyThuyet))          &&
+                         (this.SoTinChiThucHanh          == null ||
+            Object.Equals(this.SoTinChiThucHanh         , model.SoTinChiThucHanh))          &&
+                         (this.TomTatMonHoc              == null ||
+            Object.Equals(this.TomTatMonHoc             , model.TomTatMonHoc))              &&
+                         (this.MaKhoaDaoTao              == null ||
+            Object.Equals(this.MaKhoaDaoTao             , model.MaKhoaDaoTao));
+        }
     }
 }
