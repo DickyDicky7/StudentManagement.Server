@@ -1,6 +1,7 @@
 ﻿namespace StudentManagement.Server.Database
 {
-	public partial class ThongTinHocPhi
-	{
-	}
+    public partial class ThongTinHocPhi : IModel<ThongTinHocPhi>
+    {
+
+    }
 }

@@ -1,6 +1,7 @@
 ﻿namespace StudentManagement.Server.Database
 {
-	public partial class ChuyenNganh
-	{
-	}
+    public partial class ChuyenNganh : IModel<ChuyenNganh>
+    {
+
+    }
 }

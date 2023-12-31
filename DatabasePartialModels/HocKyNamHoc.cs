@@ -1,6 +1,7 @@
 ﻿namespace StudentManagement.Server.Database
 {
-	public partial class HocKyNamHoc
-	{
-	}
+    public partial class HocKyNamHoc : IModel<HocKyNamHoc>
+    {
+
+    }
 }

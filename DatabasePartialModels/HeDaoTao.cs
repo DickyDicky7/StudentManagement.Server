@@ -1,6 +1,7 @@
 ﻿namespace StudentManagement.Server.Database
 {
-	public partial class HeDaoTao
-	{
-	}
+    public partial class HeDaoTao : IModel<HeDaoTao>
+    {
+
+    }
 }

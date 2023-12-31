@@ -1,6 +1,7 @@
 ﻿namespace StudentManagement.Server.Database
 {
-	public partial class KetQuaHocTap
-	{
-	}
+    public partial class KetQuaHocTap : IModel<KetQuaHocTap>
+    {
+
+    }
 }

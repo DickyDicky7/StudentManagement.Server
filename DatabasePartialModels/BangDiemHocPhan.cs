@@ -1,6 +1,7 @@
 ﻿namespace StudentManagement.Server.Database
 {
-	public partial class BangDiemHocPhan
-	{
-	}
+    public partial class BangDiemHocPhan : IModel<BangDiemHocPhan>
+    {
+
+    }
 }
