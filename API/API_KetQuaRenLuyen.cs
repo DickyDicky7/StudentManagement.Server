@@ -21,8 +21,8 @@
                 Common.ResBody<KetQuaRenLuyen> resBody = new()
                 {
                     Result = await context.KetQuaRenLuyens
-                    .Where(ketQuaRenLuyen => reqBody
-                    .Match(ketQuaRenLuyen))
+                    .Where(reqBody
+                    .MatchExpression(reqBody))
                     .Skip(offset).Take(limit)
                     .ToListAsync(),
                 };

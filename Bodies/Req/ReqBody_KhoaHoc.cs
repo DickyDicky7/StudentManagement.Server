@@ -1,22 +1,21 @@
 ﻿namespace StudentManagement.Server.Bodies.Req
 {
-    public record class ReqBody_KhoaHoc : BaseReqBody<KhoaHoc>
+    public record class ReqBody_KhoaHoc : BaseReqBody<ReqBody_KhoaHoc, KhoaHoc>
     {
         public long  ?  MaKhoaHoc          { get; set; }
         public string? TenKhoaHoc          { get; set; }
         public long  ? MaCoVanHocTap       { get; set; }
         public string? TenLopSinhHoatChung { get; set; }
 
-        public override bool Match(KhoaHoc model)
-        {
-            return       (this. MaKhoaHoc          == null ||
-            Object.Equals(this. MaKhoaHoc         , model. MaKhoaHoc))    &&
-                         (this.TenKhoaHoc          == null ||
-            Object.Equals(this.TenKhoaHoc         , model.TenKhoaHoc))    &&
-                         (this.MaCoVanHocTap       == null ||
-            Object.Equals(this.MaCoVanHocTap      , model.MaCoVanHocTap)) &&
-                         (this.TenLopSinhHoatChung == null ||
-            Object.Equals(this.TenLopSinhHoatChung, model.TenLopSinhHoatChung));
-        }
+        public override Func<ReqBody_KhoaHoc, Expression<Func<KhoaHoc, bool>>> MatchExpression { get; set; } =
+        (ReqBody_KhoaHoc reqBody) => (KhoaHoc model) =>
+        (reqBody. MaKhoaHoc          == null ||
+         reqBody. MaKhoaHoc          == model. MaKhoaHoc)    &&
+        (reqBody.TenKhoaHoc          == null ||
+         reqBody.TenKhoaHoc          == model.TenKhoaHoc)    &&
+        (reqBody.MaCoVanHocTap       == null ||
+         reqBody.MaCoVanHocTap       == model.MaCoVanHocTap) &&
+        (reqBody.TenLopSinhHoatChung == null ||
+         reqBody.TenLopSinhHoatChung == model.TenLopSinhHoatChung);
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace StudentManagement.Server.Bodies.Req
 {
-    public record class ReqBody_KetQuaHocTap : BaseReqBody<KetQuaHocTap>
+    public record class ReqBody_KetQuaHocTap : BaseReqBody<ReqBody_KetQuaHocTap, KetQuaHocTap>
     {
         public long  ? MaKetQuaHocTap     { get; set; }
         public float ? DiemTrungBinhHocKy { get; set; }
@@ -8,18 +8,17 @@
         public long  ? MaHocKyNamHoc      { get; set; }
         public long  ? MaSinhVien         { get; set; }
 
-        public override bool Match(KetQuaHocTap model)
-        {
-            return (      this.MaKetQuaHocTap     == null ||
-            Object.Equals(this.MaKetQuaHocTap    , model.MaKetQuaHocTap))     &&
-            (             this.DiemTrungBinhHocKy == null ||
-            Object.Equals(this.DiemTrungBinhHocKy, model.DiemTrungBinhHocKy)) &&
-            (             this.XepLoaiHocTap      == null ||
-            Object.Equals(this.XepLoaiHocTap     , model.XepLoaiHocTap))      &&
-            (             this.MaHocKyNamHoc      == null ||
-            Object.Equals(this.MaHocKyNamHoc     , model.MaHocKyNamHoc))      &&
-            (             this.MaSinhVien         == null ||
-            Object.Equals(this.MaSinhVien        , model.MaSinhVien));
-        }
+        public override Func<ReqBody_KetQuaHocTap, Expression<Func<KetQuaHocTap, bool>>> MatchExpression { get; set; } =
+        (ReqBody_KetQuaHocTap reqBody) => (KetQuaHocTap model) =>
+        (reqBody.MaKetQuaHocTap     == null ||
+         reqBody.MaKetQuaHocTap     == model.MaKetQuaHocTap)     &&
+        (reqBody.DiemTrungBinhHocKy == null ||
+         reqBody.DiemTrungBinhHocKy == model.DiemTrungBinhHocKy) &&
+        (reqBody.XepLoaiHocTap      == null ||
+         reqBody.XepLoaiHocTap      == model.XepLoaiHocTap)      &&
+        (reqBody.MaHocKyNamHoc      == null ||
+         reqBody.MaHocKyNamHoc      == model.MaHocKyNamHoc)      &&
+        (reqBody.MaSinhVien         == null ||
+         reqBody.MaSinhVien         == model.MaSinhVien);
     }
 }

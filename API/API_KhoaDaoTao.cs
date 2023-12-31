@@ -21,8 +21,8 @@
                 Common.ResBody<KhoaDaoTao> resBody = new()
                 {
                     Result = await context.KhoaDaoTaos
-                    .Where(khoaDaoTao => reqBody
-                    .Match(khoaDaoTao))
+                    .Where(reqBody
+                    .MatchExpression(reqBody))
                     .Skip(offset).Take(limit)
                     .ToListAsync(),
                 };

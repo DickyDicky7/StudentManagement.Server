@@ -1,6 +1,6 @@
 ﻿namespace StudentManagement.Server.Bodies.Req
 {
-    public record class ReqBody_BangDiemHocPhan : BaseReqBody<BangDiemHocPhan>
+    public record class ReqBody_BangDiemHocPhan : BaseReqBody<ReqBody_BangDiemHocPhan, BangDiemHocPhan>
     {
         public long ? MaBangDiemHocPhan { get; set; }
         public long ? MaHocPhan         { get; set; }
@@ -10,22 +10,21 @@
         public float? DiemThucHanh      { get; set; }
         public float? DiemCuoiKy        { get; set; }
 
-        public override bool Match(BangDiemHocPhan model)
-        {
-            return (      this.MaBangDiemHocPhan == null ||
-            Object.Equals(this.MaBangDiemHocPhan, model.MaBangDiemHocPhan)) &&
-            (             this.MaHocPhan         == null ||
-            Object.Equals(this.MaHocPhan        , model.MaHocPhan))         &&
-            (             this.MaSinhVien        == null ||
-            Object.Equals(this.MaSinhVien       , model.MaSinhVien))        &&
-            (             this.DiemQuaTrinh      == null ||
-            Object.Equals(this.DiemQuaTrinh     , model.DiemQuaTrinh))      &&
-            (             this.DiemGiuaKy        == null ||
-            Object.Equals(this.DiemGiuaKy       , model.DiemGiuaKy))        &&
-            (             this.DiemThucHanh      == null ||
-            Object.Equals(this.DiemThucHanh     , model.DiemThucHanh))      &&
-            (             this.DiemCuoiKy        == null ||
-            Object.Equals(this.DiemCuoiKy       , model.DiemCuoiKy));
-        }
+        public override Func<ReqBody_BangDiemHocPhan, Expression<Func<BangDiemHocPhan, bool>>> MatchExpression { get; set; } =
+        (ReqBody_BangDiemHocPhan reqBody) => (BangDiemHocPhan model) =>
+        (reqBody.MaBangDiemHocPhan == null ||
+         reqBody.MaBangDiemHocPhan == model.MaBangDiemHocPhan) &&
+        (reqBody.MaHocPhan         == null ||
+         reqBody.MaHocPhan         == model.MaHocPhan)         &&
+        (reqBody.MaSinhVien        == null ||
+         reqBody.MaSinhVien        == model.MaSinhVien)        &&
+        (reqBody.DiemQuaTrinh      == null ||
+         reqBody.DiemQuaTrinh      == model.DiemQuaTrinh)      &&
+        (reqBody.DiemGiuaKy        == null ||
+         reqBody.DiemGiuaKy        == model.DiemGiuaKy)        &&
+        (reqBody.DiemThucHanh      == null ||
+         reqBody.DiemThucHanh      == model.DiemThucHanh)      &&
+        (reqBody.DiemCuoiKy        == null ||
+         reqBody.DiemCuoiKy        == model.DiemCuoiKy);
     }
 }

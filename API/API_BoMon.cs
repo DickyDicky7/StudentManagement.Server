@@ -21,8 +21,8 @@
                 Common.ResBody<BoMon> resBody = new()
                 {
                     Result = await context.BoMons
-                    .Where(boMon => reqBody
-                    .Match(boMon))
+                    .Where(reqBody
+                    .MatchExpression(reqBody))
                     .Skip(offset).Take(limit)
                     .ToListAsync(),
                 };

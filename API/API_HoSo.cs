@@ -21,8 +21,10 @@
                 Common.ResBody<HoSo> resBody = new()
                 {
                     Result = await context.HoSos
-                    .Where(hoSo => reqBody.Match(hoSo))
-                    .Skip(offset).Take(limit).ToListAsync(),
+                    .Where(reqBody
+                    .MatchExpression(reqBody))
+                    .Skip(offset).Take(limit)
+                    .ToListAsync(),
                 };
                 return resBody;
             }

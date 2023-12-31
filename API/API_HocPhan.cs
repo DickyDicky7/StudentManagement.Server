@@ -21,8 +21,10 @@
                 Common.ResBody<HocPhan> resBody = new()
                 {
                     Result = await context.HocPhans
-                    .Where(hocPhan => reqBody.Match(hocPhan))
-                    .Skip(offset).Take(limit).ToListAsync(),
+                    .Where(reqBody
+                    .MatchExpression(reqBody))
+                    .Skip(offset).Take(limit)
+                    .ToListAsync(),
                 };
                 return resBody;
             }

@@ -2,9 +2,9 @@
 
 namespace StudentManagement.Server.Bodies.Req
 {
-    public abstract record class BaseReqBody<T> where T : IModel<T>
+    public abstract record class BaseReqBody<T1, T2> where T2 : IModel<T2>
     {
-        public virtual bool Match(T model)
+        public virtual bool Match(T2 model)
         {
             bool matchingResult = true;
             foreach (PropertyInfo propertyInfo in this.GetType().GetProperties())
@@ -22,5 +22,7 @@ namespace StudentManagement.Server.Bodies.Req
             }
             return matchingResult;
         }
+
+        public abstract Func<T1, Expression<Func<T2, bool>>> MatchExpression { get; set; }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace StudentManagement.Server.Bodies.Req
 {
-    public record class ReqBody_HoSo : BaseReqBody<HoSo>
+    public record class ReqBody_HoSo : BaseReqBody<ReqBody_HoSo, HoSo>
     {
         public long    ? MaHoSo          { get; set; }
         public bool    ? HoanThanh       { get; set; }
@@ -9,20 +9,19 @@
         public string[]? DanhSachDinhKem { get; set; }
         public long    ? MaSinhVien      { get; set; }
 
-        public override bool Match(HoSo model)
-        {
-            return (      this.MaHoSo          == null ||
-            Object.Equals(this.MaHoSo         , model.MaHoSo))          &&
-            (             this.HoanThanh       == null ||
-            Object.Equals(this.HoanThanh      , model.HoanThanh))       &&
-            (             this.GhiChu          == null ||
-            Object.Equals(this.GhiChu         , model.GhiChu))          &&
-            (             this.LoaiHoSo        == null ||
-            Object.Equals(this.LoaiHoSo       , model.LoaiHoSo))        &&
-            (             this.DanhSachDinhKem == null ||
-            Object.Equals(this.DanhSachDinhKem, model.DanhSachDinhKem)) &&
-            (             this.MaSinhVien      == null ||
-            Object.Equals(this.MaSinhVien     , model.MaSinhVien));
-        }
+        public override Func<ReqBody_HoSo, Expression<Func<HoSo, bool>>> MatchExpression { get; set; } =
+        (ReqBody_HoSo reqBody) => (HoSo model) =>
+        (reqBody.MaHoSo          == null ||
+         reqBody.MaHoSo          == model.MaHoSo)          &&
+        (reqBody.HoanThanh       == null ||
+         reqBody.HoanThanh       == model.HoanThanh)       &&
+        (reqBody.GhiChu          == null ||
+         reqBody.GhiChu          == model.GhiChu)          &&
+        (reqBody.LoaiHoSo        == null ||
+         reqBody.LoaiHoSo        == model.LoaiHoSo)        &&
+        (reqBody.DanhSachDinhKem == null ||
+         reqBody.DanhSachDinhKem == model.DanhSachDinhKem) &&
+        (reqBody.MaSinhVien      == null ||
+         reqBody.MaSinhVien      == model.MaSinhVien);
     }
 }

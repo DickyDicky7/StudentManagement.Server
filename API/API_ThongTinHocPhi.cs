@@ -21,8 +21,8 @@
                 Common.ResBody<ThongTinHocPhi> resBody = new()
                 {
                     Result = await context.ThongTinHocPhis
-                    .Where(thongTinHocPhi => reqBody
-                    .Match(thongTinHocPhi))
+                    .Where(reqBody
+                    .MatchExpression(reqBody))
                     .Skip(offset).Take(limit)
                     .ToListAsync(),
                 };

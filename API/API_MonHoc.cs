@@ -21,8 +21,8 @@
                 Common.ResBody<MonHoc> resBody = new()
                 {
                     Result = (await context.MonHocs
-                    .Where(monHoc => reqBody
-                    .Match(monHoc))
+                    .Where(reqBody
+                    .MatchExpression(reqBody))
                     .Skip(offset).Take(limit)
                     .ToListAsync()),
                 };

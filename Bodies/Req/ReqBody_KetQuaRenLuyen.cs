@@ -1,6 +1,6 @@
 ﻿namespace StudentManagement.Server.Bodies.Req
 {
-    public record class ReqBody_KetQuaRenLuyen : BaseReqBody<KetQuaRenLuyen>
+    public record class ReqBody_KetQuaRenLuyen : BaseReqBody<ReqBody_KetQuaRenLuyen, KetQuaRenLuyen>
     {
         public long  ? MaKetQuaRenLuyen { get; set; }
         public short ?  SoDiemRenLuyen  { get; set; }
@@ -8,18 +8,17 @@
         public long  ? MaHocKyNamHoc    { get; set; }
         public long  ? MaSinhVien       { get; set; }
 
-        public override bool Match(KetQuaRenLuyen model)
-        {
-            return (      this.MaKetQuaRenLuyen == null ||
-            Object.Equals(this.MaKetQuaRenLuyen, model.MaKetQuaRenLuyen)) &&
-            (             this. SoDiemRenLuyen  == null ||
-            Object.Equals(this. SoDiemRenLuyen , model. SoDiemRenLuyen))  &&
-            (             this.XepLoaiRenLuyen  == null ||
-            Object.Equals(this.XepLoaiRenLuyen , model.XepLoaiRenLuyen))  &&
-            (             this.MaHocKyNamHoc    == null ||
-            Object.Equals(this.MaHocKyNamHoc   , model.MaHocKyNamHoc))    &&
-            (             this.MaSinhVien       == null ||
-            Object.Equals(this.MaSinhVien      , model.MaSinhVien));
-        }
+        public override Func<ReqBody_KetQuaRenLuyen, Expression<Func<KetQuaRenLuyen, bool>>> MatchExpression { get; set; } =
+        (ReqBody_KetQuaRenLuyen reqBody) => (KetQuaRenLuyen model) =>
+        (reqBody.MaKetQuaRenLuyen == null ||
+         reqBody.MaKetQuaRenLuyen == model.MaKetQuaRenLuyen) &&
+        (reqBody. SoDiemRenLuyen  == null ||
+         reqBody. SoDiemRenLuyen  == model. SoDiemRenLuyen)  &&
+        (reqBody.XepLoaiRenLuyen  == null ||
+         reqBody.XepLoaiRenLuyen  == model.XepLoaiRenLuyen)  &&
+        (reqBody.MaHocKyNamHoc    == null ||
+         reqBody.MaHocKyNamHoc    == model.MaHocKyNamHoc)    &&
+        (reqBody.MaSinhVien       == null ||
+         reqBody.MaSinhVien       == model.MaSinhVien);
     }
 }

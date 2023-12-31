@@ -4,6 +4,7 @@ global using StudentManagement.Server.Database;
 global using StudentManagement.Server.Bodies.Req;
 global using StudentManagement.Server.Bodies.Res;
 global using StudentManagement.Server.API;
+global using System.Linq.Expressions;
 
 namespace StudentManagement.Server
 {

@@ -1,16 +1,15 @@
 ﻿namespace StudentManagement.Server.Bodies.Req
 {
-    public record class ReqBody_BoMon : BaseReqBody<BoMon>
+    public record class ReqBody_BoMon : BaseReqBody<ReqBody_BoMon, BoMon>
     {
         public long  ?  MaBoMon { get; set; }
         public string? TenBoMon { get; set; }
 
-        public override bool Match(BoMon model)
-        {
-            return (      this. MaBoMon == null ||
-            Object.Equals(this. MaBoMon, model. MaBoMon)) &&
-            (             this.TenBoMon == null ||
-            Object.Equals(this.TenBoMon, model.TenBoMon));
-        }
+        public override Func<ReqBody_BoMon, Expression<Func<BoMon, bool>>> MatchExpression { get; set; } =
+        (ReqBody_BoMon reqBody) => (BoMon model) =>
+        (reqBody. MaBoMon == null ||
+         reqBody. MaBoMon == model. MaBoMon) &&
+        (reqBody.TenBoMon == null ||
+         reqBody.TenBoMon == model.TenBoMon);
     }
 }

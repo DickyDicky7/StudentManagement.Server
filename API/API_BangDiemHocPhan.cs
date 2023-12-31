@@ -22,8 +22,8 @@
                 {
                     Result = (
                     await context.BangDiemHocPhans
-                    .Where(bangDiemHocPhan => reqBody
-                    .Match(bangDiemHocPhan))
+                    .Where(reqBody
+                    .MatchExpression(reqBody))
                     .Skip(offset).Take(limit)
                     .ToListAsync()
                     ),

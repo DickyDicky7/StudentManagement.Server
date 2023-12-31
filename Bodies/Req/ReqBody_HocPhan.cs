@@ -1,6 +1,6 @@
 ﻿namespace StudentManagement.Server.Bodies.Req
 {
-    public record class ReqBody_HocPhan : BaseReqBody<HocPhan>
+    public record class ReqBody_HocPhan : BaseReqBody<ReqBody_HocPhan, HocPhan>
     {
         public long    ? MaHocPhan       { get; set; }
         public long    ? MaMonHoc        { get; set; }
@@ -14,30 +14,29 @@
         public long    ? MaHocKyNamHoc   { get; set; }
         public string  ? GhiChu          { get; set; }
 
-        public override bool Match(HocPhan model)
-        {
-            return (      this.MaHocPhan       == null ||
-            Object.Equals(this.MaHocPhan      , model.MaHocPhan))       &&
-            (             this.MaMonHoc        == null ||
-            Object.Equals(this.MaMonHoc       , model.MaMonHoc))        &&
-            (             this.MaHeDaoTao      == null ||
-            Object.Equals(this.MaHeDaoTao     , model.MaHeDaoTao))      &&
-            (             this.HinhThucThi     == null ||
-            Object.Equals(this.HinhThucThi    , model.HinhThucThi))     &&
-            (             this.LoaiHocPhan     == null ||
-            Object.Equals(this.LoaiHocPhan    , model.LoaiHocPhan))     &&
-            (             this.MaGiangVien     == null ||
-            Object.Equals(this.MaGiangVien    , model.MaGiangVien))     &&
-            (             this.SiSoSinhVien    == null ||
-            Object.Equals(this.SiSoSinhVien   , model.SiSoSinhVien))    &&
-            (             this.ThoiDiemBatDau  == null ||
-            Object.Equals(this.ThoiDiemBatDau , model.ThoiDiemBatDau))  &&
-            (             this.ThoiDiemKetThuc == null ||
-            Object.Equals(this.ThoiDiemKetThuc, model.ThoiDiemKetThuc)) &&
-            (             this.MaHocKyNamHoc   == null ||
-            Object.Equals(this.MaHocKyNamHoc  , model.MaHocKyNamHoc))   &&
-            (             this.GhiChu          == null ||
-            Object.Equals(this.GhiChu         , model.GhiChu));
-        }
+        public override Func<ReqBody_HocPhan, Expression<Func<HocPhan, bool>>> MatchExpression { get; set; } =
+        (ReqBody_HocPhan reqBody) => (HocPhan model) =>
+        (reqBody.MaHocPhan       == null ||
+         reqBody.MaHocPhan       == model.MaHocPhan)       &&
+        (reqBody.MaMonHoc        == null ||
+         reqBody.MaMonHoc        == model.MaMonHoc)        &&
+        (reqBody.MaHeDaoTao      == null ||
+         reqBody.MaHeDaoTao      == model.MaHeDaoTao)      &&
+        (reqBody.HinhThucThi     == null ||
+         reqBody.HinhThucThi     == model.HinhThucThi)     &&
+        (reqBody.LoaiHocPhan     == null ||
+         reqBody.LoaiHocPhan     == model.LoaiHocPhan)     &&
+        (reqBody.MaGiangVien     == null ||
+         reqBody.MaGiangVien     == model.MaGiangVien)     &&
+        (reqBody.SiSoSinhVien    == null ||
+         reqBody.SiSoSinhVien    == model.SiSoSinhVien)    &&
+        (reqBody.ThoiDiemBatDau  == null ||
+         reqBody.ThoiDiemBatDau  == model.ThoiDiemBatDau)  &&
+        (reqBody.ThoiDiemKetThuc == null ||
+         reqBody.ThoiDiemKetThuc == model.ThoiDiemKetThuc) &&
+        (reqBody.MaHocKyNamHoc   == null ||
+         reqBody.MaHocKyNamHoc   == model.MaHocKyNamHoc)   &&
+        (reqBody.GhiChu          == null ||
+         reqBody.GhiChu          == model.GhiChu);
     }
 }

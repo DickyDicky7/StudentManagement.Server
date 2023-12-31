@@ -21,8 +21,8 @@
                 Common.ResBody<HocKyNamHoc> resBody = new()
                 {
                     Result = await context.HocKyNamHocs
-                    .Where(hocKyNamHoc => reqBody
-                    .Match(hocKyNamHoc))
+                    .Where(reqBody
+                    .MatchExpression(reqBody))
                     .Skip(offset).Take(limit)
                     .ToListAsync(),
                 };

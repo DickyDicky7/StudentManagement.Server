@@ -21,8 +21,8 @@
                 Common.ResBody<KetQuaHocTap> resBody = new()
                 {
                     Result = await context.KetQuaHocTaps
-                    .Where(ketQuaHocTap => reqBody
-                    .Match(ketQuaHocTap))
+                    .Where(reqBody
+                    .MatchExpression(reqBody))
                     .Skip(offset).Take(limit)
                     .ToListAsync(),
                 };

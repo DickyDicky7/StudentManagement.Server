@@ -21,8 +21,10 @@
                 Common.ResBody<KhoaHoc> resBody = new()
                 {
                     Result = await context.KhoaHocs
-                    .Where(khoaHoc => reqBody.Match(khoaHoc))
-                    .Skip(offset).Take(limit).ToListAsync(),
+                    .Where(reqBody
+                    .MatchExpression(reqBody))
+                    .Skip(offset).Take(limit)
+                    .ToListAsync(),
                 };
                 return resBody;
             }

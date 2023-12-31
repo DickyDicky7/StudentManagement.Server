@@ -1,6 +1,6 @@
 ﻿namespace StudentManagement.Server.Bodies.Req
 {
-    public record class ReqBody_MonHocThuocBoMon : BaseReqBody<MonHocThuocBoMon>
+    public record class ReqBody_MonHocThuocBoMon : BaseReqBody<ReqBody_MonHocThuocBoMon, MonHocThuocBoMon>
     {
         public long    ?  MaMonHoc                 { get; set; }
         public string  ? TenMonHoc                 { get; set; }
@@ -12,26 +12,25 @@
         public string  ? TomTatMonHoc              { get; set; }
         public long    ? MaBoMon                   { get; set; }
 
-        public override bool Match(MonHocThuocBoMon model)
-        {
-            return       (this.MaMonHoc                  == null ||
-            Object.Equals(this.MaMonHoc                 , model.MaMonHoc))                  &&
-                         (this.TenMonHoc                 == null ||
-            Object.Equals(this.TenMonHoc                , model.TenMonHoc))                 &&
-                         (this.ConMoLop                  == null ||
-            Object.Equals(this.ConMoLop                 , model.ConMoLop))                  &&
-                         (this.LoaiMonHoc                == null ||
-            Object.Equals(this.LoaiMonHoc               , model.LoaiMonHoc))                &&
-                         (this.DanhSachMaMonHocTienQuyet == null ||
-            Object.Equals(this.DanhSachMaMonHocTienQuyet, model.DanhSachMaMonHocTienQuyet)) &&
-                         (this.SoTinChiLyThuyet          == null ||
-            Object.Equals(this.SoTinChiLyThuyet         , model.SoTinChiLyThuyet))          &&
-                         (this.SoTinChiThucHanh          == null ||
-            Object.Equals(this.SoTinChiThucHanh         , model.SoTinChiThucHanh))          &&
-                         (this.TomTatMonHoc              == null ||
-            Object.Equals(this.TomTatMonHoc             , model.TomTatMonHoc))              &&
-                         (this.MaBoMon                   == null ||
-            Object.Equals(this.MaBoMon                  , model.MaBoMon));
-        }
+        public override Func<ReqBody_MonHocThuocBoMon, Expression<Func<MonHocThuocBoMon, bool>>> MatchExpression { get; set; } =
+        (ReqBody_MonHocThuocBoMon reqBody) => (MonHocThuocBoMon model) =>
+        (reqBody.MaMonHoc                  == null ||
+         reqBody.MaMonHoc                  == model.MaMonHoc)                  &&
+        (reqBody.TenMonHoc                 == null ||
+         reqBody.TenMonHoc                 == model.TenMonHoc)                 &&
+        (reqBody.ConMoLop                  == null ||
+         reqBody.ConMoLop                  == model.ConMoLop)                  &&
+        (reqBody.LoaiMonHoc                == null ||
+         reqBody.LoaiMonHoc                == model.LoaiMonHoc)                &&
+        (reqBody.DanhSachMaMonHocTienQuyet == null ||
+         reqBody.DanhSachMaMonHocTienQuyet == model.DanhSachMaMonHocTienQuyet) &&
+        (reqBody.SoTinChiLyThuyet          == null ||
+         reqBody.SoTinChiLyThuyet          == model.SoTinChiLyThuyet)          &&
+        (reqBody.SoTinChiThucHanh          == null ||
+         reqBody.SoTinChiThucHanh          == model.SoTinChiThucHanh)          &&
+        (reqBody.TomTatMonHoc              == null ||
+         reqBody.TomTatMonHoc              == model.TomTatMonHoc)              &&
+        (reqBody.MaBoMon                   == null ||
+         reqBody.MaBoMon                   == model.MaBoMon);
     }
 }
