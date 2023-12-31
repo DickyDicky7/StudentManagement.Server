@@ -16,13 +16,13 @@
             public static async Task<Common.ResBody<ThongTinHocPhi>> ThongTinHocPhi_GetMany(
                 [FromServices] ApplicationDbContext context,
                 [FromQuery(Name = "offset")] int offset, [FromQuery(Name = "limit")] int limit,
-                [FromBody] ReqBody_ThongTinHocPhi reqBody)
+                [FromBody] ReqBody_ThongTinHocPhi reqBodyFilter)
             {
                 Common.ResBody<ThongTinHocPhi> resBody = new()
                 {
                     Result = await context.ThongTinHocPhis
-                    .Where(reqBody
-                    .MatchExpression(reqBody))
+                    .Where(reqBodyFilter
+                    .MatchExpression(reqBodyFilter))
                     .Skip(offset).Take(limit)
                     .ToListAsync(),
                 };

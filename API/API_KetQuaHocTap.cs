@@ -16,13 +16,13 @@
             public static async Task<Common.ResBody<KetQuaHocTap>> KetQuaHocTap_GetMany(
                 [FromServices] ApplicationDbContext context,
                 [FromQuery(Name = "offset")] int offset, [FromQuery(Name = "limit")] int limit,
-                [FromBody] ReqBody_KetQuaHocTap reqBody)
+                [FromBody] ReqBody_KetQuaHocTap reqBodyFilter)
             {
                 Common.ResBody<KetQuaHocTap> resBody = new()
                 {
                     Result = await context.KetQuaHocTaps
-                    .Where(reqBody
-                    .MatchExpression(reqBody))
+                    .Where(reqBodyFilter
+                    .MatchExpression(reqBodyFilter))
                     .Skip(offset).Take(limit)
                     .ToListAsync(),
                 };

@@ -16,13 +16,13 @@
             public static async Task<Common.ResBody<SinhVien>> SinhVien_GetMany(
                 [FromServices] ApplicationDbContext context,
                 [FromQuery(Name = "offset")] int offset, [FromQuery(Name = "limit")] int limit,
-                [FromBody] ReqBody_SinhVien reqBody)
+                [FromBody] ReqBody_SinhVien reqBodyFilter)
             {
                 Common.ResBody<SinhVien> resBody = new()
                 {
                     Result = await context.SinhViens
-                    .Where(reqBody
-                    .MatchExpression(reqBody))
+                    .Where(reqBodyFilter
+                    .MatchExpression(reqBodyFilter))
                     .Skip(offset).Take(limit)
                     .ToListAsync(),
                 };

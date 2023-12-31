@@ -16,13 +16,13 @@
             public static async Task<Common.ResBody<BoMon>> BoMon_GetMany(
                 [FromServices] ApplicationDbContext context,
                 [FromQuery(Name = "offset")] int offset, [FromQuery(Name = "limit")] int limit,
-                [FromBody] ReqBody_BoMon reqBody)
+                [FromBody] ReqBody_BoMon reqBodyFilter)
             {
                 Common.ResBody<BoMon> resBody = new()
                 {
                     Result = await context.BoMons
-                    .Where(reqBody
-                    .MatchExpression(reqBody))
+                    .Where(reqBodyFilter
+                    .MatchExpression(reqBodyFilter))
                     .Skip(offset).Take(limit)
                     .ToListAsync(),
                 };

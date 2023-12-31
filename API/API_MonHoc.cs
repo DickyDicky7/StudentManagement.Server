@@ -16,13 +16,13 @@
             public static async Task<Common.ResBody<MonHoc>> MonHoc_GetMany(
                 [FromServices] ApplicationDbContext context,
                 [FromQuery(Name = "offset")] int offset, [FromQuery(Name = "limit")] int limit,
-                [FromBody] ReqBody_MonHoc reqBody)
+                [FromBody] ReqBody_MonHoc reqBodyFilter)
             {
                 Common.ResBody<MonHoc> resBody = new()
                 {
                     Result = (await context.MonHocs
-                    .Where(reqBody
-                    .MatchExpression(reqBody))
+                    .Where(reqBodyFilter
+                    .MatchExpression(reqBodyFilter))
                     .Skip(offset).Take(limit)
                     .ToListAsync()),
                 };

@@ -16,13 +16,13 @@
             public static async Task<Common.ResBody<HoSo>> HoSo_GetMany(
                 [FromServices] ApplicationDbContext context,
                 [FromQuery(Name = "offset")] int offset, [FromQuery(Name = "limit")] int limit,
-                [FromBody] ReqBody_HoSo reqBody)
+                [FromBody] ReqBody_HoSo reqBodyFilter)
             {
                 Common.ResBody<HoSo> resBody = new()
                 {
                     Result = await context.HoSos
-                    .Where(reqBody
-                    .MatchExpression(reqBody))
+                    .Where(reqBodyFilter
+                    .MatchExpression(reqBodyFilter))
                     .Skip(offset).Take(limit)
                     .ToListAsync(),
                 };

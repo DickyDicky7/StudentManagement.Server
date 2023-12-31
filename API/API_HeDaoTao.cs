@@ -16,13 +16,13 @@
             public static async Task<Common.ResBody<HeDaoTao>> HeDaoTao_GetMany(
                 [FromServices] ApplicationDbContext context,
                 [FromQuery(Name = "offset")] int offset, [FromQuery(Name = "limit")] int limit,
-                [FromBody] ReqBody_HeDaoTao reqBody)
+                [FromBody] ReqBody_HeDaoTao reqBodyFilter)
             {
                 Common.ResBody<HeDaoTao> resBody = new()
                 {
                     Result = await context.HeDaoTaos
-                    .Where(reqBody
-                    .MatchExpression(reqBody))
+                    .Where(reqBodyFilter
+                    .MatchExpression(reqBodyFilter))
                     .Skip(offset).Take(limit)
                     .ToListAsync(),
                 };
