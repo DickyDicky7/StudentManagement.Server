@@ -1,6 +1,6 @@
 ﻿namespace StudentManagement.Server.Bodies.Req
 {
-    public record class ReqBody_HocPhan : BaseReqBody<ReqBody_HocPhan, HocPhan>
+    public record class ReqBody_HocPhan : BaseReqBody<HocPhan>
     {
         public long    ? MaHocPhan       { get; set; }
         public long    ? MaMonHoc        { get; set; }
@@ -14,29 +14,31 @@
         public long    ? MaHocKyNamHoc   { get; set; }
         public string  ? GhiChu          { get; set; }
 
-        public override Func<ReqBody_HocPhan, Expression<Func<HocPhan, bool>>> MatchExpression { get; set; } =
-        (ReqBody_HocPhan reqBody) => (HocPhan model) =>
-        (reqBody.MaHocPhan       == null ||
-         reqBody.MaHocPhan       == model.MaHocPhan)       &&
-        (reqBody.MaMonHoc        == null ||
-         reqBody.MaMonHoc        == model.MaMonHoc)        &&
-        (reqBody.MaHeDaoTao      == null ||
-         reqBody.MaHeDaoTao      == model.MaHeDaoTao)      &&
-        (reqBody.HinhThucThi     == null ||
-         reqBody.HinhThucThi     == model.HinhThucThi)     &&
-        (reqBody.LoaiHocPhan     == null ||
-         reqBody.LoaiHocPhan     == model.LoaiHocPhan)     &&
-        (reqBody.MaGiangVien     == null ||
-         reqBody.MaGiangVien     == model.MaGiangVien)     &&
-        (reqBody.SiSoSinhVien    == null ||
-         reqBody.SiSoSinhVien    == model.SiSoSinhVien)    &&
-        (reqBody.ThoiDiemBatDau  == null ||
-         reqBody.ThoiDiemBatDau  == model.ThoiDiemBatDau)  &&
-        (reqBody.ThoiDiemKetThuc == null ||
-         reqBody.ThoiDiemKetThuc == model.ThoiDiemKetThuc) &&
-        (reqBody.MaHocKyNamHoc   == null ||
-         reqBody.MaHocKyNamHoc   == model.MaHocKyNamHoc)   &&
-        (reqBody.GhiChu          == null ||
-         reqBody.GhiChu          == model.GhiChu);
+        public override Expression<Func<HocPhan, bool>> MatchExpression()
+        {
+            return (HocPhan model) =>
+            (this.MaHocPhan       == null ||
+             this.MaHocPhan       == model.MaHocPhan)       &&
+            (this.MaMonHoc        == null ||
+             this.MaMonHoc        == model.MaMonHoc)        &&
+            (this.MaHeDaoTao      == null ||
+             this.MaHeDaoTao      == model.MaHeDaoTao)      &&
+            (this.HinhThucThi     == null ||
+             this.HinhThucThi     == model.HinhThucThi)     &&
+            (this.LoaiHocPhan     == null ||
+             this.LoaiHocPhan     == model.LoaiHocPhan)     &&
+            (this.MaGiangVien     == null ||
+             this.MaGiangVien     == model.MaGiangVien)     &&
+            (this.SiSoSinhVien    == null ||
+             this.SiSoSinhVien    == model.SiSoSinhVien)    &&
+            (this.ThoiDiemBatDau  == null ||
+             this.ThoiDiemBatDau  == model.ThoiDiemBatDau)  &&
+            (this.ThoiDiemKetThuc == null ||
+             this.ThoiDiemKetThuc == model.ThoiDiemKetThuc) &&
+            (this.MaHocKyNamHoc   == null ||
+             this.MaHocKyNamHoc   == model.MaHocKyNamHoc)   &&
+            (this.GhiChu          == null ||
+             this.GhiChu          == model.GhiChu);
+        }
     }
 }

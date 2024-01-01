@@ -1,18 +1,20 @@
 ﻿namespace StudentManagement.Server.Bodies.Req
 {
-    public record class ReqBody_GiangVienThuocBoMon : BaseReqBody<ReqBody_GiangVienThuocBoMon, GiangVienThuocBoMon>
+    public record class ReqBody_GiangVienThuocBoMon : BaseReqBody<GiangVienThuocBoMon>
     {
         public long  ?  MaGiangVien { get; set; }
         public string? TenGiangVien { get; set; }
         public long  ? MaBoMon      { get; set; }
 
-        public override Func<ReqBody_GiangVienThuocBoMon, Expression<Func<GiangVienThuocBoMon, bool>>> MatchExpression { get; set; } =
-        (ReqBody_GiangVienThuocBoMon reqBody) => (GiangVienThuocBoMon model) =>
-        (reqBody. MaGiangVien == null ||
-         reqBody. MaGiangVien == model. MaGiangVien) &&
-        (reqBody.TenGiangVien == null ||
-         reqBody.TenGiangVien == model.TenGiangVien) &&
-        (reqBody.MaBoMon      == null ||
-         reqBody.MaBoMon      == model.MaBoMon);
+        public override Expression<Func<GiangVienThuocBoMon, bool>> MatchExpression()
+        {
+            return (GiangVienThuocBoMon model) =>
+            (this. MaGiangVien == null ||
+             this. MaGiangVien == model. MaGiangVien) &&
+            (this.TenGiangVien == null ||
+             this.TenGiangVien == model.TenGiangVien) &&
+            (this.MaBoMon      == null ||
+             this.MaBoMon      == model.MaBoMon);
+        }
     }
 }

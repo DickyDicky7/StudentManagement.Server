@@ -1,6 +1,6 @@
 ﻿namespace StudentManagement.Server.Bodies.Req
 {
-    public record class ReqBody_MonHoc : BaseReqBody<ReqBody_MonHoc, MonHoc>
+    public record class ReqBody_MonHoc : BaseReqBody<MonHoc>
     {
         public long    ?  MaMonHoc                 { get; set; }
         public string  ? TenMonHoc                 { get; set; }
@@ -11,23 +11,24 @@
         public short   ? SoTinChiThucHanh          { get; set; }
         public string  ? TomTatMonHoc              { get; set; }
 
-        public override Func<ReqBody_MonHoc, Expression<Func<MonHoc, bool>>> MatchExpression { get; set; } =
-        (ReqBody_MonHoc reqBody) => (MonHoc model) =>
-        (reqBody.MaMonHoc                  == null ||
-         reqBody.MaMonHoc                  == model.MaMonHoc)                  &&
-        (reqBody.TenMonHoc                 == null ||
-         reqBody.TenMonHoc                 == model.TenMonHoc)                 &&
-        (reqBody.ConMoLop                  == null ||
-         reqBody.ConMoLop                  == model.ConMoLop)                  &&
-        (reqBody.LoaiMonHoc                == null ||
-         reqBody.LoaiMonHoc                == model.LoaiMonHoc)                &&
-        (reqBody.DanhSachMaMonHocTienQuyet == null ||
-         reqBody.DanhSachMaMonHocTienQuyet == model.DanhSachMaMonHocTienQuyet) &&
-        (reqBody.SoTinChiLyThuyet          == null ||
-         reqBody.SoTinChiLyThuyet          == model.SoTinChiLyThuyet)          &&
-        (reqBody.SoTinChiThucHanh          == null ||
-         reqBody.SoTinChiThucHanh          == model.SoTinChiThucHanh)          &&
-        (reqBody.TomTatMonHoc              == null ||
-         reqBody.TomTatMonHoc              == model.TomTatMonHoc);
+        public override Expression<Func<MonHoc, bool>> MatchExpression()
+        {
+            return (MonHoc model) =>
+            (this.MaMonHoc                  == null ||
+             this.MaMonHoc                  == model.MaMonHoc)                  &&
+            (this.TenMonHoc                 == null ||
+             this.TenMonHoc                 == model.TenMonHoc)                 &&
+            (this.ConMoLop                  == null ||
+             this.ConMoLop                  == model.ConMoLop)                  &&
+            (this.LoaiMonHoc                == null ||
+             this.LoaiMonHoc                == model.LoaiMonHoc)                &&
+            (this.DanhSachMaMonHocTienQuyet == null ||
+             this.DanhSachMaMonHocTienQuyet == model.DanhSachMaMonHocTienQuyet) &&
+            (this.SoTinChiLyThuyet          == null ||
+             this.SoTinChiLyThuyet          == model.SoTinChiLyThuyet)          &&
+            (this.SoTinChiThucHanh          == null ||
+             this.SoTinChiThucHanh          == model.SoTinChiThucHanh)          &&
+            (this.TomTatMonHoc              == null ||
+             this.TomTatMonHoc              == model.TomTatMonHoc);}
     }
 }

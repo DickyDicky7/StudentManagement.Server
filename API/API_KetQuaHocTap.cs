@@ -11,22 +11,22 @@
             return app;
         }
 
-        private class InternalMethods
+        private static class InternalMethods
         {
-            public static async Task<Common.ResBody<KetQuaHocTap>> KetQuaHocTap_GetMany(
+            public static async Task<ResBody_GetMany<KetQuaHocTap>> KetQuaHocTap_GetMany(
                 [FromServices] ApplicationDbContext context,
                 [FromQuery(Name = "offset")] int offset, [FromQuery(Name = "limit")] int limit,
                 [FromBody] ReqBody_KetQuaHocTap reqBodyFilter)
             {
-                Common.ResBody<KetQuaHocTap> resBody = new()
+                ResBody_GetMany<KetQuaHocTap> resBody_GetMany = new()
                 {
                     Result = await context.KetQuaHocTaps
                     .Where(reqBodyFilter
-                    .MatchExpression(reqBodyFilter))
+                    .MatchExpression())
                     .Skip(offset).Take(limit)
                     .ToListAsync(),
                 };
-                return resBody;
+                return resBody_GetMany;
             }
         }
     }

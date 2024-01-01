@@ -24,8 +24,8 @@ namespace StudentManagement.Server
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(options =>
             {
-                options.EnableAnnotations();
-                options.SchemaFilter<SchemaFilterVirtualProperty>();
+                //options.EnableAnnotations();
+                //options.SchemaFilter<SchemaFilterVirtualProperty>();
             });
 
             builder.Services.AddDbContext<ApplicationDbContext>();

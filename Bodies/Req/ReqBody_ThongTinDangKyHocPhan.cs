@@ -1,12 +1,14 @@
 ﻿namespace StudentManagement.Server.Bodies.Req
 {
-    public record class ReqBody_ThongTinDangKyHocPhan : BaseReqBody<ReqBody_ThongTinDangKyHocPhan, ThongTinDangKyHocPhan>
+    public record class ReqBody_ThongTinDangKyHocPhan : BaseReqBody<ThongTinDangKyHocPhan>
     {
         public long? MaThongTinDangKyHocPhan { get; set; }
 
-        public override Func<ReqBody_ThongTinDangKyHocPhan, Expression<Func<ThongTinDangKyHocPhan, bool>>> MatchExpression { get; set; } =
-        (ReqBody_ThongTinDangKyHocPhan reqBody) => (ThongTinDangKyHocPhan model) =>
-        (reqBody.MaThongTinDangKyHocPhan == null ||
-         reqBody.MaThongTinDangKyHocPhan == model.MaThongTinDangKyHocPhan);
+        public override Expression<Func<ThongTinDangKyHocPhan, bool>> MatchExpression()
+        {
+            return (ThongTinDangKyHocPhan model) =>
+            (this.MaThongTinDangKyHocPhan == null ||
+             this.MaThongTinDangKyHocPhan == model.MaThongTinDangKyHocPhan);
+        }
     }
 }

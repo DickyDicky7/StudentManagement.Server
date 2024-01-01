@@ -1,6 +1,6 @@
 ﻿namespace StudentManagement.Server.Bodies.Req
 {
-    public record class ReqBody_ThongTinHocKyNamHoc : BaseReqBody<ReqBody_ThongTinHocKyNamHoc, ThongTinHocKyNamHoc>
+    public record class ReqBody_ThongTinHocKyNamHoc : BaseReqBody<ThongTinHocKyNamHoc>
     {
         public long? MaThongTinHocKyNamHoc      { get; set; }
         public long? MaHocKyNamHoc              { get; set; }
@@ -12,25 +12,27 @@
         public long? MaThongTinHocPhi           { get; set; }
         public long? MaThongTinHocKyNamHocTruoc { get; set; }
 
-        public override Func<ReqBody_ThongTinHocKyNamHoc, Expression<Func<ThongTinHocKyNamHoc, bool>>> MatchExpression { get; set; } =
-        (ReqBody_ThongTinHocKyNamHoc reqBody) => (ThongTinHocKyNamHoc model) =>
-        (reqBody.MaThongTinHocKyNamHoc      == null ||
-         reqBody.MaThongTinHocKyNamHoc      == model.MaThongTinHocKyNamHoc)   &&
-        (reqBody.MaHocKyNamHoc              == null ||
-         reqBody.MaHocKyNamHoc              == model.MaHocKyNamHoc)           &&
-        (reqBody.MaSinhVien                 == null ||
-         reqBody.MaSinhVien                 == model.MaSinhVien)              &&
-        (reqBody.MaThongTinDangKyHocPhan    == null ||
-         reqBody.MaThongTinDangKyHocPhan    == model.MaThongTinDangKyHocPhan) &&
-        (reqBody.MaKetQuaHocTap             == null ||
-         reqBody.MaKetQuaHocTap             == model.MaKetQuaHocTap)          &&
-        (reqBody.MaKetQuaRenLuyen           == null ||
-         reqBody.MaKetQuaRenLuyen           == model.MaKetQuaRenLuyen)        &&
-        (reqBody.MaKhenThuong               == null ||
-         reqBody.MaKhenThuong               == model.MaKhenThuong)            &&
-        (reqBody.MaThongTinHocPhi           == null ||
-         reqBody.MaThongTinHocPhi           == model.MaThongTinHocPhi)        &&
-        (reqBody.MaThongTinHocKyNamHocTruoc == null ||
-         reqBody.MaThongTinHocKyNamHocTruoc == model.MaThongTinHocKyNamHocTruoc);
+        public override Expression<Func<ThongTinHocKyNamHoc, bool>> MatchExpression()
+        {
+            return (ThongTinHocKyNamHoc model) =>
+            (this.MaThongTinHocKyNamHoc      == null ||
+             this.MaThongTinHocKyNamHoc      == model.MaThongTinHocKyNamHoc)   &&
+            (this.MaHocKyNamHoc              == null ||
+             this.MaHocKyNamHoc              == model.MaHocKyNamHoc)           &&
+            (this.MaSinhVien                 == null ||
+             this.MaSinhVien                 == model.MaSinhVien)              &&
+            (this.MaThongTinDangKyHocPhan    == null ||
+             this.MaThongTinDangKyHocPhan    == model.MaThongTinDangKyHocPhan) &&
+            (this.MaKetQuaHocTap             == null ||
+             this.MaKetQuaHocTap             == model.MaKetQuaHocTap)          &&
+            (this.MaKetQuaRenLuyen           == null ||
+             this.MaKetQuaRenLuyen           == model.MaKetQuaRenLuyen)        &&
+            (this.MaKhenThuong               == null ||
+             this.MaKhenThuong               == model.MaKhenThuong)            &&
+            (this.MaThongTinHocPhi           == null ||
+             this.MaThongTinHocPhi           == model.MaThongTinHocPhi)        &&
+            (this.MaThongTinHocKyNamHocTruoc == null ||
+             this.MaThongTinHocKyNamHocTruoc == model.MaThongTinHocKyNamHocTruoc);
+        }
     }
 }

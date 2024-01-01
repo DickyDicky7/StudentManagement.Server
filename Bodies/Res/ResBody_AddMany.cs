@@ -1,0 +1,9 @@
+﻿namespace StudentManagement.Server.Bodies.Res
+{
+    public record class ResBody_AddMany<T> where T : IModel<T>
+    {
+        public int NumberOfRowsAffected        { get; set; }
+        public IEnumerable<T   > Result        { get; set; } = null!;
+        public IEnumerable<long> ResultJustIds { get; set; } = null!;
+    }
+}

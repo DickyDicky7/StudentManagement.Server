@@ -1,21 +1,23 @@
 ﻿namespace StudentManagement.Server.Bodies.Req
 {
-    public record class ReqBody_DanhSachDangKyHocPhan : BaseReqBody<ReqBody_DanhSachDangKyHocPhan, DanhSachDangKyHocPhan>
+    public record class ReqBody_DanhSachDangKyHocPhan : BaseReqBody<DanhSachDangKyHocPhan>
     {
         public long? MaThongTinDangKyHocPhan { get; set; }
         public long? MaHocPhan               { get; set; }
         public bool? HocLaiHayHocCaiThien    { get; set; }
         public long? MaBangDiemHocPhan       { get; set; }
 
-        public override Func<ReqBody_DanhSachDangKyHocPhan, Expression<Func<DanhSachDangKyHocPhan, bool>>> MatchExpression { get; set; } =
-        (ReqBody_DanhSachDangKyHocPhan reqBody) => (DanhSachDangKyHocPhan model) =>
-        (reqBody.MaThongTinDangKyHocPhan == null ||
-         reqBody.MaThongTinDangKyHocPhan == model.MaThongTinDangKyHocPhan) &&
-        (reqBody.MaHocPhan               == null ||
-         reqBody.MaHocPhan               == model.MaHocPhan)               &&
-        (reqBody.HocLaiHayHocCaiThien    == null ||
-         reqBody.HocLaiHayHocCaiThien    == model.HocLaiHayHocCaiThien)    &&
-        (reqBody.MaBangDiemHocPhan       == null ||
-         reqBody.MaBangDiemHocPhan       == model.MaBangDiemHocPhan);
+        public override Expression<Func<DanhSachDangKyHocPhan, bool>> MatchExpression()
+        {
+            return (DanhSachDangKyHocPhan model) =>
+            (this.MaThongTinDangKyHocPhan == null ||
+             this.MaThongTinDangKyHocPhan == model.MaThongTinDangKyHocPhan) &&
+            (this.MaHocPhan               == null ||
+             this.MaHocPhan               == model.MaHocPhan)               &&
+            (this.HocLaiHayHocCaiThien    == null ||
+             this.HocLaiHayHocCaiThien    == model.HocLaiHayHocCaiThien)    &&
+            (this.MaBangDiemHocPhan       == null ||
+             this.MaBangDiemHocPhan       == model.MaBangDiemHocPhan);
+        }
     }
 }
