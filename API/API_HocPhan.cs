@@ -6,11 +6,15 @@
         {
             app
                 .MapPost(@"/hoc-phan/get-many", InternalMethods.HocPhan_GetMany)
-                .WithTags(@"Get many, execution order: [filter] where -> [skip] offset -> [take] limit");
+                .WithTags(@"Get many, execution order: [filter by matching] body -> [skip] offset -> [take] limit");
 
             app
                 .MapPost(@"/hoc-phan/add-many", InternalMethods.HocPhan_AddMany)
                 .WithTags(@"Add many, able to return just new records'id or new records | new records have id auto generated");
+
+            app
+                .MapDelete(@"/hoc-phan/remove-many", InternalMethods.HocPhan_RemoveMany)
+                .WithTags(@"Remove many");
 
             return app;
         }
@@ -20,12 +24,12 @@
             public static async Task<ResBody_GetMany<HocPhan>> HocPhan_GetMany(
                 [FromServices] ApplicationDbContext context,
                 [FromQuery(Name = "offset")] int offset, [FromQuery(Name = "limit")] int limit,
-                [FromBody] ReqBody_HocPhan reqBodyFilter)
+                [FromBody] ReqBody_GetMany<ReqBody_HocPhan, HocPhan> reqBody_GetMany)
             {
                 ResBody_GetMany<HocPhan> resBody_GetMany = new()
                 {
                     Result = await context.HocPhans
-                    .Where(reqBodyFilter
+                    .Where(reqBody_GetMany.FilterBy
                     .MatchExpression())
                     .Skip(offset).Take(limit)
                     .ToListAsync(),
@@ -55,6 +59,29 @@
                 }
                 return resBody_AddMany;
             }
+
+            public static async Task<ResBody_RemoveMany<HocPhan>> HocPhan_RemoveMany(
+                [FromServices] ApplicationDbContext context,
+                [FromBody] ReqBody_RemoveMany<ReqBody_HocPhan, HocPhan> reqBody_RemoveMany)
+            {
+                ResBody_RemoveMany<HocPhan> resBody_RemoveMany = new();
+                IQueryable        <HocPhan> hocPhans           = context.HocPhans.Where(
+                reqBody_RemoveMany.FilterBy.MatchExpression());
+                if (reqBody_RemoveMany.ReturnJustIds)
+                {
+                    resBody_RemoveMany.ResultJustIds = hocPhans
+                    .Select(hocPhan => hocPhan.MaHocPhan);
+                }
+                else
+                {
+                    resBody_RemoveMany.Result        = hocPhans;
+                }
+                context.HocPhans
+                       .RemoveRange(hocPhans);
+                resBody_RemoveMany.NumberOfRowsAffected = await context.SaveChangesAsync();
+                return resBody_RemoveMany;
+            }
+
         }
     }
 }

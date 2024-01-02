@@ -6,11 +6,15 @@
         {
             app
                 .MapPost(@"/chuyen-nganh/get-many", InternalMethods.ChuyenNganh_GetMany)
-                .WithTags(@"Get many, execution order: [filter] where -> [skip] offset -> [take] limit");
+                .WithTags(@"Get many, execution order: [filter by matching] body -> [skip] offset -> [take] limit");
 
             app
                 .MapPost(@"/chuyen-nganh/add-many", InternalMethods.ChuyenNganh_AddMany)
                 .WithTags(@"Add many, able to return just new records'id or new records | new records have id auto generated");
+
+            app
+                .MapDelete(@"/chuyen-nganh/remove-many", InternalMethods.ChuyenNganh_RemoveMany)
+                .WithTags(@"Remove many");
 
             return app;
         }
@@ -20,12 +24,12 @@
             public static async Task<ResBody_GetMany<ChuyenNganh>> ChuyenNganh_GetMany(
                 [FromServices] ApplicationDbContext context,
                 [FromQuery(Name = "offset")] int offset, [FromQuery(Name = "limit")] int limit,
-                [FromBody] ReqBody_ChuyenNganh reqBodyFilter)
+                [FromBody] ReqBody_GetMany<ReqBody_ChuyenNganh, ChuyenNganh> reqBody_GetMany)
             {
                 ResBody_GetMany<ChuyenNganh> resBody_GetMany = new()
                 {
                     Result = await context.ChuyenNganhs
-                    .Where(reqBodyFilter
+                    .Where(reqBody_GetMany.FilterBy
                     .MatchExpression())
                     .Skip(offset).Take(limit)
                     .ToListAsync(),
@@ -55,6 +59,29 @@
                 }
                 return resBody_AddMany;
             }
+
+            public static async Task<ResBody_RemoveMany<ChuyenNganh>> ChuyenNganh_RemoveMany(
+                [FromServices] ApplicationDbContext context,
+                [FromBody] ReqBody_RemoveMany<ReqBody_ChuyenNganh, ChuyenNganh> reqBody_RemoveMany)
+            {
+                ResBody_RemoveMany<ChuyenNganh> resBody_RemoveMany = new();
+                IQueryable        <ChuyenNganh> chuyenNganhs       = context.ChuyenNganhs.Where(
+                reqBody_RemoveMany.FilterBy.MatchExpression());
+                if (reqBody_RemoveMany.ReturnJustIds)
+                {
+                    resBody_RemoveMany.ResultJustIds = chuyenNganhs
+                    .Select(chuyenNganh => chuyenNganh.MaChuyenNganh);
+                }
+                else
+                {
+                    resBody_RemoveMany.Result        = chuyenNganhs;
+                }
+                context.ChuyenNganhs
+                       .RemoveRange(chuyenNganhs);
+                resBody_RemoveMany.NumberOfRowsAffected = await context.SaveChangesAsync();
+                return resBody_RemoveMany;
+            }
+
         }
     }
 }

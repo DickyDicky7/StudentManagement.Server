@@ -6,11 +6,15 @@
         {
             app
                 .MapPost(@"/thong-tin-hoc-ky-nam-hoc/get-many", InternalMethods.ThongTinHocKyNamHoc_GetMany)
-                .WithTags(@"Get many, execution order: [filter] where -> [skip] offset -> [take] limit");
+                .WithTags(@"Get many, execution order: [filter by matching] body -> [skip] offset -> [take] limit");
 
             app
                 .MapPost(@"/thong-tin-hoc-ky-nam-hoc/add-many", InternalMethods.ThongTinHocKyNamHoc_AddMany)
                 .WithTags(@"Add many, able to return just new records'id or new records | new records have id auto generated");
+
+            app
+                .MapDelete(@"/thong-tin-hoc-ky-nam-hoc/remove-many", InternalMethods.ThongTinHocKyNamHoc_RemoveMany)
+                .WithTags(@"Remove many");
 
             return app;
         }
@@ -20,12 +24,12 @@
             public static async Task<ResBody_GetMany<ThongTinHocKyNamHoc>> ThongTinHocKyNamHoc_GetMany(
                 [FromServices] ApplicationDbContext context,
                 [FromQuery(Name = "offset")] int offset, [FromQuery(Name = "limit")] int limit,
-                [FromBody] ReqBody_ThongTinHocKyNamHoc reqBodyFilter)
+                [FromBody] ReqBody_GetMany<ReqBody_ThongTinHocKyNamHoc, ThongTinHocKyNamHoc> reqBody_GetMany)
             {
                 ResBody_GetMany<ThongTinHocKyNamHoc> resBody_GetMany = new()
                 {
                     Result = await context.ThongTinHocKyNamHocs
-                    .Where(reqBodyFilter
+                    .Where(reqBody_GetMany.FilterBy
                     .MatchExpression())
                     .Skip(offset).Take(limit)
                     .ToListAsync(),
@@ -54,6 +58,28 @@
                         .Where (thongTinHocKyNamHoc => thongTinHocKyNamHoc.MaThongTinHocKyNamHoc != default);
                 }
                 return resBody_AddMany;
+            }
+
+            public static async Task<ResBody_RemoveMany<ThongTinHocKyNamHoc>> ThongTinHocKyNamHoc_RemoveMany(
+                [FromServices] ApplicationDbContext context,
+                [FromBody] ReqBody_RemoveMany<ReqBody_ThongTinHocKyNamHoc, ThongTinHocKyNamHoc> reqBody_RemoveMany)
+            {
+                ResBody_RemoveMany<ThongTinHocKyNamHoc> resBody_RemoveMany   = new();
+                IQueryable        <ThongTinHocKyNamHoc> thongTinHocKyNamHocs = context.ThongTinHocKyNamHocs.Where(
+                reqBody_RemoveMany.FilterBy.MatchExpression());
+                if (reqBody_RemoveMany.ReturnJustIds)
+                {
+                    resBody_RemoveMany.ResultJustIds = thongTinHocKyNamHocs
+                    .Select(thongTinHocKyNamHoc => thongTinHocKyNamHoc.MaThongTinHocKyNamHoc);
+                }
+                else
+                {
+                    resBody_RemoveMany.Result        = thongTinHocKyNamHocs;
+                }
+                context.ThongTinHocKyNamHocs
+                       .RemoveRange(thongTinHocKyNamHocs);
+                resBody_RemoveMany.NumberOfRowsAffected = await context.SaveChangesAsync();
+                return resBody_RemoveMany;
             }
 
         }
