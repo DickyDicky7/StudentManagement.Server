@@ -17,6 +17,16 @@
             (this.MaHocKyNamHoc     == null ||
              this.MaHocKyNamHoc     == model.MaHocKyNamHoc)     &&
             (this.MaSinhVien        == null ||
-             this.MaSinhVien        == model.MaSinhVien);}
+             this.MaSinhVien        == model.MaSinhVien);
+        }
+
+        
     }
+
+    public record class JustForInsertReqBody_KhenThuong : ReqBody_KhenThuong
+    {
+        [SwaggerSchema(ReadOnly = true)]
+        public new long? MaKhenThuong { get; set; }
+    }
+
 }

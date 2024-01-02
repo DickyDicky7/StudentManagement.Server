@@ -28,5 +28,14 @@
             (this.DiemCuoiKy        == null ||
              this.DiemCuoiKy        == model.DiemCuoiKy);
         }
+
+        
     }
+
+    public record class JustForInsertReqBody_BangDiemHocPhan : ReqBody_BangDiemHocPhan
+    {
+        [SwaggerSchema(ReadOnly = true)]
+        public new long? MaBangDiemHocPhan { get; set; }
+    }
+
 }

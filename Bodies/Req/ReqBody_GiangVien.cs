@@ -13,5 +13,14 @@
             (this.TenGiangVien == null ||
              this.TenGiangVien == model.TenGiangVien);
         }
+
+        
     }
+
+    public record class JustForInsertReqBody_GiangVien : ReqBody_GiangVien
+    {
+        [SwaggerSchema(ReadOnly = true)]
+        public new long? MaGiangVien { get; set; }
+    }
+
 }

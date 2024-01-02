@@ -2,7 +2,7 @@
 
 namespace StudentManagement.Server.Bodies.Req
 {
-    public abstract record class BaseReqBody<T> where T : IModel<T>
+    public abstract record class BaseReqBody<T> where T : class, IModel<T>, new()
     {
         public virtual bool Match(T model)
         {
@@ -24,5 +24,17 @@ namespace StudentManagement.Server.Bodies.Req
         }
 
         public abstract Expression<Func<T, bool>> MatchExpression();
+
+        public virtual T ToModel()
+        {
+            T model = new();
+            foreach (PropertyInfo propertyInfo in this.GetType().GetProperties())
+            {
+                model.GetType()
+                     .GetProperty(propertyInfo.Name)!
+                     .SetValue(model, propertyInfo.GetValue(this));
+            }
+            return model;
+        }
     }
 }

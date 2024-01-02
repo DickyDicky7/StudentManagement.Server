@@ -17,5 +17,5 @@ public partial class ThongTinDangKyHocPhan
     public virtual ICollection<DanhSachDangKyHocPhan> DanhSachDangKyHocPhans { get; set; } = new List<DanhSachDangKyHocPhan>();
 
     [InverseProperty("ThongTinDangKyHocPhan")]
-    public virtual ICollection<ThongTinHocKyNamHoc> ThongTinHocKyNamHocs { get; set; } = new List<ThongTinHocKyNamHoc>();
+    public virtual ThongTinHocKyNamHoc? ThongTinHocKyNamHoc { get; set; }
 }

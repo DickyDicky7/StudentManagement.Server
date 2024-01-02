@@ -8,6 +8,10 @@
                 .MapPost(@"/thong-tin-hoc-ky-nam-hoc/get-many", InternalMethods.ThongTinHocKyNamHoc_GetMany)
                 .WithTags(@"Get many, execution order: [filter] where -> [skip] offset -> [take] limit");
 
+            app
+                .MapPost(@"/thong-tin-hoc-ky-nam-hoc/add-many", InternalMethods.ThongTinHocKyNamHoc_AddMany)
+                .WithTags(@"Add many, able to return just new records'id or new records | new records have id auto generated");
+
             return app;
         }
 
@@ -28,6 +32,30 @@
                 };
                 return resBody_GetMany;
             }
+
+            public static async Task<ResBody_AddMany<ThongTinHocKyNamHoc>> ThongTinHocKyNamHoc_AddMany(
+                [FromServices] ApplicationDbContext context,
+                [FromBody] ReqBody_AddMany<JustForInsertReqBody_ThongTinHocKyNamHoc, ThongTinHocKyNamHoc> reqBody_AddMany)
+            {
+                ResBody_AddMany<ThongTinHocKyNamHoc> resBody_AddMany      = new();
+                IEnumerable    <ThongTinHocKyNamHoc> thongTinHocKyNamHocs = reqBody_AddMany
+                .ItemsToAdd.Select(itemToAdd => itemToAdd.ToModel());
+                await   context.ThongTinHocKyNamHocs.AddRangeAsync(thongTinHocKyNamHocs);
+                resBody_AddMany.NumberOfRowsAffected = await context.SaveChangesAsync();
+                if (reqBody_AddMany.ReturnJustIds)
+                {
+                    resBody_AddMany.ResultJustIds = thongTinHocKyNamHocs
+                        .Where (thongTinHocKyNamHoc => thongTinHocKyNamHoc.MaThongTinHocKyNamHoc != default)
+                        .Select(thongTinHocKyNamHoc => thongTinHocKyNamHoc.MaThongTinHocKyNamHoc);
+                }
+                else
+                {
+                    resBody_AddMany.Result        = thongTinHocKyNamHocs
+                        .Where (thongTinHocKyNamHoc => thongTinHocKyNamHoc.MaThongTinHocKyNamHoc != default);
+                }
+                return resBody_AddMany;
+            }
+
         }
     }
 }

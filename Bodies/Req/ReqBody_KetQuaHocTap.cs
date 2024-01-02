@@ -23,4 +23,11 @@
              this.MaSinhVien         == model.MaSinhVien);
         }
     }
+
+    public record class JustForInsertReqBody_KetQuaHocTap : ReqBody_KetQuaHocTap
+    {
+        [SwaggerSchema(ReadOnly = true)]
+        public new long? MaKetQuaHocTap { get; set; }
+    }
+
 }

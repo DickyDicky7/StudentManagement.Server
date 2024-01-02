@@ -40,5 +40,14 @@
             (this.MaSinhVien                 == null ||
              this.MaSinhVien                 == model.MaSinhVien);
         }
+
+        
     }
+
+    public record class JustForInsertReqBody_ThongTinHocPhi : ReqBody_ThongTinHocPhi
+    {
+        [SwaggerSchema(ReadOnly = true)]
+        public new long? MaThongTinHocPhi { get; set; }
+    }
+
 }

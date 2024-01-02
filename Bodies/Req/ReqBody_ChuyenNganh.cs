@@ -16,5 +16,14 @@
             (this.MaKhoaDaoTao   == null ||
              this.MaKhoaDaoTao   == model.MaKhoaDaoTao);
         }
+
+        
     }
+
+    public record class JustForInsertReqBody_ChuyenNganh : ReqBody_ChuyenNganh
+    {
+        [SwaggerSchema(ReadOnly = true)]
+        public new long? MaChuyenNganh { get; set; }
+    }
+
 }

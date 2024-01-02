@@ -25,5 +25,13 @@
             (this.MaSinhVien      == null ||
              this.MaSinhVien      == model.MaSinhVien);
         }
+
     }
+
+    public record class JustForInsertReqBody_HoSo : ReqBody_HoSo
+    {
+        [SwaggerSchema(ReadOnly = true)]
+        public new long? MaHoSo { get; set; }
+    }
+
 }

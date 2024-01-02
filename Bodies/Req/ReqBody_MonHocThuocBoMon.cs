@@ -34,5 +34,14 @@
             (this.MaBoMon                   == null ||
              this.MaBoMon                   == model.MaBoMon);
         }
+
+        
     }
+
+    public record class JustForInsertReqBody_MonHocThuocBoMon : ReqBody_MonHocThuocBoMon
+    {
+        [SwaggerSchema(ReadOnly = true)]
+        public new long? MaMonHoc { get; set; }
+    }
+
 }

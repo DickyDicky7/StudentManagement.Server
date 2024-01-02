@@ -34,5 +34,14 @@
             (this.MaKhoaDaoTao              == null ||
              this.MaKhoaDaoTao              == model.MaKhoaDaoTao);
         }
+
+        
     }
+
+    public record class JustForInsertReqBody_MonHocThuocKhoaDaoTao : ReqBody_MonHocThuocKhoaDaoTao
+    {
+        [SwaggerSchema(ReadOnly = true)]
+        public new long? MaMonHoc { get; set; }
+    }
+
 }

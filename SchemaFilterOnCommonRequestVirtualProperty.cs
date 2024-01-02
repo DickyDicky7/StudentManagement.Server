@@ -2,7 +2,7 @@
 
 namespace StudentManagement.Server
 {
-    public class SchemaFilterVirtualProperty : Swashbuckle.AspNetCore.SwaggerGen.ISchemaFilter
+    public class SchemaFilterOnCommonRequestVirtualProperty : Swashbuckle.AspNetCore.SwaggerGen.ISchemaFilter
     {
         public void Apply(
             Microsoft.OpenApi.Models.OpenApiSchema schema,Swashbuckle.AspNetCore.SwaggerGen.SchemaFilterContext context)
@@ -21,7 +21,9 @@ namespace StudentManagement.Server
                     schema.Properties.Keys.SingleOrDefault(key => key.ToLower() == virtualPropertyInfo.Name.ToLower())!;
                 if (virtualPropertyToHide != null)
                 {
-                    schema.Properties.Remove(virtualPropertyToHide);
+                    schema.Properties[
+                    virtualPropertyToHide].ReadOnly = true;
+                    //schema.Properties.Remove(virtualPropertyToHide);
                 }
             }
         }

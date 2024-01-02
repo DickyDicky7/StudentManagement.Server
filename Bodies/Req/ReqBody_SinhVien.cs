@@ -49,5 +49,14 @@
             (this.AnhTheSinhVien             == null ||
              this.AnhTheSinhVien             == model.AnhTheSinhVien);
         }
+
+        
     }
+
+    public record class JustForInsertReqBody_SinhVien : ReqBody_SinhVien
+    {
+        [SwaggerSchema(ReadOnly = true)]
+        public new long? MaSinhVien { get; set; }
+    }
+
 }

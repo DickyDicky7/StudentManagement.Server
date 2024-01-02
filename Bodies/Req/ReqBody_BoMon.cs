@@ -13,5 +13,14 @@
             (this.TenBoMon == null ||
              this.TenBoMon == model.TenBoMon);
         }
+
+        
     }
+
+    public record class JustForInsertReqBody_BoMon : ReqBody_BoMon
+    {
+        [SwaggerSchema(ReadOnly = true)]
+        public new long? MaBoMon { get; set; }
+    }
+
 }

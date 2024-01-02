@@ -16,5 +16,14 @@
             (this.MaBoMon      == null ||
              this.MaBoMon      == model.MaBoMon);
         }
+
+        
     }
+
+    public record class JustForInsertReqBody_GiangVienThuocBoMon : ReqBody_GiangVienThuocBoMon
+    {
+        [SwaggerSchema(ReadOnly = true)]
+        public new long? MaGiangVien { get; set; }
+    }
+
 }

@@ -57,7 +57,7 @@ public partial class ThongTinHocPhi
     public virtual SinhVien SinhVien { get; set; } = null!;
 
     [InverseProperty("ThongTinHocPhi")]
-    public virtual ICollection<ThongTinHocKyNamHoc> ThongTinHocKyNamHocs { get; set; } = new List<ThongTinHocKyNamHoc>();
+    public virtual ThongTinHocKyNamHoc? ThongTinHocKyNamHoc { get; set; }
 
     [ForeignKey("MaThongTinHocPhiHocKyTruoc")]
     [InverseProperty("InverseThongTinHocPhiHocKyTruoc")]

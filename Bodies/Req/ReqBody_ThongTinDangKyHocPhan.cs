@@ -10,5 +10,14 @@
             (this.MaThongTinDangKyHocPhan == null ||
              this.MaThongTinDangKyHocPhan == model.MaThongTinDangKyHocPhan);
         }
+
+        
     }
+
+    public record class JustForInsertReqBody_ThongTinDangKyHocPhan : ReqBody_ThongTinDangKyHocPhan
+    {
+        [SwaggerSchema(ReadOnly = true)]
+        public new long? MaThongTinDangKyHocPhan { get; set; }
+    }
+
 }

@@ -19,5 +19,14 @@
             (this.TenLopSinhHoatChung == null ||
              this.TenLopSinhHoatChung == model.TenLopSinhHoatChung);
         }
+
+        
     }
+
+    public record class JustForInsertReqBody_KhoaHoc : ReqBody_KhoaHoc
+    {
+        [SwaggerSchema(ReadOnly = true)]
+        public new long? MaKhoaHoc { get; set; }
+    }
+
 }

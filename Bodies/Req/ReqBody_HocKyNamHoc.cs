@@ -16,5 +16,14 @@
             (this.TenNamHoc     == null ||
              this.TenNamHoc     == model.TenNamHoc);
         }
+
+        
     }
+
+    public record class JustForInsertReqBody_HocKyNamHoc : ReqBody_HocKyNamHoc
+    {
+        [SwaggerSchema(ReadOnly = true)]
+        public new long? MaHocKyNamHoc { get; set; }
+    }
+
 }

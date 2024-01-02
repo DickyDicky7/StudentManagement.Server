@@ -29,6 +29,16 @@
             (this.SoTinChiThucHanh          == null ||
              this.SoTinChiThucHanh          == model.SoTinChiThucHanh)          &&
             (this.TomTatMonHoc              == null ||
-             this.TomTatMonHoc              == model.TomTatMonHoc);}
+             this.TomTatMonHoc              == model.TomTatMonHoc);
+        }
+
+        
     }
+
+    public record class JustForInsertReqBody_MonHoc : ReqBody_MonHoc
+    {
+        [SwaggerSchema(ReadOnly = true)]
+        public new long? MaMonHoc { get; set; }
+    }
+
 }

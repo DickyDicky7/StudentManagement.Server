@@ -40,5 +40,14 @@
             (this.GhiChu          == null ||
              this.GhiChu          == model.GhiChu);
         }
+
+        
     }
+
+    public record class JustForInsertReqBody_HocPhan : ReqBody_HocPhan
+    {
+        [SwaggerSchema(ReadOnly = true)]
+        public new long? MaHocPhan { get; set; }
+    }
+
 }

@@ -22,5 +22,14 @@
             (this.MaSinhVien       == null ||
              this.MaSinhVien       == model.MaSinhVien);
         }
+
+        
     }
+
+    public record class JustForInsertReqBody_KetQuaRenLuyen : ReqBody_KetQuaRenLuyen
+    {
+        [SwaggerSchema(ReadOnly = true)]
+        public new long? MaKetQuaRenLuyen { get; set; }
+    }
+
 }

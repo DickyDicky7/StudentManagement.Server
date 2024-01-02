@@ -35,5 +35,5 @@ public partial class KetQuaHocTap
     public virtual SinhVien SinhVien { get; set; } = null!;
 
     [InverseProperty("KetQuaHocTap")]
-    public virtual ICollection<ThongTinHocKyNamHoc> ThongTinHocKyNamHocs { get; set; } = new List<ThongTinHocKyNamHoc>();
+    public virtual ThongTinHocKyNamHoc? ThongTinHocKyNamHoc { get; set; }
 }

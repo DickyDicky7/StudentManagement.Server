@@ -13,5 +13,14 @@
             (this.TenKhoaDaoTao == null ||
              this.TenKhoaDaoTao == model.TenKhoaDaoTao);
         }
+
+        
     }
+
+    public record class JustForInsertReqBody_KhoaDaoTao : ReqBody_KhoaDaoTao
+    {
+        [SwaggerSchema(ReadOnly = true)]
+        public new long? MaKhoaDaoTao { get; set; }
+    }
+
 }

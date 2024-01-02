@@ -34,5 +34,14 @@
             (this.MaThongTinHocKyNamHocTruoc == null ||
              this.MaThongTinHocKyNamHocTruoc == model.MaThongTinHocKyNamHocTruoc);
         }
+
+        
     }
+
+    public record class JustForInsertReqBody_ThongTinHocKyNamHoc : ReqBody_ThongTinHocKyNamHoc
+    {
+        [SwaggerSchema(ReadOnly = true)]
+        public new long? MaThongTinHocKyNamHoc { get; set; }
+    }
+
 }

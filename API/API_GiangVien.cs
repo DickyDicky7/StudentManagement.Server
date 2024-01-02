@@ -8,6 +8,10 @@
                 .MapPost(@"/giang-vien/get-many", InternalMethods.GiangVien_GetMany)
                 .WithTags(@"Get many, execution order: [filter] where -> [skip] offset -> [take] limit");
 
+            app
+                .MapPost(@"/giang-vien/add-many", InternalMethods.GiangVien_AddMany)
+                .WithTags(@"Add many, able to return just new records'id or new records | new records have id auto generated");
+
             return app;
         }
 
@@ -27,6 +31,29 @@
                     .ToListAsync(),
                 };
                 return resBody_GetMany;
+            }
+
+            public static async Task<ResBody_AddMany<GiangVien>> GiangVien_AddMany(
+                [FromServices] ApplicationDbContext context,
+                [FromBody] ReqBody_AddMany<JustForInsertReqBody_GiangVien, GiangVien> reqBody_AddMany)
+            {
+                ResBody_AddMany<GiangVien> resBody_AddMany = new();
+                IEnumerable    <GiangVien> giangViens      = reqBody_AddMany
+                .ItemsToAdd.Select(itemToAdd => itemToAdd.ToModel());
+                await   context.GiangViens.AddRangeAsync(giangViens);
+                resBody_AddMany.NumberOfRowsAffected = await context.SaveChangesAsync();
+                if (reqBody_AddMany.ReturnJustIds)
+                {
+                    resBody_AddMany.ResultJustIds = giangViens
+                        .Where (giangVien => giangVien.MaGiangVien != default)
+                        .Select(giangVien => giangVien.MaGiangVien);
+                }
+                else
+                {
+                    resBody_AddMany.Result        = giangViens
+                        .Where (giangVien => giangVien.MaGiangVien != default);
+                }
+                return resBody_AddMany;
             }
         }
     }

@@ -47,6 +47,12 @@ public partial class HocPhan
     public virtual ICollection<BangDiemHocPhan> BangDiemHocPhans { get; set; } = new List<BangDiemHocPhan>();
 
     [InverseProperty("HocPhan")]
+    public virtual ICollection<BuoiHoc> BuoiHocs { get; set; } = new List<BuoiHoc>();
+
+    [InverseProperty("HocPhan")]
+    public virtual ICollection<BuoiThi> BuoiThis { get; set; } = new List<BuoiThi>();
+
+    [InverseProperty("HocPhan")]
     public virtual ICollection<DanhSachDangKyHocPhan> DanhSachDangKyHocPhans { get; set; } = new List<DanhSachDangKyHocPhan>();
 
     [ForeignKey("MaGiangVien")]

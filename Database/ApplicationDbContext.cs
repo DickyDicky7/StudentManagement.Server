@@ -19,6 +19,10 @@ public partial class ApplicationDbContext : DbContext
 
     public virtual DbSet<BoMon> BoMons { get; set; }
 
+    public virtual DbSet<BuoiHoc> BuoiHocs { get; set; }
+
+    public virtual DbSet<BuoiThi> BuoiThis { get; set; }
+
     public virtual DbSet<ChuyenNganh> ChuyenNganhs { get; set; }
 
     public virtual DbSet<DanhSachDangKyHocPhan> DanhSachDangKyHocPhans { get; set; }
@@ -65,7 +69,7 @@ public partial class ApplicationDbContext : DbContext
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder
         .UseLazyLoadingProxies()
-        .UseNpgsql("Server=ep-polished-meadow-59893880.ap-southeast-1.aws.neon.tech;Port=5432;User Id=tuan.pham1973;Password=C3IARrfNS7no;Database=student_management;");
+        .UseNpgsql($@"Server=ep-polished-meadow-59893880.ap-southeast-1.aws.neon.tech;Port=5432;User Id=tuan.pham1973;Password=C3IARrfNS7no;Database=student_management;{/*"Include Error Detail=true;"*/string.Empty}");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -81,6 +85,20 @@ public partial class ApplicationDbContext : DbContext
         modelBuilder.Entity<BoMon>(entity =>
         {
             entity.HasKey(e => e.MaBoMon).HasName("bo_mon_pkey");
+        });
+
+        modelBuilder.Entity<BuoiHoc>(entity =>
+        {
+            entity.HasKey(e => e.MaBuoiHoc).HasName("buoi_hoc_pkey");
+
+            entity.HasOne(d => d.HocPhan).WithMany(p => p.BuoiHocs).HasConstraintName("buoi_hoc_ma_hoc_phan_fkey_hoc_phan_ma_hoc_phan");
+        });
+
+        modelBuilder.Entity<BuoiThi>(entity =>
+        {
+            entity.HasKey(e => e.MaBuoiThi).HasName("buoi_thi_pkey");
+
+            entity.HasOne(d => d.HocPhan).WithMany(p => p.BuoiThis).HasConstraintName("buoi_thi_ma_hoc_phan_fkey_hoc_phan_ma_hoc_phan");
         });
 
         modelBuilder.Entity<ChuyenNganh>(entity =>
@@ -224,21 +242,21 @@ public partial class ApplicationDbContext : DbContext
 
             entity.HasOne(d => d.HocKyNamHoc).WithMany(p => p.ThongTinHocKyNamHocs).HasConstraintName("thong_tin_hoc_ky_nam_hoc_fkey_ma_hoc_ky_nam_hoc");
 
-            entity.HasOne(d => d.KetQuaHocTap).WithMany(p => p.ThongTinHocKyNamHocs).HasConstraintName("thong_tin_hoc_ky_nam_hoc_fkey_ma_ket_qua_hoc_tap");
+            entity.HasOne(d => d.KetQuaHocTap).WithOne(p => p.ThongTinHocKyNamHoc).HasConstraintName("thong_tin_hoc_ky_nam_hoc_fkey_ma_ket_qua_hoc_tap");
 
-            entity.HasOne(d => d.KetQuaRenLuyen).WithMany(p => p.ThongTinHocKyNamHocs).HasConstraintName("thong_tin_hoc_ky_nam_hoc_fkey_ma_ket_qua_ren_luyen");
+            entity.HasOne(d => d.KetQuaRenLuyen).WithOne(p => p.ThongTinHocKyNamHoc).HasConstraintName("thong_tin_hoc_ky_nam_hoc_fkey_ma_ket_qua_ren_luyen");
 
-            entity.HasOne(d => d.KhenThuong).WithMany(p => p.ThongTinHocKyNamHocs).HasConstraintName("thong_tin_hoc_ky_nam_hoc_fkey_ma_khen_thuong");
+            entity.HasOne(d => d.KhenThuong).WithOne(p => p.ThongTinHocKyNamHoc).HasConstraintName("thong_tin_hoc_ky_nam_hoc_fkey_ma_khen_thuong");
 
             entity.HasOne(d => d.SinhVien).WithMany(p => p.ThongTinHocKyNamHocs).HasConstraintName("thong_tin_hoc_ky_nam_hoc_fkey_ma_sinh_vien");
 
-            entity.HasOne(d => d.ThongTinDangKyHocPhan).WithMany(p => p.ThongTinHocKyNamHocs).HasConstraintName("thong_tin_hoc_ky_nam_hoc_fkey_ma_thong_tin_dang_ky_hoc_phan");
+            entity.HasOne(d => d.ThongTinDangKyHocPhan).WithOne(p => p.ThongTinHocKyNamHoc).HasConstraintName("thong_tin_hoc_ky_nam_hoc_fkey_ma_thong_tin_dang_ky_hoc_phan");
 
             entity.HasOne(d => d.ThongTinHocKyNamHocTruoc).WithMany(p => p.InverseThongTinHocKyNamHocTruoc)
                 .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("thong_tin_hoc_ky_nam_hoc_fkey_ma_thong_tin_hoc_ky_nam_hoc_truoc");
 
-            entity.HasOne(d => d.ThongTinHocPhi).WithMany(p => p.ThongTinHocKyNamHocs).HasConstraintName("thong_tin_hoc_ky_nam_hoc_fkey_ma_thong_tin_hoc_phi");
+            entity.HasOne(d => d.ThongTinHocPhi).WithOne(p => p.ThongTinHocKyNamHoc).HasConstraintName("thong_tin_hoc_ky_nam_hoc_fkey_ma_thong_tin_hoc_phi");
         });
 
         modelBuilder.Entity<ThongTinHocPhi>(entity =>

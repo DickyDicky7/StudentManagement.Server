@@ -19,5 +19,12 @@
             (this.MaBangDiemHocPhan       == null ||
              this.MaBangDiemHocPhan       == model.MaBangDiemHocPhan);
         }
+    
     }
+
+    public record class JustForInsertReqBody_DanhSachDangKyHocPhan : ReqBody_DanhSachDangKyHocPhan
+    {
+
+    }
+
 }

@@ -24,8 +24,9 @@ namespace StudentManagement.Server
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(options =>
             {
-                //options.EnableAnnotations();
-                //options.SchemaFilter<SchemaFilterVirtualProperty>();
+                options.EnableAnnotations();
+                //options.CustomSchemaIds(type => type.FullName);
+                //options.SchemaFilter<SchemaFilterOnCommonRequestVirtualProperty>();
             });
 
             builder.Services.AddDbContext<ApplicationDbContext>();
@@ -98,8 +99,11 @@ namespace StudentManagement.Server
 
             app.MapAPI_BangDiemHocPhan();
             app.MapAPI_BoMon();
+            app.MapAPI_BuoiHoc();
+            app.MapAPI_BuoiThi();
             app.MapAPI_ChuyenNganh();
-            app.MapAPI_GiangVien();
+            app.MapAPI_DanhSachDangKyHocPhan();
+            //app.MapAPI_GiangVien();
             app.MapAPI_GiangVienThuocBoMon();
             app.MapAPI_GiangVienThuocKhoaDaoTao();
             app.MapAPI_HeDaoTao();
@@ -111,8 +115,9 @@ namespace StudentManagement.Server
             app.MapAPI_KhenThuong();
             app.MapAPI_KhoaDaoTao();
             app.MapAPI_KhoaHoc();
-            app.MapAPI_MonHoc();
+            //app.MapAPI_MonHoc();
             app.MapAPI_MonHocThuocBoMon();
+            app.MapAPI_MonHocThuocKhoaDaoTao();
             app.MapAPI_SinhVien();
             app.MapAPI_ThongTinDangKyHocPhan();
             app.MapAPI_ThongTinHocKyNamHoc();

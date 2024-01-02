@@ -8,6 +8,11 @@ namespace StudentManagement.Server.Database;
 
 [Table("thong_tin_hoc_ky_nam_hoc")]
 [Index("MaHocKyNamHoc", "MaSinhVien", Name = "thong_tin_hoc_ky_nam_hoc_unique_ma_hoc_ky_nam_hoc_ma_sinh_vien", IsUnique = true)]
+[Index("MaKetQuaHocTap", Name = "thong_tin_hoc_ky_nam_hoc_unique_ma_ket_qua_hoc_tap", IsUnique = true)]
+[Index("MaKetQuaRenLuyen", Name = "thong_tin_hoc_ky_nam_hoc_unique_ma_ket_qua_ren_luyen", IsUnique = true)]
+[Index("MaKhenThuong", Name = "thong_tin_hoc_ky_nam_hoc_unique_ma_khen_thuong", IsUnique = true)]
+[Index("MaThongTinDangKyHocPhan", Name = "thong_tin_hoc_ky_nam_hoc_unique_ma_thong_tin_dang_ky_hoc_phan", IsUnique = true)]
+[Index("MaThongTinHocPhi", Name = "thong_tin_hoc_ky_nam_hoc_unique_ma_thong_tin_hoc_phi", IsUnique = true)]
 public partial class ThongTinHocKyNamHoc
 {
     [Key]
@@ -46,15 +51,15 @@ public partial class ThongTinHocKyNamHoc
     public virtual ICollection<ThongTinHocKyNamHoc> InverseThongTinHocKyNamHocTruoc { get; set; } = new List<ThongTinHocKyNamHoc>();
 
     [ForeignKey("MaKetQuaHocTap")]
-    [InverseProperty("ThongTinHocKyNamHocs")]
+    [InverseProperty("ThongTinHocKyNamHoc")]
     public virtual KetQuaHocTap KetQuaHocTap { get; set; } = null!;
 
     [ForeignKey("MaKetQuaRenLuyen")]
-    [InverseProperty("ThongTinHocKyNamHocs")]
+    [InverseProperty("ThongTinHocKyNamHoc")]
     public virtual KetQuaRenLuyen KetQuaRenLuyen { get; set; } = null!;
 
     [ForeignKey("MaKhenThuong")]
-    [InverseProperty("ThongTinHocKyNamHocs")]
+    [InverseProperty("ThongTinHocKyNamHoc")]
     public virtual KhenThuong KhenThuong { get; set; } = null!;
 
     [ForeignKey("MaSinhVien")]
@@ -62,7 +67,7 @@ public partial class ThongTinHocKyNamHoc
     public virtual SinhVien SinhVien { get; set; } = null!;
 
     [ForeignKey("MaThongTinDangKyHocPhan")]
-    [InverseProperty("ThongTinHocKyNamHocs")]
+    [InverseProperty("ThongTinHocKyNamHoc")]
     public virtual ThongTinDangKyHocPhan ThongTinDangKyHocPhan { get; set; } = null!;
 
     [ForeignKey("MaThongTinHocKyNamHocTruoc")]
@@ -70,6 +75,6 @@ public partial class ThongTinHocKyNamHoc
     public virtual ThongTinHocKyNamHoc? ThongTinHocKyNamHocTruoc { get; set; }
 
     [ForeignKey("MaThongTinHocPhi")]
-    [InverseProperty("ThongTinHocKyNamHocs")]
+    [InverseProperty("ThongTinHocKyNamHoc")]
     public virtual ThongTinHocPhi ThongTinHocPhi { get; set; } = null!;
 }
