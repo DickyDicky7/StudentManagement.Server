@@ -80,6 +80,9 @@ public partial class SinhVien
     public virtual KhoaHoc KhoaHoc { get; set; } = null!;
 
     [InverseProperty("SinhVien")]
+    public virtual ICollection<ThongTinDangKyHocPhan> ThongTinDangKyHocPhans { get; set; } = new List<ThongTinDangKyHocPhan>();
+
+    [InverseProperty("SinhVien")]
     public virtual ICollection<ThongTinHocKyNamHoc> ThongTinHocKyNamHocs { get; set; } = new List<ThongTinHocKyNamHoc>();
 
     [InverseProperty("SinhVien")]

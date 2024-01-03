@@ -33,6 +33,9 @@ public partial class HocKyNamHoc
     public virtual ICollection<KhenThuong> KhenThuongs { get; set; } = new List<KhenThuong>();
 
     [InverseProperty("HocKyNamHoc")]
+    public virtual ICollection<ThongTinDangKyHocPhan> ThongTinDangKyHocPhans { get; set; } = new List<ThongTinDangKyHocPhan>();
+
+    [InverseProperty("HocKyNamHoc")]
     public virtual ICollection<ThongTinHocKyNamHoc> ThongTinHocKyNamHocs { get; set; } = new List<ThongTinHocKyNamHoc>();
 
     [InverseProperty("HocKyNamHoc")]

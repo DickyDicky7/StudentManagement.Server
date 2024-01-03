@@ -57,6 +57,8 @@ public partial class ApplicationDbContext : DbContext
 
     public virtual DbSet<MonHocThuocKhoaDaoTao> MonHocThuocKhoaDaoTaos { get; set; }
 
+    public virtual DbSet<NhanVien> NhanViens { get; set; }
+
     public virtual DbSet<SinhVien> SinhViens { get; set; }
 
     public virtual DbSet<ThongTinDangKyHocPhan> ThongTinDangKyHocPhans { get; set; }
@@ -220,6 +222,13 @@ public partial class ApplicationDbContext : DbContext
             entity.HasOne(d => d.KhoaDaoTao).WithMany(p => p.MonHocThuocKhoaDaoTaos).HasConstraintName("mon_hoc_thuoc_khoa_dao_tao_fkey_ma_khoa_dao_tao");
         });
 
+        modelBuilder.Entity<NhanVien>(entity =>
+        {
+            entity.HasKey(e => e.MaNhanVien).HasName("untitled_table_pkey");
+
+            entity.Property(e => e.MaNhanVien).HasDefaultValueSql("nextval('untitled_table_ma_nhan_vien_seq'::regclass)");
+        });
+
         modelBuilder.Entity<SinhVien>(entity =>
         {
             entity.HasKey(e => e.MaSinhVien).HasName("sinh_vien_pkey");
@@ -234,6 +243,14 @@ public partial class ApplicationDbContext : DbContext
         modelBuilder.Entity<ThongTinDangKyHocPhan>(entity =>
         {
             entity.HasKey(e => e.MaThongTinDangKyHocPhan).HasName("thong_tin_dang_ky_hoc_phan_pkey");
+
+            entity.HasOne(d => d.HocKyNamHoc).WithMany(p => p.ThongTinDangKyHocPhans)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("thong_tin_dang_ky_hoc_phan_fkey_1");
+
+            entity.HasOne(d => d.SinhVien).WithMany(p => p.ThongTinDangKyHocPhans)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("thong_tin_dang_ky_hoc_phan_fkey_2");
         });
 
         modelBuilder.Entity<ThongTinHocKyNamHoc>(entity =>
