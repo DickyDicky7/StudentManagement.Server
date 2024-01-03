@@ -244,13 +244,9 @@ public partial class ApplicationDbContext : DbContext
         {
             entity.HasKey(e => e.MaThongTinDangKyHocPhan).HasName("thong_tin_dang_ky_hoc_phan_pkey");
 
-            entity.HasOne(d => d.HocKyNamHoc).WithMany(p => p.ThongTinDangKyHocPhans)
-                .OnDelete(DeleteBehavior.Cascade)
-                .HasConstraintName("thong_tin_dang_ky_hoc_phan_fkey_1");
+            entity.HasOne(d => d.HocKyNamHoc).WithMany(p => p.ThongTinDangKyHocPhans).HasConstraintName("thong_tin_dang_ky_hoc_phan_fkey_1");
 
-            entity.HasOne(d => d.SinhVien).WithMany(p => p.ThongTinDangKyHocPhans)
-                .OnDelete(DeleteBehavior.Cascade)
-                .HasConstraintName("thong_tin_dang_ky_hoc_phan_fkey_2");
+            entity.HasOne(d => d.SinhVien).WithMany(p => p.ThongTinDangKyHocPhans).HasConstraintName("thong_tin_dang_ky_hoc_phan_fkey_2");
         });
 
         modelBuilder.Entity<ThongTinHocKyNamHoc>(entity =>

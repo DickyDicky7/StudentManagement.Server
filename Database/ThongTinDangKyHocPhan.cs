@@ -15,21 +15,21 @@ public partial class ThongTinDangKyHocPhan
     public long MaThongTinDangKyHocPhan { get; set; }
 
     [Column("ma_hoc_ky_nam_hoc")]
-    public long? MaHocKyNamHoc { get; set; }
+    public long MaHocKyNamHoc { get; set; }
 
     [Column("ma_sinh_vien")]
-    public long? MaSinhVien { get; set; }
+    public long MaSinhVien { get; set; }
 
     [InverseProperty("ThongTinDangKyHocPhan")]
     public virtual ICollection<DanhSachDangKyHocPhan> DanhSachDangKyHocPhans { get; set; } = new List<DanhSachDangKyHocPhan>();
 
     [ForeignKey("MaHocKyNamHoc")]
     [InverseProperty("ThongTinDangKyHocPhans")]
-    public virtual HocKyNamHoc? HocKyNamHoc { get; set; }
+    public virtual HocKyNamHoc HocKyNamHoc { get; set; } = null!;
 
     [ForeignKey("MaSinhVien")]
     [InverseProperty("ThongTinDangKyHocPhans")]
-    public virtual SinhVien? SinhVien { get; set; }
+    public virtual SinhVien SinhVien { get; set; } = null!;
 
     [InverseProperty("ThongTinDangKyHocPhan")]
     public virtual ThongTinHocKyNamHoc? ThongTinHocKyNamHoc { get; set; }
