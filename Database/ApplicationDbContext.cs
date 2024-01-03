@@ -41,6 +41,8 @@ public partial class ApplicationDbContext : DbContext
 
     public virtual DbSet<HocPhan> HocPhans { get; set; }
 
+    public virtual DbSet<JwtStorage> JwtStorages { get; set; }
+
     public virtual DbSet<KetQuaHocTap> KetQuaHocTaps { get; set; }
 
     public virtual DbSet<KetQuaRenLuyen> KetQuaRenLuyens { get; set; }
@@ -165,6 +167,11 @@ public partial class ApplicationDbContext : DbContext
             entity.HasOne(d => d.HocKyNamHoc).WithMany(p => p.HocPhans).HasConstraintName("hoc_phan_fkey_ma_hoc_ky_nam_hoc");
 
             entity.HasOne(d => d.MonHoc).WithMany(p => p.HocPhans).HasConstraintName("hoc_phan_fkey_ma_mon_hoc");
+        });
+
+        modelBuilder.Entity<JwtStorage>(entity =>
+        {
+            entity.HasKey(e => new { e.MaSinhVienHoacNhanVien, e.Loai }).HasName("jwt_storage_pkey");
         });
 
         modelBuilder.Entity<KetQuaHocTap>(entity =>
