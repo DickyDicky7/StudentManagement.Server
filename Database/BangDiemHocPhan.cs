@@ -21,16 +21,16 @@ public partial class BangDiemHocPhan
     public long MaSinhVien { get; set; }
 
     [Column("diem_qua_trinh")]
-    public float DiemQuaTrinh { get; set; }
+    public decimal DiemQuaTrinh { get; set; }
 
     [Column("diem_giua_ky")]
-    public float? DiemGiuaKy { get; set; }
+    public decimal DiemGiuaKy { get; set; }
 
     [Column("diem_thuc_hanh")]
-    public float? DiemThucHanh { get; set; }
+    public decimal DiemThucHanh { get; set; }
 
     [Column("diem_cuoi_ky")]
-    public float DiemCuoiKy { get; set; }
+    public decimal DiemCuoiKy { get; set; }
 
     [InverseProperty("BangDiemHocPhan")]
     public virtual DanhSachDangKyHocPhan? DanhSachDangKyHocPhan { get; set; }

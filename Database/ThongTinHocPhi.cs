@@ -15,16 +15,16 @@ public partial class ThongTinHocPhi
     [Column("ma_thong_tin_hoc_phi")]
     public long MaThongTinHocPhi { get; set; }
 
-    [Column("so_tien_hoc_phi_theo_quy_dinh", TypeName = "money")]
+    [Column("so_tien_hoc_phi_theo_quy_dinh")]
     public decimal SoTienHocPhiTheoQuyDinh { get; set; }
 
-    [Column("so_tien_phai_dong", TypeName = "money")]
+    [Column("so_tien_phai_dong")]
     public decimal SoTienPhaiDong { get; set; }
 
-    [Column("so_tien_da_dong", TypeName = "money")]
+    [Column("so_tien_da_dong")]
     public decimal SoTienDaDong { get; set; }
 
-    [Column("so_tien_du", TypeName = "money")]
+    [Column("so_tien_du")]
     public decimal SoTienDu { get; set; }
 
     [Column("ten_ngan_hang_thanh_toan_hoc_phi")]

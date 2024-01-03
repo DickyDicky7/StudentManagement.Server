@@ -15,7 +15,7 @@ public partial class KetQuaHocTap
     public long MaKetQuaHocTap { get; set; }
 
     [Column("diem_trung_binh_hoc_ky")]
-    public float DiemTrungBinhHocKy { get; set; }
+    public decimal DiemTrungBinhHocKy { get; set; }
 
     [Column("xep_loai_hoc_tap")]
     public string XepLoaiHocTap { get; set; } = null!;
