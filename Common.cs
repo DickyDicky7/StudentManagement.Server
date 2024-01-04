@@ -8,6 +8,7 @@ global using StudentManagement.Server.Bodies.Res.Specific;
 global using StudentManagement.Server.Database;
 global using Swashbuckle.AspNetCore.Annotations;
 global using System.Linq.Expressions;
+global using System.Reflection;
 
 namespace StudentManagement.Server
 {
