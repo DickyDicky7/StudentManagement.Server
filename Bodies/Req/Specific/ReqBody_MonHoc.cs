@@ -11,6 +11,81 @@
         public short   ? SoTinChiThucHanh          { get; set; }
         public string  ? TomTatMonHoc              { get; set; }
 
+        public override Expression<Func<
+            Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<MonHoc>,
+            Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<MonHoc>>> UpdateModel()
+        {
+            Expression<Func<
+                Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<MonHoc>,
+                Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<MonHoc>>> chain = setter => setter;
+
+            if (this.MaMonHoc != null)
+                chain = Helper.AppendSetterProperty(chain,
+                    setter =>
+                    setter.SetProperty(
+                        entity =>
+                        entity.MaMonHoc,
+                        this  .MaMonHoc));
+
+            if (this.TenMonHoc != null)
+                chain = Helper.AppendSetterProperty(chain,
+                    setter =>
+                    setter.SetProperty(
+                        entity =>
+                        entity.TenMonHoc,
+                        this  .TenMonHoc));
+
+            if (this.ConMoLop != null)
+                chain = Helper.AppendSetterProperty(chain,
+                    setter =>
+                    setter.SetProperty(
+                        entity =>
+                        entity.ConMoLop,
+                        this  .ConMoLop));
+
+            if (this.LoaiMonHoc != null)
+                chain = Helper.AppendSetterProperty(chain,
+                    setter =>
+                    setter.SetProperty(
+                        entity =>
+                        entity.LoaiMonHoc,
+                        this  .LoaiMonHoc));
+
+            if (this.DanhSachMaMonHocTienQuyet != null)
+                chain = Helper.AppendSetterProperty(chain,
+                    setter =>
+                    setter.SetProperty(
+                        entity =>
+                        entity.DanhSachMaMonHocTienQuyet,
+                        this  .DanhSachMaMonHocTienQuyet));
+
+            if (this.SoTinChiLyThuyet != null)
+                chain = Helper.AppendSetterProperty(chain,
+                    setter =>
+                    setter.SetProperty(
+                        entity =>
+                        entity.SoTinChiLyThuyet,
+                        this  .SoTinChiLyThuyet));
+
+            if (this.SoTinChiThucHanh != null)
+                chain = Helper.AppendSetterProperty(chain,
+                    setter =>
+                    setter.SetProperty(
+                        entity =>
+                        entity.SoTinChiThucHanh,
+                        this  .SoTinChiThucHanh));
+
+            if (this.TomTatMonHoc != null)
+                chain = Helper.AppendSetterProperty(chain,
+                    setter =>
+                    setter.SetProperty(
+                        entity =>
+                        entity.TomTatMonHoc,
+                        this  .TomTatMonHoc));
+
+            return chain;
+        }
+
         public override Expression<Func<MonHoc, bool>> MatchExpression()
         {
             return (model) =>

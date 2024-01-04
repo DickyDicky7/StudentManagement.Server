@@ -7,6 +7,49 @@
         public long  ? MaHocKyNamHoc     { get; set; }
         public long  ? MaSinhVien        { get; set; }
 
+        public override Expression<Func<
+            Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<KhenThuong>,
+            Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<KhenThuong>>> UpdateModel()
+        {
+            Expression<Func<
+                Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<KhenThuong>,
+                Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<KhenThuong>>> chain = setter => setter;
+
+            if (this.MaKhenThuong != null)
+                chain = Helper.AppendSetterProperty(chain,
+                    setter =>
+                    setter.SetProperty(
+                        entity =>
+                        entity.MaKhenThuong,
+                        this  .MaKhenThuong));
+
+            if (this.XepLoaiKhenThuong != null)
+                chain = Helper.AppendSetterProperty(chain,
+                    setter =>
+                    setter.SetProperty(
+                        entity =>
+                        entity.XepLoaiKhenThuong,
+                        this  .XepLoaiKhenThuong));
+
+            if (this.MaHocKyNamHoc != null)
+                chain = Helper.AppendSetterProperty(chain,
+                    setter =>
+                    setter.SetProperty(
+                        entity =>
+                        entity.MaHocKyNamHoc,
+                        this  .MaHocKyNamHoc));
+
+            if (this.MaSinhVien != null)
+                chain = Helper.AppendSetterProperty(chain,
+                    setter =>
+                    setter.SetProperty(
+                        entity =>
+                        entity.MaSinhVien,
+                        this  .MaSinhVien));
+
+            return chain;
+        }
+
         public override Expression<Func<KhenThuong, bool>> MatchExpression()
         {
             return (model) =>

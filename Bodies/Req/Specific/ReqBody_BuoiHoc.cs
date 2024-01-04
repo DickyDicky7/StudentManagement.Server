@@ -10,6 +10,73 @@
         public string? SoTuanHocCachNhau { get; set; }
         public string? MaPhongHoc        { get; set; }
 
+        public override Expression<Func<
+            Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<BuoiHoc>,
+            Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<BuoiHoc>>> UpdateModel()
+        {
+            Expression<Func<
+                Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<BuoiHoc>,
+                Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<BuoiHoc>>> chain = setter => setter;
+
+            if (this.MaBuoiHoc != null)
+                chain = Helper.AppendSetterProperty(chain,
+                    setter =>
+                    setter.SetProperty(
+                        entity =>
+                        entity.MaBuoiHoc,
+                        this  .MaBuoiHoc));
+
+            if (this.MaHocPhan != null)
+                chain = Helper.AppendSetterProperty(chain,
+                    setter =>
+                    setter.SetProperty(
+                        entity =>
+                        entity.MaHocPhan,
+                        this  .MaHocPhan));
+
+            if (this.ThuHoc != null)
+                chain = Helper.AppendSetterProperty(chain,
+                    setter =>
+                    setter.SetProperty(
+                        entity =>
+                        entity.ThuHoc,
+                        this  .ThuHoc));
+
+            if (this.CaHoc != null)
+                chain = Helper.AppendSetterProperty(chain,
+                    setter =>
+                    setter.SetProperty(
+                        entity =>
+                        entity.CaHoc,
+                        this  .CaHoc));
+
+            if (this.SoTietHoc != null)
+                chain = Helper.AppendSetterProperty(chain,
+                    setter =>
+                    setter.SetProperty(
+                        entity =>
+                        entity.SoTietHoc,
+                        this  .SoTietHoc));
+
+            if (this.SoTuanHocCachNhau != null)
+                chain = Helper.AppendSetterProperty(chain,
+                    setter =>
+                    setter.SetProperty(
+                        entity =>
+                        entity.SoTuanHocCachNhau,
+                        this  .SoTuanHocCachNhau));
+
+            if (this.MaPhongHoc != null)
+                chain = Helper.AppendSetterProperty(chain,
+                    setter =>
+                    setter.SetProperty(
+                        entity =>
+                        entity.MaPhongHoc,
+                        this  .MaPhongHoc));
+
+            return chain;
+        }
+
         public override Expression<Func<BuoiHoc, bool>> MatchExpression()
         {
             return (model) =>

@@ -13,6 +13,33 @@
             (TenGiangVien == null ||
              TenGiangVien == model.TenGiangVien);
         }
+
+        public override Expression<Func<
+            Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<GiangVien>,
+            Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<GiangVien>>> UpdateModel()
+        {
+            Expression<Func<
+            Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<GiangVien>,
+            Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<GiangVien>>> chain = setter => setter;
+
+            if (this.MaGiangVien != null)
+                chain = Helper.AppendSetterProperty(chain,
+                    setter =>
+                    setter.SetProperty(
+                        giangVien =>
+                        giangVien.MaGiangVien,
+                        this     .MaGiangVien));
+
+            if (this.TenGiangVien != null)
+                chain = Helper.AppendSetterProperty(chain,
+                    setter =>
+                    setter.SetProperty(
+                        giangVien =>
+                        giangVien.TenGiangVien,
+                        this     .TenGiangVien));
+
+            return chain;
+        }
     }
 
     public record class JustForInsertReqBody_GiangVien : ReqBody_GiangVien
