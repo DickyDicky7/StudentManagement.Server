@@ -50,12 +50,13 @@ namespace StudentManagement.Server
                 "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
             };
 
-            app.MapGet("/test", async ([FromServices] ApplicationDbContext context) =>
+            app.MapGet("/test", async ([FromServices] ApplicationDbContext context, [FromServices] IConfiguration configuration) =>
             {
-                foreach (var item in await context.MonHocThuocBoMons.ToListAsync())
-                {
-                    System.Diagnostics.Debug.WriteLine(item.BoMon.TenBoMon);
-                }
+                //foreach (var item in await context.MonHocThuocBoMons.ToListAsync())
+                //{
+                //    System.Diagnostics.Debug.WriteLine(item.BoMon.TenBoMon);
+                //}
+                System.Diagnostics.Debug.WriteLine(configuration["AllowedHosts"]);
             });
 
             app.MapGet("/add", async ([FromServices] ApplicationDbContext context) =>

@@ -5,16 +5,20 @@
         public static WebApplication MapAPI_SinhVien(this WebApplication app)
         {
             app
-                .MapPost(@"/sinh-vien/get-many", InternalMethods.SinhVien_GetMany)
+                .MapPost (@"/sinh-vien/get-many", InternalMethods.SinhVien_GetMany)
                 .WithTags(@"Get many, execution order: [filter by matching] body -> [skip] offset -> [take] limit");
 
             app
-                .MapPost(@"/sinh-vien/add-many", InternalMethods.SinhVien_AddMany)
+                .MapPost (@"/sinh-vien/add-many", InternalMethods.SinhVien_AddMany)
                 .WithTags(@"Add many, able to return just new records'id or new records | new records have id auto generated");
 
             app
+                .MapPut   (@"/sinh-vien/update-many", InternalMethods.SinhVien_UpdateMany)
+                .WithTags (@"Update many");
+
+            app
                 .MapDelete(@"/sinh-vien/remove-many", InternalMethods.SinhVien_RemoveMany)
-                .WithTags(@"Remove many");
+                .WithTags (@"Remove many");
 
             return app;
         }
@@ -22,9 +26,9 @@
         private static class InternalMethods
         {
             public static async Task<ResBody_GetMany<SinhVien>> SinhVien_GetMany(
-                [FromServices] ApplicationDbContext context,
+                [FromServices] ApplicationDbContext   context,
                 [FromQuery(Name = "offset")] int offset, [FromQuery(Name = "limit")] int limit,
-                [FromBody] ReqBody_GetMany<ReqBody_SinhVien, SinhVien> reqBody_GetMany)
+                [FromBody] ReqBody_GetMany<  ReqBody_SinhVien,  SinhVien> reqBody_GetMany)
             {
                 ResBody_GetMany<SinhVien> resBody_GetMany = new()
                 {
@@ -37,9 +41,9 @@
                 return resBody_GetMany;
             }
 
-            public static async Task<ResBody_AddMany<SinhVien>> SinhVien_AddMany(
+            public static async Task<ResBody_AddMany<           SinhVien>> SinhVien_AddMany(
                 [FromServices] ApplicationDbContext context,
-                [FromBody] ReqBody_AddMany<JustForInsertReqBody_SinhVien, SinhVien> reqBody_AddMany)
+                [FromBody] ReqBody_AddMany<JustForInsertReqBody_SinhVien,  SinhVien> reqBody_AddMany)
             {
                 ResBody_AddMany<SinhVien> resBody_AddMany = new();
                 IEnumerable    <SinhVien> sinhViens       = reqBody_AddMany
@@ -60,25 +64,39 @@
                 return resBody_AddMany;
             }
 
-            public static async Task<ResBody_RemoveMany<SinhVien>> SinhVien_RemoveMany(
+            public static async Task<ResBody_UpdateMany<SinhVien>> SinhVien_UpdateMany(
                 [FromServices] ApplicationDbContext context,
-                [FromBody] ReqBody_RemoveMany<ReqBody_SinhVien, SinhVien> reqBody_RemoveMany)
+                [FromBody] ReqBody_UpdateMany<  ReqBody_SinhVien,  SinhVien> reqBody_UpdateMany)
             {
-                ResBody_RemoveMany<SinhVien> resBody_RemoveMany = new();
-                IQueryable        <SinhVien> sinhViens          = context.SinhViens.Where(
-                reqBody_RemoveMany.FilterBy.MatchExpression());
-                if (reqBody_RemoveMany.ReturnJustIds)
+                ResBody_UpdateMany<SinhVien> resBody_UpdateMany = new();
+                resBody_UpdateMany.NumberOfRowsAffected = await context.SinhViens.Where(
+                reqBody_UpdateMany.FilterBy.MatchExpression()).ExecuteUpdateAsync(reqBody_UpdateMany.UpdateTo.UpdateModel());
+                if (reqBody_UpdateMany.ReturnJustIds)
                 {
-                    resBody_RemoveMany.ResultJustIds = sinhViens
-                    .Select(sinhVien => sinhVien.MaSinhVien);
+                    resBody_UpdateMany.ResultJustIds = new List<long    >();
                 }
                 else
                 {
-                    resBody_RemoveMany.Result        = sinhViens;
+                    resBody_UpdateMany.Result        = new List<SinhVien>();
                 }
-                context.SinhViens
-                       .RemoveRange(sinhViens);
-                resBody_RemoveMany.NumberOfRowsAffected = await context.SaveChangesAsync();
+                return resBody_UpdateMany;
+            }
+
+            public static async Task<ResBody_RemoveMany<SinhVien>> SinhVien_RemoveMany(
+                [FromServices] ApplicationDbContext context,
+                [FromBody] ReqBody_RemoveMany<  ReqBody_SinhVien,  SinhVien> reqBody_RemoveMany)
+            {
+                ResBody_RemoveMany<SinhVien> resBody_RemoveMany = new();
+                if (reqBody_RemoveMany.ReturnJustIds)
+                {
+                    resBody_RemoveMany.ResultJustIds = new List<long    >();
+                }
+                else
+                {
+                    resBody_RemoveMany.Result        = new List<SinhVien>();
+                }
+                resBody_RemoveMany.NumberOfRowsAffected = await context.SinhViens.Where(
+                reqBody_RemoveMany.FilterBy.MatchExpression()).ExecuteDeleteAsync();
                 return resBody_RemoveMany;
             }
 

@@ -5,16 +5,20 @@
         public static WebApplication MapAPI_MonHoc(this WebApplication app)
         {
             app
-                .MapPost(@"/mon-hoc/get-many", InternalMethods.MonHoc_GetMany)
+                .MapPost (@"/mon-hoc/get-many", InternalMethods.MonHoc_GetMany)
                 .WithTags(@"Get many, execution order: [filter by matching] body -> [skip] offset -> [take] limit");
 
             app
-                .MapPost(@"/mon-hoc/add-many", InternalMethods.MonHoc_AddMany)
+                .MapPost (@"/mon-hoc/add-many", InternalMethods.MonHoc_AddMany)
                 .WithTags(@"Add many, able to return just new records'id or new records | new records have id auto generated");
 
             app
+                .MapPut   (@"/mon-hoc/update-many", InternalMethods.MonHoc_UpdateMany)
+                .WithTags (@"Update many");
+
+            app
                 .MapDelete(@"/mon-hoc/remove-many", InternalMethods.MonHoc_RemoveMany)
-                .WithTags(@"Remove many");
+                .WithTags (@"Remove many");
 
             return app;
         }
@@ -24,7 +28,7 @@
             public static async Task<ResBody_GetMany<MonHoc>> MonHoc_GetMany(
                 [FromServices] ApplicationDbContext context,
                 [FromQuery(Name = "offset")] int offset, [FromQuery(Name = "limit")] int limit,
-                [FromBody] ReqBody_GetMany<ReqBody_MonHoc, MonHoc> reqBody_GetMany)
+                [FromBody] ReqBody_GetMany<  ReqBody_MonHoc,  MonHoc> reqBody_GetMany)
             {
                 ResBody_GetMany<MonHoc> resBody_GetMany = new()
                 {
@@ -37,9 +41,9 @@
                 return resBody_GetMany;
             }
 
-            public static async Task<ResBody_AddMany<MonHoc>> MonHoc_AddMany(
+            public static async Task<ResBody_AddMany<           MonHoc>> MonHoc_AddMany(
                 [FromServices] ApplicationDbContext context,
-                [FromBody] ReqBody_AddMany<JustForInsertReqBody_MonHoc, MonHoc> reqBody_AddMany)
+                [FromBody] ReqBody_AddMany<JustForInsertReqBody_MonHoc,  MonHoc> reqBody_AddMany)
             {
                 ResBody_AddMany<MonHoc> resBody_AddMany = new();
                 IEnumerable    <MonHoc> monHocs         = reqBody_AddMany
@@ -60,25 +64,39 @@
                 return resBody_AddMany;
             }
 
-            public static async Task<ResBody_RemoveMany<MonHoc>> MonHoc_RemoveMany(
-                [FromServices] ApplicationDbContext context,
-                [FromBody] ReqBody_RemoveMany<ReqBody_MonHoc, MonHoc> reqBody_RemoveMany)
+            public static async Task<ResBody_UpdateMany<MonHoc>> MonHoc_UpdateMany(
+                [FromServices] ApplicationDbContext    context,
+                [FromBody] ReqBody_UpdateMany<  ReqBody_MonHoc,  MonHoc> reqBody_UpdateMany)
             {
-                ResBody_RemoveMany<MonHoc> resBody_RemoveMany = new();
-                IQueryable        <MonHoc> monHocs            = context.MonHocs.Where(
-                reqBody_RemoveMany.FilterBy.MatchExpression());
-                if (reqBody_RemoveMany.ReturnJustIds)
+                ResBody_UpdateMany<MonHoc> resBody_UpdateMany = new();
+                resBody_UpdateMany.NumberOfRowsAffected = await context.MonHocs.Where(
+                reqBody_UpdateMany.FilterBy.MatchExpression()).ExecuteUpdateAsync(reqBody_UpdateMany.UpdateTo.UpdateModel());
+                if (reqBody_UpdateMany.ReturnJustIds)
                 {
-                    resBody_RemoveMany.ResultJustIds = monHocs
-                    .Select(monHoc => monHoc.MaMonHoc);
+                    resBody_UpdateMany.ResultJustIds = new List<long  >();
                 }
                 else
                 {
-                    resBody_RemoveMany.Result        = monHocs;
+                    resBody_UpdateMany.Result        = new List<MonHoc>();
                 }
-                context.MonHocs
-                       .RemoveRange(monHocs);
-                resBody_RemoveMany.NumberOfRowsAffected = await context.SaveChangesAsync();
+                return resBody_UpdateMany;
+            }
+
+            public static async Task<ResBody_RemoveMany<MonHoc>> MonHoc_RemoveMany(
+                [FromServices] ApplicationDbContext    context,
+                [FromBody] ReqBody_RemoveMany<  ReqBody_MonHoc,  MonHoc> reqBody_RemoveMany)
+            {
+                ResBody_RemoveMany<MonHoc> resBody_RemoveMany = new();
+                if (reqBody_RemoveMany.ReturnJustIds)
+                {
+                    resBody_RemoveMany.ResultJustIds = new List<long  >();
+                }
+                else
+                {
+                    resBody_RemoveMany.Result        = new List<MonHoc>();
+                }
+                resBody_RemoveMany.NumberOfRowsAffected = await context.MonHocs.Where(
+                reqBody_RemoveMany.FilterBy.MatchExpression()).ExecuteDeleteAsync();
                 return resBody_RemoveMany;
             }
 

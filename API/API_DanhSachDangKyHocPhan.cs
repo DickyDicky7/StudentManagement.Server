@@ -5,16 +5,20 @@
         public static WebApplication MapAPI_DanhSachDangKyHocPhan(this WebApplication app)
         {
             app
-                .MapPost(@"/danh-sach-dang-ky-hoc-phan/get-many", InternalMethods.DanhSachDangKyHocPhan_GetMany)
+                .MapPost (@"/danh-sach-dang-ky-hoc-phan/get-many", InternalMethods.DanhSachDangKyHocPhan_GetMany)
                 .WithTags(@"Get many, execution order: [filter by matching] body -> [skip] offset -> [take] limit");
 
             app
-                .MapPost(@"/danh-sach-dang-ky-hoc-phan/add-many", InternalMethods.DanhSachDangKyHocPhan_AddMany)
+                .MapPost (@"/danh-sach-dang-ky-hoc-phan/add-many", InternalMethods.DanhSachDangKyHocPhan_AddMany)
                 .WithTags(@"Add many");
 
             app
+                .MapPut   (@"/danh-sach-dang-ky-hoc-phan/update-many", InternalMethods.DanhSachDangKyHocPhan_UpdateMany)
+                .WithTags (@"Update many");
+
+            app
                 .MapDelete(@"/danh-sach-dang-ky-hoc-phan/remove-many", InternalMethods.DanhSachDangKyHocPhan_RemoveMany)
-                .WithTags(@"Remove many");
+                .WithTags (@"Remove many");
 
             return app;
         }
@@ -24,7 +28,7 @@
             public static async Task<ResBody_GetMany<DanhSachDangKyHocPhan>> DanhSachDangKyHocPhan_GetMany(
                 [FromServices] ApplicationDbContext context,
                 [FromQuery(Name = "offset")] int offset, [FromQuery(Name = "limit")] int limit,
-                [FromBody] ReqBody_GetMany<ReqBody_DanhSachDangKyHocPhan, DanhSachDangKyHocPhan> reqBody_GetMany)
+                [FromBody] ReqBody_GetMany<  ReqBody_DanhSachDangKyHocPhan,  DanhSachDangKyHocPhan> reqBody_GetMany)
             {
                 ResBody_GetMany<DanhSachDangKyHocPhan> resBody_GetMany = new()
                 {
@@ -39,7 +43,7 @@
                 return resBody_GetMany;
             }
 
-            public static async Task<ResBody_AddMany<DanhSachDangKyHocPhan>> DanhSachDangKyHocPhan_AddMany(
+            public static async Task<ResBody_AddMany<           DanhSachDangKyHocPhan>>DanhSachDangKyHocPhan_AddMany(
                 [FromServices] ApplicationDbContext context,
                 [FromBody] ReqBody_AddMany<JustForInsertReqBody_DanhSachDangKyHocPhan, DanhSachDangKyHocPhan> reqBody_AddMany)
             {
@@ -62,25 +66,39 @@
                 return resBody_AddMany;
             }
 
-            public static async Task<ResBody_RemoveMany<DanhSachDangKyHocPhan>> DanhSachDangKyHocPhan_RemoveMany(
+            public static async Task<ResBody_UpdateMany<DanhSachDangKyHocPhan>> DanhSachDangKyHocPhan_UpdateMany(
                 [FromServices] ApplicationDbContext context,
-                [FromBody] ReqBody_RemoveMany<ReqBody_DanhSachDangKyHocPhan, DanhSachDangKyHocPhan> reqBody_RemoveMany)
+                [FromBody] ReqBody_UpdateMany<  ReqBody_DanhSachDangKyHocPhan,  DanhSachDangKyHocPhan> reqBody_UpdateMany)
             {
-                ResBody_RemoveMany<DanhSachDangKyHocPhan> resBody_RemoveMany     = new();
-                IQueryable        <DanhSachDangKyHocPhan> danhSachDangKyHocPhans = context.DanhSachDangKyHocPhans.Where(
-                reqBody_RemoveMany.FilterBy.MatchExpression());
-                if (reqBody_RemoveMany.ReturnJustIds)
+                ResBody_UpdateMany<DanhSachDangKyHocPhan> resBody_UpdateMany = new();
+                resBody_UpdateMany.NumberOfRowsAffected = await context.DanhSachDangKyHocPhans.Where(
+                reqBody_UpdateMany.FilterBy.MatchExpression()).ExecuteUpdateAsync(reqBody_UpdateMany.UpdateTo.UpdateModel());
+                if (reqBody_UpdateMany.ReturnJustIds)
                 {
-                    //resBody_RemoveMany.ResultJustIds = danhSachDangKyHocPhans
-                    //.Select(danhSachDangKyHocPhan => danhSachDangKyHocPhan.MaDanhSachDangKyHocPhan);
+                    resBody_UpdateMany.ResultJustIds = new List<long                 >();
                 }
                 else
                 {
-                    resBody_RemoveMany.Result        = danhSachDangKyHocPhans;
+                    resBody_UpdateMany.Result        = new List<DanhSachDangKyHocPhan>();
                 }
-                context.DanhSachDangKyHocPhans
-                       .RemoveRange(danhSachDangKyHocPhans);
-                resBody_RemoveMany.NumberOfRowsAffected = await context.SaveChangesAsync();
+                return resBody_UpdateMany;
+            }
+
+            public static async Task<ResBody_RemoveMany<DanhSachDangKyHocPhan>> DanhSachDangKyHocPhan_RemoveMany(
+                [FromServices] ApplicationDbContext context,
+                [FromBody] ReqBody_RemoveMany<  ReqBody_DanhSachDangKyHocPhan,  DanhSachDangKyHocPhan> reqBody_RemoveMany)
+            {
+                ResBody_RemoveMany<DanhSachDangKyHocPhan> resBody_RemoveMany = new();
+                if (reqBody_RemoveMany.ReturnJustIds)
+                {
+                    resBody_RemoveMany.ResultJustIds = new List<long                 >();
+                }
+                else
+                {
+                    resBody_RemoveMany.Result        = new List<DanhSachDangKyHocPhan>();
+                }
+                resBody_RemoveMany.NumberOfRowsAffected = await context.DanhSachDangKyHocPhans.Where(
+                reqBody_RemoveMany.FilterBy.MatchExpression()).ExecuteDeleteAsync();
                 return resBody_RemoveMany;
             }
 
