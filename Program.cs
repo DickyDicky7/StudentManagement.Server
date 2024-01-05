@@ -28,6 +28,12 @@
 
             var app = builder.Build();
 
+            app.UseCors(policy =>
+            {
+                policy.AllowAnyOrigin();
+                policy.AllowCredentials();
+            });
+
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
             {
