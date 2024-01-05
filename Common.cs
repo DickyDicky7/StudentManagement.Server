@@ -9,11 +9,24 @@ global using StudentManagement.Server.Database;
 global using Swashbuckle.AspNetCore.Annotations;
 global using System.Linq.Expressions;
 global using System.Reflection;
+global using System.Text.Json.Serialization;
 
 namespace StudentManagement.Server
 {
     public static class Common
     {
-
+        public record class BacDiem
+        {
+            [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+            public bool   ? Dat            { get; set; }
+            [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+            public string ? XepLoai        { get; set; }
+            [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+            public decimal? LonHonHoacBang { get; set; }
+            [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+            public decimal? NhoHon         { get; set; }
+            [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+            public decimal? NhoHonHoacBang { get; set; }
+        }
     }
 }

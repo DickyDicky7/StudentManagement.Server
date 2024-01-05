@@ -5,17 +5,34 @@
         public static WebApplication MapAPI_Helper(this WebApplication app)
         {
             app
-                .MapGet("/tinh-trang-hoc-tap/get-all", () =>
+                .MapGet(@"/tinh-trang-hoc-tap/get-all", () =>
                 {
                     return new ResBody_Helper<List<string>>()
                     {
-                        Result = new()
-                        {
-                            "đang học",
-                            "thôi học", "tốt nghiệp", "bảo lưu kết quả", "đình chỉ học", },
+                        Result = SinhVien.LoaiTinhTrangHocTap,
                     };
                 })
-                .WithTags("Helper");
+                .WithTags(@"Helper");
+
+            app
+                .MapGet(@"/thang-diem-hoc-tap/get-all", () =>
+                {
+                    return new ResBody_Helper<List<Common.BacDiem>>()
+                    {
+                        Result = KetQuaHocTap.ThangDiemHocTap,
+                    };
+                })
+                .WithTags(@"Helper");
+
+            app
+                .MapGet(@"/thang-diem-ren-luyen/get-all", () =>
+                {
+                    return new ResBody_Helper<List<Common.BacDiem>>()
+                    {
+                        Result = KetQuaRenLuyen.ThangDiemRenLuyen,
+                    };
+                })
+                .WithTags(@"Helper");
 
             return app;
         }
