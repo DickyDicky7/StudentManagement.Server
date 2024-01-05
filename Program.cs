@@ -25,9 +25,9 @@
             });
 
             builder.Services.AddDbContext<ApplicationDbContext>();
-            builder.Services.AddControllers().AddJsonOptions(options =>
+            builder.Services.Configure<Microsoft.AspNetCore.Http.Json.JsonOptions>(options =>
             {
-                options.JsonSerializerOptions.Converters.Add(new DateOnlyJsonConverter());
+                options.SerializerOptions.Converters.Add(new DateOnlyJsonConverter());
             });
 
             var app = builder.Build();
