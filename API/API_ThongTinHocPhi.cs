@@ -20,6 +20,10 @@
                 .MapDelete(@"/thong-tin-hoc-phi/remove-many", InternalMethods.ThongTinHocPhi_RemoveMany)
                 .WithTags (@"Remove many");
 
+            app
+                .MapPut  (@"/thong-tin-hoc-phi/dong-hoc-phi", InternalMethods.ThongTinHocPhi_DongHocPhi)
+                .WithTags(@"Đóng học phí");
+
             return app;
         }
 
@@ -98,6 +102,33 @@
                 resBody_RemoveMany.NumberOfRowsAffected = await context.ThongTinHocPhis.Where(
                 reqBody_RemoveMany.FilterBy.MatchExpression()).ExecuteDeleteAsync();
                 return resBody_RemoveMany;
+            }
+
+            public static async Task<IResult> ThongTinHocPhi_DongHocPhi(
+                [FromServices] ApplicationDbContext    context,
+                [FromQuery(Name = "ma-thong-tin-hoc-phi")] long maThongTinHocPhi,
+                [FromQuery(Name = "so-tien")] decimal soTien)
+            {
+                ThongTinHocPhi thongTinHocPhi = (await context.
+                ThongTinHocPhis.FindAsync(maThongTinHocPhi))!;
+                if (thongTinHocPhi != null)
+                {
+                    thongTinHocPhi.DongHocPhi(soTien);
+                    context.ThongTinHocPhis.Update(thongTinHocPhi);
+                    await
+                    context.SaveChangesAsync();
+                    return Results.Ok(new ResBody_Helper<ThongTinHocPhi>()
+                    {
+                        Result = thongTinHocPhi,
+                    });
+                }
+                else
+                {
+                    return Results.NotFound(new ResBody_Helper<string>()
+                    {
+                        Result = "invalid ma-thong-tin-hoc-phi: ma-thong-tin-hoc-phi not found",
+                    });
+                }
             }
 
         }
