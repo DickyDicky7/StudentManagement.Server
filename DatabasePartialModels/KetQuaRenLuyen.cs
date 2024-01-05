@@ -5,14 +5,14 @@
         public Common.BacDiem? TinhBacDiemRenLuyen()
         {
             return KetQuaRenLuyen
-            .ThangDiemRenLuyen.FirstOrDefault(bacDiem =>
+            .ThangDiemDanhGiaKetQuaRenLuyen.FirstOrDefault(bacDiem =>
               (bacDiem.LonHonHoacBang != null && this.SoDiemRenLuyen >= bacDiem.LonHonHoacBang) &&
             ( (bacDiem.NhoHon         != null && this.SoDiemRenLuyen <  bacDiem.NhoHon        ) ||
               (bacDiem.NhoHonHoacBang != null && this.SoDiemRenLuyen <= bacDiem.NhoHonHoacBang)));
         }
 
         [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
-        public static List<Common.BacDiem> ThangDiemRenLuyen { get; } = new()
+        public static List<Common.BacDiem> ThangDiemDanhGiaKetQuaRenLuyen { get; } = new()
         {
             new()
             {

@@ -20,6 +20,10 @@
                 .MapDelete(@"/sinh-vien/remove-many", InternalMethods.SinhVien_RemoveMany)
                 .WithTags (@"Remove many");
 
+            app
+                .MapGet  (@"/sinh-vien/get-danh-sach-loai-tinh-trang-hoc-tap", InternalMethods.SinhVien_GetDanhSachLoaiTinhTrangHocTap)
+                .WithTags(@"Danh sách loại tình trạng học tập");
+
             return app;
         }
 
@@ -100,6 +104,16 @@
                 return resBody_RemoveMany;
             }
 
+            public static async Task<IResult> SinhVien_GetDanhSachLoaiTinhTrangHocTap(
+                )
+            {
+                await
+                Task.CompletedTask;
+                return Results.Ok(new ResBody_Helper<List<string>>()
+                {
+                    Result = SinhVien.LoaiTinhTrangHocTaps,
+                });
+            }
         }
     }
 }

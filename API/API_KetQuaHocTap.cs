@@ -20,6 +20,10 @@
                 .MapDelete(@"/ket-qua-hoc-tap/remove-many", InternalMethods.KetQuaHocTap_RemoveMany)
                 .WithTags (@"Remove many");
 
+            app
+                .MapGet  (@"/ket-qua-hoc-tap/get-thang-diem-danh-gia-ket-qua-hoc-tap", InternalMethods.KetQuaHocTap_GetThangDiemDanhGiaKetQuaHocTap)
+                .WithTags(@"Thang điểm đánh giá kết quả học tập");
+
             return app;
         }
 
@@ -100,6 +104,16 @@
                 return resBody_RemoveMany;
             }
 
+            public static async Task<IResult> KetQuaHocTap_GetThangDiemDanhGiaKetQuaHocTap(
+                )
+            {
+                await
+                Task.CompletedTask;
+                return Results.Ok(new ResBody_Helper<List<Common.BacDiem>>()
+                {
+                    Result = KetQuaHocTap.ThangDiemDanhGiaKetQuaHocTap,
+                });
+            }
         }
     }
 }
