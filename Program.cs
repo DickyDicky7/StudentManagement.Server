@@ -86,7 +86,7 @@
 
             public override void Write(Utf8JsonWriter writer, DateOnly value, JsonSerializerOptions options)
             {
-                string isoDate = value.ToString("O");
+                string isoDate = value.ToString("dd-MM-yyyy");
                 writer.WriteStringValue(isoDate);
             }
         }
