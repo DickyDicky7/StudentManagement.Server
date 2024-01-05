@@ -37,7 +37,7 @@ namespace StudentManagement.Server.API
 						imageUrls.Add(await cloudinaryService.UploadImage(file));
 					}
 					return Results.Ok(new
-					{
+    {
 						ImageUrls = imageUrls
 					});
 				}
@@ -68,5 +68,5 @@ namespace StudentManagement.Server.API
 			//	}
 			//}
 		}
-	}
+    }
 }
