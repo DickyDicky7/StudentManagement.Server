@@ -9,6 +9,8 @@ global using StudentManagement.Server.Database;
 global using Swashbuckle.AspNetCore.Annotations;
 global using System.Linq.Expressions;
 global using System.Reflection;
+global using System.Text.Json;
+global using System.Text.Json.Serialization;
 
 namespace StudentManagement.Server
 {

@@ -25,6 +25,10 @@
             });
 
             builder.Services.AddDbContext<ApplicationDbContext>();
+            builder.Services.Configure<Microsoft.AspNetCore.Http.Json.JsonOptions>(options =>
+            {
+                options.SerializerOptions.Converters.Add(new DateOnlyJsonConverter());
+            });
 
             var app = builder.Build();
 
@@ -71,6 +75,20 @@
             app.MapAPI_ThongTinHocPhi();
 
             app.Run();
+        }
+
+        public sealed class DateOnlyJsonConverter : JsonConverter<DateOnly>
+        {
+            public override DateOnly Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+            {
+                return DateOnly.FromDateTime(reader.GetDateTime());
+            }
+
+            public override void Write(Utf8JsonWriter writer, DateOnly value, JsonSerializerOptions options)
+            {
+                string isoDate = value.ToString("O");
+                writer.WriteStringValue(isoDate);
+            }
         }
     }
 }
