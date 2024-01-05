@@ -44,6 +44,7 @@
 
             app.UseAuthorization();
 
+            app.MapAPI_Helper();
             app.MapAPI_BangDiemHocPhan();
             app.MapAPI_BoMon();
             app.MapAPI_BuoiHoc();
