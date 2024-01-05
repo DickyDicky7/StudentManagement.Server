@@ -26,13 +26,16 @@
 
             builder.Services.AddDbContext<ApplicationDbContext>();
 
-            var app = builder.Build();
-
-            app.UseCors(policy =>
+            builder.Services.AddCors(options =>
             {
-                policy.AllowAnyOrigin();
-                policy.AllowCredentials();
+                options.AddDefaultPolicy
+                (policy =>
+                {
+                    policy.AllowAnyOrigin().AllowCredentials();
+                });
             });
+
+            var app = builder.Build();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
@@ -47,6 +50,8 @@
             }
 
             app.UseHttpsRedirection();
+
+            app.UseCors();
 
             app.UseAuthorization();
 
