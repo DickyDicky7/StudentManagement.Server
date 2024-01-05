@@ -45,9 +45,9 @@
                 [FromServices] ApplicationDbContext context,
                 [FromBody] ReqBody_AddMany<JustForInsertReqBody_MonHocThuocBoMon,  MonHocThuocBoMon> reqBody_AddMany)
             {
-                ResBody_AddMany<MonHocThuocBoMon> resBody_AddMany   = new();
-                IEnumerable    <MonHocThuocBoMon> monHocThuocBoMons = reqBody_AddMany
-                .ItemsToAdd.Select(itemToAdd => itemToAdd.ToModel());
+                ResBody_AddMany<MonHocThuocBoMon> resBody_AddMany   = new  ();
+                List           <MonHocThuocBoMon> monHocThuocBoMons = reqBody_AddMany
+                .ItemsToAdd.Select(itemToAdd => itemToAdd.ToModel()).ToList();
                 await   context.MonHocThuocBoMons.AddRangeAsync(monHocThuocBoMons);
                 resBody_AddMany.NumberOfRowsAffected = await context.SaveChangesAsync();
                 if (reqBody_AddMany.ReturnJustIds)

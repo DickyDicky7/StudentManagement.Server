@@ -46,8 +46,8 @@
                 [FromBody] ReqBody_AddMany<JustForInsertReqBody_KetQuaRenLuyen,  KetQuaRenLuyen> reqBody_AddMany)
             {
                 ResBody_AddMany<KetQuaRenLuyen> resBody_AddMany = new();
-                IEnumerable    <KetQuaRenLuyen> ketQuaRenLuyens = reqBody_AddMany
-                .ItemsToAdd.Select(itemToAdd => itemToAdd.ToModel());
+                List           <KetQuaRenLuyen> ketQuaRenLuyens = reqBody_AddMany
+                .ItemsToAdd.Select(itemToAdd => itemToAdd.ToModel()).ToList ();
                 await   context.KetQuaRenLuyens.AddRangeAsync(ketQuaRenLuyens);
                 resBody_AddMany.NumberOfRowsAffected = await context.SaveChangesAsync();
                 if (reqBody_AddMany.ReturnJustIds)

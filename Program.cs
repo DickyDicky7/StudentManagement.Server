@@ -1,9 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using StudentManagement.Server.API;
-using StudentManagement.Server.Database;
-
-namespace StudentManagement.Server
+﻿namespace StudentManagement.Server
 {
     public class Program
     {
@@ -38,65 +33,16 @@ namespace StudentManagement.Server
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI();
+                app.UseSwaggerUI(options =>
+                {
+                    options.DefaultModelRendering(Swashbuckle.AspNetCore.SwaggerUI.ModelRendering.Model);
+                    options.DefaultModelExpandDepth(3);
+                });
             }
 
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
-
-            var summaries = new[]
-            {
-                "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-            };
-
-            app.MapGet("/test", async ([FromServices] ApplicationDbContext context, [FromServices] IConfiguration configuration) =>
-            {
-                //foreach (var item in await context.MonHocThuocBoMons.ToListAsync())
-                //{
-                //    System.Diagnostics.Debug.WriteLine(item.BoMon.TenBoMon);
-                //}
-                System.Diagnostics.Debug.WriteLine(configuration["AllowedHosts"]);
-            });
-
-            app.MapGet("/add", async ([FromServices] ApplicationDbContext context) =>
-            {
-                await context.AddAsync<MonHocThuocBoMon>(new()
-                {
-                    MaBoMon = 2,
-                    TenMonHoc = "Đại Số Tuyến Tính",
-                    ConMoLop = true,
-                    LoaiMonHoc = "Đại Trà",
-                    DanhSachMaMonHocTienQuyet = Array.Empty<string>(),
-                    SoTinChiLyThuyet = 4,
-                    SoTinChiThucHanh = 0,
-                    TomTatMonHoc = "Mon học rất bổ ích"
-                });
-
-                await context.SaveChangesAsync();
-            });
-
-            app.MapGet("/thong-tin-hoc-ky-nam-hoc", async ([FromServices] ApplicationDbContext context) =>
-            {
-                return await context.ThongTinHocKyNamHocs.FirstAsync(thongTinHocKyNamHoc => true);
-            });
-
-            app.MapGet("/weatherforecast", (HttpContext httpContext) =>
-            {
-                var forecast = Enumerable.Range(1, 5).Select(index =>
-                    new WeatherForecast
-                    {
-                        Date = DateTime.Now.AddDays(index),
-                        TemperatureC = Random.Shared.Next(-20, 55),
-                        Summary = summaries[Random.Shared.Next(summaries.Length)]
-                    })
-                    .ToArray();
-                return forecast;
-            })
-            .WithName("GetWeatherForecast");
-
-
-
 
             app.MapAPI_BangDiemHocPhan();
             app.MapAPI_BoMon();

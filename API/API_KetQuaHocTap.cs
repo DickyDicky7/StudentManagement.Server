@@ -46,8 +46,8 @@
                 [FromBody] ReqBody_AddMany<JustForInsertReqBody_KetQuaHocTap,  KetQuaHocTap> reqBody_AddMany)
             {
                 ResBody_AddMany<KetQuaHocTap> resBody_AddMany = new();
-                IEnumerable    <KetQuaHocTap> ketQuaHocTaps   = reqBody_AddMany
-                .ItemsToAdd.Select(itemToAdd => itemToAdd.ToModel());
+                List           <KetQuaHocTap> ketQuaHocTaps   = reqBody_AddMany
+                .ItemsToAdd.Select(itemToAdd => itemToAdd.ToModel()).ToList();
                 await   context.KetQuaHocTaps.AddRangeAsync(ketQuaHocTaps);
                 resBody_AddMany.NumberOfRowsAffected = await context.SaveChangesAsync();
                 if (reqBody_AddMany.ReturnJustIds)

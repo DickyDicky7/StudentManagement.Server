@@ -34,7 +34,7 @@
             {
                 model.GetType()
                      .GetProperty(propertyInfo.Name)!
-                     .SetValue(model, propertyInfo.GetValue(this));
+                .SetValue(model , propertyInfo.GetValue(this));
             }
             return model;
         }

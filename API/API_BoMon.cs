@@ -46,8 +46,8 @@
                 [FromBody] ReqBody_AddMany<JustForInsertReqBody_BoMon,  BoMon> reqBody_AddMany)
             {
                 ResBody_AddMany<BoMon> resBody_AddMany = new();
-                IEnumerable    <BoMon> boMons          = reqBody_AddMany
-                .ItemsToAdd.Select(itemToAdd => itemToAdd.ToModel());
+                List           <BoMon> boMons          = reqBody_AddMany
+                .ItemsToAdd.Select(itemToAdd => itemToAdd.ToModel()).ToList();
                 await   context.BoMons.AddRangeAsync(boMons);
                 resBody_AddMany.NumberOfRowsAffected = await context.SaveChangesAsync();
                 if (reqBody_AddMany.ReturnJustIds)

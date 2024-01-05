@@ -46,8 +46,8 @@
                 [FromBody] ReqBody_AddMany<JustForInsertReqBody_ChuyenNganh,  ChuyenNganh> reqBody_AddMany)
             {
                 ResBody_AddMany<ChuyenNganh> resBody_AddMany = new();
-                IEnumerable    <ChuyenNganh> chuyenNganhs    = reqBody_AddMany
-                .ItemsToAdd.Select(itemToAdd => itemToAdd.ToModel());
+                List           <ChuyenNganh> chuyenNganhs    = reqBody_AddMany
+                .ItemsToAdd.Select(itemToAdd => itemToAdd.ToModel()).ToList();
                 await   context.ChuyenNganhs.AddRangeAsync(chuyenNganhs);
                 resBody_AddMany.NumberOfRowsAffected = await context.SaveChangesAsync();
                 if (reqBody_AddMany.ReturnJustIds)

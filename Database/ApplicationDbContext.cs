@@ -72,7 +72,7 @@ public partial class ApplicationDbContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder
-        .UseLazyLoadingProxies()
+        .UseLazyLoadingProxies(useLazyLoadingProxies: false)
         .UseNpgsql($@"Server=ep-polished-meadow-59893880.ap-southeast-1.aws.neon.tech;Port=5432;User Id=tuan.pham1973;Password=C3IARrfNS7no;Database=student_management;{/*"Include Error Detail=true;"*/string.Empty}");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

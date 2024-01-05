@@ -46,8 +46,8 @@
                 [FromBody] ReqBody_AddMany<JustForInsertReqBody_HeDaoTao,  HeDaoTao> reqBody_AddMany)
             {
                 ResBody_AddMany<HeDaoTao> resBody_AddMany = new();
-                IEnumerable    <HeDaoTao> heDaoTaos       = reqBody_AddMany
-                .ItemsToAdd.Select(itemToAdd => itemToAdd.ToModel());
+                List           <HeDaoTao> heDaoTaos       = reqBody_AddMany
+                .ItemsToAdd.Select(itemToAdd => itemToAdd.ToModel()).ToList();
                 await   context.HeDaoTaos.AddRangeAsync(heDaoTaos);
                 resBody_AddMany.NumberOfRowsAffected = await context.SaveChangesAsync();
                 if (reqBody_AddMany.ReturnJustIds)

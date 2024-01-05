@@ -48,8 +48,8 @@
                 [FromBody] ReqBody_AddMany<JustForInsertReqBody_BuoiHoc,  BuoiHoc> reqBody_AddMany)
             {
                 ResBody_AddMany<BuoiHoc> resBody_AddMany = new();
-                IEnumerable    <BuoiHoc> buoiHocs        = reqBody_AddMany
-                .ItemsToAdd.Select(itemToAdd => itemToAdd.ToModel());
+                List           <BuoiHoc> buoiHocs        = reqBody_AddMany
+                .ItemsToAdd.Select(itemToAdd => itemToAdd.ToModel()).ToList();
                 await   context.BuoiHocs.AddRangeAsync(buoiHocs);
                 resBody_AddMany.NumberOfRowsAffected = await context.SaveChangesAsync();
                 if (reqBody_AddMany.ReturnJustIds)
