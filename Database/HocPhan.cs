@@ -32,10 +32,10 @@ public partial class HocPhan
     public short SiSoSinhVien { get; set; }
 
     [Column("thoi_diem_bat_dau")]
-    public DateOnly ThoiDiemBatDau { get; set; }
+    public DateTime ThoiDiemBatDau { get; set; }
 
     [Column("thoi_diem_ket_thuc")]
-    public DateOnly ThoiDiemKetThuc { get; set; }
+    public DateTime ThoiDiemKetThuc { get; set; }
 
     [Column("ma_hoc_ky_nam_hoc")]
     public long MaHocKyNamHoc { get; set; }

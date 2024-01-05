@@ -9,8 +9,8 @@
         public string  ? LoaiHocPhan     { get; set; }
         public long    ? MaGiangVien     { get; set; }
         public short   ? SiSoSinhVien    { get; set; }
-        public DateOnly? ThoiDiemBatDau  { get; set; }
-        public DateOnly? ThoiDiemKetThuc { get; set; }
+        public DateTime? ThoiDiemBatDau  { get; set; }
+        public DateTime? ThoiDiemKetThuc { get; set; }
         public long    ? MaHocKyNamHoc   { get; set; }
         public string  ? GhiChu          { get; set; }
 

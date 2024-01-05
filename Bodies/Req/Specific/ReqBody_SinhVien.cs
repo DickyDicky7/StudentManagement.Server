@@ -8,7 +8,7 @@
         public long    ? MaChuyenNganh              { get; set; }
         public long    ? MaHeDaoTao                 { get; set; }
         public string  ? TinhTrangHocTap            { get; set; }
-        public DateOnly? NgaySinh                   { get; set; }
+        public DateTime? NgaySinh                   { get; set; }
         public string  ? GioiTinh                   { get; set; }
         public string  ? Email                      { get; set; }
         public string  ? EmailPassword              { get; set; }

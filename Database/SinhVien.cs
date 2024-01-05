@@ -31,7 +31,7 @@ public partial class SinhVien
     public string TinhTrangHocTap { get; set; } = null!;
 
     [Column("ngay_sinh")]
-    public DateOnly NgaySinh { get; set; }
+    public DateTime NgaySinh { get; set; }
 
     [Column("gioi_tinh")]
     public string GioiTinh { get; set; } = null!;

@@ -4,7 +4,7 @@
     {
         public long    ? MaBuoiThi  { get; set; }
         public long    ? MaHocPhan  { get; set; }
-        public DateOnly? NgayThi    { get; set; }
+        public DateTime? NgayThi    { get; set; }
         public string  ? MaPhongThi { get; set; }
         public string  ? ThuThi     { get; set; }
         public string  ? CaThi      { get; set; }

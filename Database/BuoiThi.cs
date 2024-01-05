@@ -17,7 +17,7 @@ public partial class BuoiThi
     public long MaHocPhan { get; set; }
 
     [Column("ngay_thi")]
-    public DateOnly NgayThi { get; set; }
+    public DateTime NgayThi { get; set; }
 
     [Column("ma_phong_thi")]
     public string MaPhongThi { get; set; } = null!;
