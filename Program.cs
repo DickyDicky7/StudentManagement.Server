@@ -31,7 +31,11 @@
                 options.AddDefaultPolicy
                 (policy =>
                 {
-                    policy.SetIsOriginAllowed(origin => origin == "http://localhost:3000").AllowCredentials();
+                    policy.SetIsOriginAllowed(origin =>
+                    origin == "http://localhost:3000").
+                    AllowCredentials().
+                    AllowAnyHeader().
+                    AllowAnyMethod();
                 });
             });
 
