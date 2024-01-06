@@ -54,6 +54,9 @@ public partial class SinhVien
     [Column("anh_the_sinh_vien")]
     public string   AnhTheSinhVien             { get; set; } = null!;
 
+    [Column("ngay_nhap_hoc")]
+    public DateTime NgayNhapHoc                { get; set; }
+
     [InverseProperty("SinhVien")]
     public virtual ICollection<BangDiemHocPhan> BangDiemHocPhans { get; set; } = new List<BangDiemHocPhan>();
 

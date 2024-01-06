@@ -16,6 +16,7 @@
         public string  ? UsernamePassword           { get; set; }
         public string  ? SoTaiKhoanNganHangDinhDanh { get; set; }
         public string  ? AnhTheSinhVien             { get; set; }
+        public DateTime? NgayNhapHoc                { get; set; }
 
         public override Expression<Func<
             Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<SinhVien>,
@@ -137,6 +138,14 @@
                         entity.AnhTheSinhVien,
                         this  .AnhTheSinhVien));
 
+            if (this.NgayNhapHoc != null)
+                chain = Helper.AppendSetterProperty(chain,
+                    setter =>
+                    setter.SetProperty(
+                        entity =>
+                        entity.NgayNhapHoc,
+                        this  .NgayNhapHoc));
+
             return chain;
         }
 
@@ -170,7 +179,9 @@
             (SoTaiKhoanNganHangDinhDanh == null ||
              SoTaiKhoanNganHangDinhDanh == model.SoTaiKhoanNganHangDinhDanh) &&
             (AnhTheSinhVien             == null ||
-             AnhTheSinhVien             == model.AnhTheSinhVien);
+             AnhTheSinhVien             == model.AnhTheSinhVien)             &&
+            (NgayNhapHoc                == null ||
+             NgayNhapHoc                == model.NgayNhapHoc);
         }
     }
 
