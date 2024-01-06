@@ -11,13 +11,13 @@ public partial class HeDaoTao
 {
     [Key]
     [Column("ma_he_dao_tao")]
-    public long MaHeDaoTao { get; set; }
+    public long    MaHeDaoTao { get; set; }
 
     [Column("ten_he_dao_tao")]
     public string TenHeDaoTao { get; set; } = null!;
 
     [InverseProperty("HeDaoTao")]
-    public virtual ICollection<HocPhan> HocPhans { get; set; } = new List<HocPhan>();
+    public virtual ICollection<HocPhan > HocPhans  { get; set; } = new List<HocPhan >();
 
     [InverseProperty("HeDaoTao")]
     public virtual ICollection<SinhVien> SinhViens { get; set; } = new List<SinhVien>();

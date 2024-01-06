@@ -10,7 +10,7 @@ namespace StudentManagement.Server.Database;
 public partial class GiangVienThuocKhoaDaoTao : GiangVien
 {
     [Column("ma_khoa_dao_tao")]
-    public long MaKhoaDaoTao { get; set; }
+    public long  MaKhoaDaoTao { get; set; }
 
     [ForeignKey("MaKhoaDaoTao")]
     [InverseProperty("GiangVienThuocKhoaDaoTaos")]

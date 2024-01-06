@@ -10,7 +10,7 @@ namespace StudentManagement.Server.Database;
 public partial class MonHocThuocBoMon : MonHoc
 {
     [Column("ma_bo_mon")]
-    public long MaBoMon { get; set; }
+    public long  MaBoMon { get; set; }
 
     [ForeignKey("MaBoMon")]
     [InverseProperty("MonHocThuocBoMons")]

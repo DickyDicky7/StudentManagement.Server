@@ -11,40 +11,40 @@ public partial class HocPhan
 {
     [Key]
     [Column("ma_hoc_phan")]
-    public long MaHocPhan { get; set; }
+    public long     MaHocPhan       { get; set; }
 
     [Column("ma_mon_hoc")]
-    public long MaMonHoc { get; set; }
+    public long     MaMonHoc        { get; set; }
 
     [Column("ma_he_dao_tao")]
-    public long MaHeDaoTao { get; set; }
+    public long     MaHeDaoTao      { get; set; }
 
     [Column("hinh_thuc_thi")]
-    public string HinhThucThi { get; set; } = null!;
+    public string   HinhThucThi     { get; set; } = null!;
 
     [Column("loai_hoc_phan")]
-    public string LoaiHocPhan { get; set; } = null!;
+    public string   LoaiHocPhan     { get; set; } = null!;
 
     [Column("ma_giang_vien")]
-    public long MaGiangVien { get; set; }
+    public long     MaGiangVien     { get; set; }
 
     [Column("si_so_sinh_vien")]
-    public short SiSoSinhVien { get; set; }
+    public short    SiSoSinhVien    { get; set; }
 
     [Column("thoi_diem_bat_dau")]
-    public DateTime ThoiDiemBatDau { get; set; }
+    public DateTime ThoiDiemBatDau  { get; set; }
 
     [Column("thoi_diem_ket_thuc")]
     public DateTime ThoiDiemKetThuc { get; set; }
 
     [Column("ma_hoc_ky_nam_hoc")]
-    public long MaHocKyNamHoc { get; set; }
+    public long     MaHocKyNamHoc   { get; set; }
 
     [Column("ghi_chu")]
-    public string GhiChu { get; set; } = null!;
+    public string   GhiChu          { get; set; } = null!;
 
     [InverseProperty("HocPhan")]
-    public virtual ICollection<BangDiemHocPhan> BangDiemHocPhans { get; set; } = new List<BangDiemHocPhan>();
+    public virtual ICollection<      BangDiemHocPhan>       BangDiemHocPhans { get; set; } = new List<      BangDiemHocPhan>();
 
     [InverseProperty("HocPhan")]
     public virtual ICollection<BuoiHoc> BuoiHocs { get; set; } = new List<BuoiHoc>();
@@ -57,11 +57,11 @@ public partial class HocPhan
 
     [ForeignKey("MaGiangVien")]
     [InverseProperty("HocPhans")]
-    public virtual GiangVien GiangVien { get; set; } = null!;
+    public virtual GiangVien   GiangVien   { get; set; } = null!;
 
     [ForeignKey("MaHeDaoTao")]
     [InverseProperty("HocPhans")]
-    public virtual HeDaoTao HeDaoTao { get; set; } = null!;
+    public virtual HeDaoTao    HeDaoTao    { get; set; } = null!;
 
     [ForeignKey("MaHocKyNamHoc")]
     [InverseProperty("HocPhans")]
@@ -69,5 +69,5 @@ public partial class HocPhan
 
     [ForeignKey("MaMonHoc")]
     [InverseProperty("HocPhans")]
-    public virtual MonHoc MonHoc { get; set; } = null!;
+    public virtual MonHoc      MonHoc      { get; set; } = null!;
 }
