@@ -120,6 +120,7 @@ namespace StudentManagement.Server
 
 
             app.MapAPI_Authentication();
+            app.MapAPI_File();
             app.MapAPI_BangDiemHocPhan();
             app.MapAPI_BoMon();
             app.MapAPI_BuoiHoc();
