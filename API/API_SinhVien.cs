@@ -36,11 +36,21 @@
             {
                 ResBody_GetMany<SinhVien> resBody_GetMany = new()
                 {
-                    Result = await context.SinhViens
+                    Result =(await context.SinhViens
+                    .Include(row => row.ChuyenNganh)
+                    .Include(row => row.   HeDaoTao)
+                    .Include(row => row.   KhoaHoc)
+                    .OrderBy(row => row.MaSinhVien)
                     .Where(reqBody_GetMany.FilterBy
                     .MatchExpression())
                     .Skip(offset).Take(limit)
-                    .ToListAsync(),
+                    .ToListAsync()).Select(row =>
+                    {
+                        row.ChuyenNganh.SinhViens = null!;
+                        row.   HeDaoTao.SinhViens = null!;
+                        row.KhoaHoc    .SinhViens = null!;
+                        return row;
+                    }),
                 };
                 return resBody_GetMany;
             }
