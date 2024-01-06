@@ -10,7 +10,7 @@ namespace StudentManagement.Server.Database;
 public partial class HeDaoTao
 {
     [Key]
-    [Column("ma_he_dao_tao")]
+    [Column( "ma_he_dao_tao")]
     public long    MaHeDaoTao { get; set; }
 
     [Column("ten_he_dao_tao")]

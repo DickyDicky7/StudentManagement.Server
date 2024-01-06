@@ -18,7 +18,7 @@ public partial class JwtStorage
     [Column("loai")]
     public string Loai                   { get; set; } = null!;
 
-    [Column("access_token")]
+    [Column( "access_token")]
     public string  AccessToken           { get; set; } = null!;
 
     [Column("refresh_token")]

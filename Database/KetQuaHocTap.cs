@@ -26,7 +26,7 @@ public partial class KetQuaHocTap
     [Column("ma_sinh_vien")]
     public long    MaSinhVien         { get; set; }
 
-    [ForeignKey("MaHocKyNamHoc")]
+    [ForeignKey ("MaHocKyNamHoc")]
     [InverseProperty("KetQuaHocTaps")]
     public virtual HocKyNamHoc          HocKyNamHoc         { get; set; } = null!;
 

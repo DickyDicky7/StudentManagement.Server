@@ -66,7 +66,7 @@ public partial class ThongTinHocKyNamHoc
     [InverseProperty("ThongTinHocKyNamHocs")]
     public virtual SinhVien              SinhVien                 { get; set; } = null!;
 
-    [ForeignKey("MaThongTinDangKyHocPhan")]
+    [ForeignKey ("MaThongTinDangKyHocPhan")]
     [InverseProperty("ThongTinHocKyNamHoc")]
     public virtual ThongTinDangKyHocPhan ThongTinDangKyHocPhan    { get; set; } = null!;
 

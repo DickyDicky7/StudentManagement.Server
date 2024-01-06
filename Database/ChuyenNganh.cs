@@ -10,7 +10,7 @@ namespace StudentManagement.Server.Database;
 public partial class ChuyenNganh
 {
     [Key]
-    [Column("ma_chuyen_nganh")]
+    [Column( "ma_chuyen_nganh")]
     public long    MaChuyenNganh { get; set; }
 
     [Column("ten_chuyen_nganh")]
