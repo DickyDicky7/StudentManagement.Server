@@ -121,7 +121,7 @@
                 Task.CompletedTask;
                 return Results.Ok(new ResBody_Helper<List<string>>()
                 {
-                    Result = SinhVien.LoaiTinhTrangHocTaps,
+                    Result = SinhVien.DanhSachLoaiTinhTrangHocTap,
                 });
             }
         }

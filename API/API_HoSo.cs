@@ -20,6 +20,10 @@
                 .MapDelete(@"/ho-so/remove-many", InternalMethods.HoSo_RemoveMany)
                 .WithTags (@"Remove many");
 
+            app
+                .MapGet  (@"/ho-so/get-danh-sach-loai-ho-so", InternalMethods.HoSo_GetDanhSachLoaiHoSo)
+                .WithTags(@"Danh sách loại hồ sơ");
+
             return app;
         }
 
@@ -61,6 +65,22 @@
                     resBody_AddMany.Result        = hoSos
                         .Where (hoSo => hoSo.MaHoSo != default);
                 }
+
+                IEnumerable<long    > DanhSachMaSinhVien = hoSos.Select(hoSo => hoSo.MaSinhVien);
+                List       <SinhVien> DanhSach__SinhVien =
+                await context.SinhViens.Where(sinhVien => DanhSachMaSinhVien.Contains(sinhVien.MaSinhVien))
+                .Include(row =>     row.HoSos).ToListAsync();
+                DanhSach__SinhVien
+                .ForEach( sinhVien => sinhVien.CapNhatTinhTrangHocTapSauKhiNopHoSo());
+                DanhSach__SinhVien
+                .ForEach( sinhVien =>  context.SinhViens.Where(row => row.MaSinhVien==sinhVien.MaSinhVien)
+                .ExecuteUpdate(
+                    setter =>
+                    setter.SetProperty(
+                        row =>
+                        row.TinhTrangHocTap   ,
+                   sinhVien.TinhTrangHocTap)));
+
                 return resBody_AddMany;
             }
 
@@ -79,6 +99,28 @@
                 {
                     resBody_UpdateMany.Result        = new List<HoSo>();
                 }
+
+                List<SinhVien> DanhSach__SinhVien = (await context.HoSos
+                .Where(reqBody_UpdateMany
+                .FilterBy.MatchExpression())
+                .Include(row => row. SinhVien)
+                .ThenInclude(row => row.HoSos)
+                .Select (row => row. SinhVien)
+                .ToListAsync()).DistinctBy(
+                    sinhVien =>
+                    sinhVien   .MaSinhVien)
+                .ToList();
+                DanhSach__SinhVien
+                .ForEach( sinhVien => sinhVien.CapNhatTinhTrangHocTapSauKhiNopHoSo());
+                DanhSach__SinhVien
+                .ForEach( sinhVien =>  context.SinhViens.Where(row => row.MaSinhVien == sinhVien.MaSinhVien)
+                .ExecuteUpdate(
+                    setter =>
+                    setter.SetProperty(
+                        row =>
+                        row.TinhTrangHocTap   ,
+                   sinhVien.TinhTrangHocTap)));
+
                 return resBody_UpdateMany;
             }
 
@@ -100,6 +142,16 @@
                 return resBody_RemoveMany;
             }
 
+            public static async Task<IResult> HoSo_GetDanhSachLoaiHoSo(
+                )
+            {
+                await
+                Task.CompletedTask;
+                return Results.Ok(new ResBody_Helper<List<string>>()
+                {
+                    Result = HoSo.DanhSachLoaiHoSo,
+                });
+            }
         }
     }
 }
