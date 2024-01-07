@@ -5,7 +5,7 @@ using System.Text;
 
 namespace StudentManagement.Server.API
 {
-    public static class API_Authen
+    public static class API_Authentication
     {
         public static WebApplication MapAPI_Authentication(this WebApplication app)
         {
