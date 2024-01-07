@@ -1,7 +1,4 @@
-﻿using CloudinaryDotNet;
-using CloudinaryDotNet.Actions;
-using Microsoft.AspNetCore.Mvc;
-namespace StudentManagement.Server.API
+﻿namespace StudentManagement.Server.API
 {
     public static class API_File
     {

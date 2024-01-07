@@ -24,9 +24,9 @@ namespace StudentManagement.Server
             var uploadParams = new ImageUploadParams
             {
                 File = new FileDescription(file.FileName, file.OpenReadStream()),
-                UseFilename = true,
+                   UseFilename = true,
                 UniqueFilename = true,
-                Overwrite = false
+                Overwrite = false,
             };
 
             ImageUploadResult uploadResult = await _cloudinary.UploadAsync(uploadParams);
