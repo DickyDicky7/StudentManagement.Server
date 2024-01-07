@@ -1,4 +1,9 @@
-﻿namespace StudentManagement.Server
+﻿using Microsoft.AspNetCore
+.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+
+namespace StudentManagement  .Server
 {
     public class Program
     {
@@ -13,6 +18,28 @@
             }
 
             // Add services to the container.
+
+            builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme    = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme             = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidIssuer   = builder.Configuration["Jwt:Issuer"  ],
+                    ValidAudience = builder.Configuration["Jwt:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
+                    ValidateIssuer   = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = false,
+                    ValidateIssuerSigningKey = true,
+                };
+            });
+
+            builder.Services.AddMvc();
             builder.Services.AddAuthorization();
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -57,8 +84,11 @@
 
             app.UseCors();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
+            app.MapAPI_Authentication();
+            app.MapAPI_File();
             app.MapAPI_Helper();
             app.MapAPI_BangDiemHocPhan();
             app.MapAPI_BoMon();
