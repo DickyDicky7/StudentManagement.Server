@@ -20,6 +20,10 @@
                 .MapDelete(@"/mon-hoc/remove-many", InternalMethods.MonHoc_RemoveMany)
                 .WithTags (@"Remove many");
 
+            app
+                .MapGet  (@"/mon-hoc/get-danh-sach-cong-thuc-tinh-tong-diem-mon-hoc", InternalMethods.MonHoc_GetDanhSachCongThucTinhTongDiemMonHoc)
+                .WithTags(@"Danh sách công thức tính tổng điểm môn học");
+
             return app;
         }
 
@@ -100,6 +104,16 @@
                 return resBody_RemoveMany;
             }
 
+            public static async Task<IResult> MonHoc_GetDanhSachCongThucTinhTongDiemMonHoc(
+                )
+            {
+                await
+                Task.CompletedTask;
+                return Results.Ok(new ResBody_Helper<List<string>>()
+                {
+                    Result = MonHoc.DanhSachCongThucTinhTongDiemMonHoc,
+                });
+            }
         }
     }
 }

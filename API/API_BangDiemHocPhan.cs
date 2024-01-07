@@ -20,6 +20,10 @@
                 .MapDelete(@"/bang-diem-hoc-phan/remove-many", InternalMethods.BangDiemHocPhan_RemoveMany)
                 .WithTags (@"Remove many");
 
+            app
+                .MapGet  (@"/bang-diem-hoc-phan/get-tinh-tong-diem", InternalMethods.BangDiemHocPhan_GetTinhTongDiem)
+                .WithTags(@"Tính tổng điểm cho bảng điểm học phần");
+
             return app;
         }
 
@@ -100,6 +104,27 @@
                 resBody_RemoveMany.NumberOfRowsAffected = await context.BangDiemHocPhans.Where(
                 reqBody_RemoveMany.FilterBy.MatchExpression()).ExecuteDeleteAsync();
                 return resBody_RemoveMany;
+            }
+
+            public static async Task<IResult> BangDiemHocPhan_GetTinhTongDiem(
+                [FromServices] ApplicationDbContext context,
+                [FromQuery(Name = "ma-bang-diem-hoc-phan")] long   maBangDiemHocPhan)
+            {
+                BangDiemHocPhan bangDiemHocPhan = (await context.BangDiemHocPhans.FindAsync(maBangDiemHocPhan))!;
+                if (bangDiemHocPhan != null)
+                {
+                    return Results.Ok      (new ResBody_Helper<object>()
+                    {
+                        Result = bangDiemHocPhan.TinhTongDiem(),
+                    });
+                }
+                else
+                {
+                    return Results.NotFound(new ResBody_Helper<string>()
+                    {
+                        Result = "invalid ma-bang-diem-hoc-phan: ma-bang-diem-hoc-phan not found",
+                    });
+                }
             }
         }
     }
