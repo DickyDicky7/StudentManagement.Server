@@ -12,24 +12,24 @@ public partial class KhenThuong
 {
     [Key]
     [Column("ma_khen_thuong")]
-    public long MaKhenThuong { get; set; }
+    public long   MaKhenThuong      { get; set; }
 
     [Column("xep_loai_khen_thuong")]
     public string XepLoaiKhenThuong { get; set; } = null!;
 
     [Column("ma_hoc_ky_nam_hoc")]
-    public long MaHocKyNamHoc { get; set; }
+    public long   MaHocKyNamHoc     { get; set; }
 
     [Column("ma_sinh_vien")]
-    public long MaSinhVien { get; set; }
+    public long   MaSinhVien        { get; set; }
 
     [ForeignKey("MaHocKyNamHoc")]
     [InverseProperty("KhenThuongs")]
-    public virtual HocKyNamHoc HocKyNamHoc { get; set; } = null!;
+    public virtual HocKyNamHoc          HocKyNamHoc         { get; set; } = null!;
 
     [ForeignKey("MaSinhVien")]
     [InverseProperty("KhenThuongs")]
-    public virtual SinhVien SinhVien { get; set; } = null!;
+    public virtual SinhVien             SinhVien            { get; set; } = null!;
 
     [InverseProperty("KhenThuong")]
     public virtual ThongTinHocKyNamHoc? ThongTinHocKyNamHoc { get; set; }

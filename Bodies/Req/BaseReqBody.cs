@@ -1,6 +1,4 @@
-﻿using System.Reflection;
-
-namespace StudentManagement.Server.Bodies.Req
+﻿namespace StudentManagement.Server.Bodies.Req
 {
     public abstract record class BaseReqBody<T> where T : class, IModel<T>, new()
     {
@@ -23,6 +21,10 @@ namespace StudentManagement.Server.Bodies.Req
             return matchingResult;
         }
 
+        public abstract Expression<Func<
+            Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<T>,
+            Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<T>>> UpdateModel();
+
         public abstract Expression<Func<T, bool>> MatchExpression();
 
         public virtual T ToModel()
@@ -32,7 +34,7 @@ namespace StudentManagement.Server.Bodies.Req
             {
                 model.GetType()
                      .GetProperty(propertyInfo.Name)!
-                     .SetValue(model, propertyInfo.GetValue(this));
+                .SetValue(model , propertyInfo.GetValue(this));
             }
             return model;
         }

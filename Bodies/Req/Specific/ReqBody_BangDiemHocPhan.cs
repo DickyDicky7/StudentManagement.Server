@@ -10,6 +10,73 @@
         public decimal? DiemThucHanh      { get; set; }
         public decimal? DiemCuoiKy        { get; set; }
 
+        public override Expression<Func<
+            Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<BangDiemHocPhan>,
+            Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<BangDiemHocPhan>>> UpdateModel()
+        {
+            Expression<Func<
+                Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<BangDiemHocPhan>,
+                Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<BangDiemHocPhan>>> chain = setter => setter;
+
+            if (this.MaBangDiemHocPhan != null)
+                chain = Helper.AppendSetterProperty(chain,
+                    setter =>
+                    setter.SetProperty(
+                        entity =>
+                        entity.MaBangDiemHocPhan,
+                        this  .MaBangDiemHocPhan));
+
+            if (this.MaHocPhan != null)
+                chain = Helper.AppendSetterProperty(chain,
+                    setter =>
+                    setter.SetProperty(
+                        entity =>
+                        entity.MaHocPhan,
+                        this  .MaHocPhan));
+
+            if (this.MaSinhVien != null)
+                chain = Helper.AppendSetterProperty(chain,
+                    setter =>
+                    setter.SetProperty(
+                        entity =>
+                        entity.MaSinhVien,
+                        this  .MaSinhVien));
+
+            if (this.DiemQuaTrinh != null)
+                chain = Helper.AppendSetterProperty(chain,
+                    setter =>
+                    setter.SetProperty(
+                        entity =>
+                        entity.DiemQuaTrinh,
+                        this  .DiemQuaTrinh));
+
+            if (this.DiemGiuaKy != null)
+                chain = Helper.AppendSetterProperty(chain,
+                    setter =>
+                    setter.SetProperty(
+                        entity =>
+                        entity.DiemGiuaKy,
+                        this  .DiemGiuaKy));
+
+            if (this.DiemThucHanh != null)
+                chain = Helper.AppendSetterProperty(chain,
+                    setter =>
+                    setter.SetProperty(
+                        entity =>
+                        entity.DiemThucHanh,
+                        this  .DiemThucHanh));
+
+            if (this.DiemCuoiKy != null)
+                chain = Helper.AppendSetterProperty(chain,
+                    setter =>
+                    setter.SetProperty(
+                        entity =>
+                        entity.DiemCuoiKy,
+                        this  .DiemCuoiKy));
+
+            return chain;
+        }
+
         public override Expression<Func<BangDiemHocPhan, bool>> MatchExpression()
         {
             return (model) =>

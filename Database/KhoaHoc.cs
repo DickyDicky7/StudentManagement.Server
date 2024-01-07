@@ -11,13 +11,13 @@ public partial class KhoaHoc
 {
     [Key]
     [Column("ma_khoa_hoc")]
-    public long MaKhoaHoc { get; set; }
+    public long    MaKhoaHoc          { get; set; }
 
     [Column("ten_khoa_hoc")]
-    public string TenKhoaHoc { get; set; } = null!;
+    public string TenKhoaHoc          { get; set; } = null!;
 
     [Column("ma_co_van_hoc_tap")]
-    public long MaCoVanHocTap { get; set; }
+    public long   MaCoVanHocTap       { get; set; }
 
     [Column("ten_lop_sinh_hoat_chung")]
     public string TenLopSinhHoatChung { get; set; } = null!;

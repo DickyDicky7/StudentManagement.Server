@@ -17,21 +17,21 @@ public partial class DanhSachDangKyHocPhan
 
     [Key]
     [Column("ma_hoc_phan")]
-    public long MaHocPhan { get; set; }
+    public long MaHocPhan               { get; set; }
 
     [Column("hoc_lai_hay_hoc_cai_thien")]
-    public bool HocLaiHayHocCaiThien { get; set; }
+    public bool HocLaiHayHocCaiThien    { get; set; }
 
     [Column("ma_bang_diem_hoc_phan")]
-    public long MaBangDiemHocPhan { get; set; }
+    public long MaBangDiemHocPhan       { get; set; }
 
     [ForeignKey("MaBangDiemHocPhan")]
     [InverseProperty("DanhSachDangKyHocPhan")]
-    public virtual BangDiemHocPhan BangDiemHocPhan { get; set; } = null!;
+    public virtual BangDiemHocPhan       BangDiemHocPhan       { get; set; } = null!;
 
     [ForeignKey("MaHocPhan")]
     [InverseProperty("DanhSachDangKyHocPhans")]
-    public virtual HocPhan HocPhan { get; set; } = null!;
+    public virtual HocPhan               HocPhan               { get; set; } = null!;
 
     [ForeignKey("MaThongTinDangKyHocPhan")]
     [InverseProperty("DanhSachDangKyHocPhans")]

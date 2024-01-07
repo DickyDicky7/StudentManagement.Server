@@ -12,27 +12,27 @@ public partial class KetQuaRenLuyen
 {
     [Key]
     [Column("ma_ket_qua_ren_luyen")]
-    public long MaKetQuaRenLuyen { get; set; }
+    public long   MaKetQuaRenLuyen { get; set; }
 
     [Column("so_diem_ren_luyen")]
-    public short SoDiemRenLuyen { get; set; }
+    public short   SoDiemRenLuyen  { get; set; }
 
     [Column("xep_loai_ren_luyen")]
-    public string XepLoaiRenLuyen { get; set; } = null!;
+    public string XepLoaiRenLuyen  { get; set; } = null!;
 
     [Column("ma_hoc_ky_nam_hoc")]
-    public long MaHocKyNamHoc { get; set; }
+    public long   MaHocKyNamHoc    { get; set; }
 
     [Column("ma_sinh_vien")]
-    public long MaSinhVien { get; set; }
+    public long   MaSinhVien       { get; set; }
 
     [ForeignKey("MaHocKyNamHoc")]
     [InverseProperty("KetQuaRenLuyens")]
-    public virtual HocKyNamHoc HocKyNamHoc { get; set; } = null!;
+    public virtual HocKyNamHoc          HocKyNamHoc         { get; set; } = null!;
 
     [ForeignKey("MaSinhVien")]
     [InverseProperty("KetQuaRenLuyens")]
-    public virtual SinhVien SinhVien { get; set; } = null!;
+    public virtual SinhVien             SinhVien            { get; set; } = null!;
 
     [InverseProperty("KetQuaRenLuyen")]
     public virtual ThongTinHocKyNamHoc? ThongTinHocKyNamHoc { get; set; }

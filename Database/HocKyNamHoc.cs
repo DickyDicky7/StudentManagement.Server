@@ -12,32 +12,32 @@ public partial class HocKyNamHoc
 {
     [Key]
     [Column("ma_hoc_ky_nam_hoc")]
-    public long MaHocKyNamHoc { get; set; }
+    public long   MaHocKyNamHoc { get; set; }
 
     [Column("ten_hoc_ky")]
-    public string TenHocKy { get; set; } = null!;
+    public string TenHocKy      { get; set; } = null!;
 
     [Column("ten_nam_hoc")]
-    public string TenNamHoc { get; set; } = null!;
+    public string TenNamHoc     { get; set; } = null!;
 
     [InverseProperty("HocKyNamHoc")]
-    public virtual ICollection<HocPhan> HocPhans { get; set; } = new List<HocPhan>();
+    public virtual ICollection<HocPhan              > HocPhans               { get; set; } = new List<HocPhan              >();
 
     [InverseProperty("HocKyNamHoc")]
-    public virtual ICollection<KetQuaHocTap> KetQuaHocTaps { get; set; } = new List<KetQuaHocTap>();
+    public virtual ICollection<KetQuaHocTap         > KetQuaHocTaps          { get; set; } = new List<KetQuaHocTap         >();
 
     [InverseProperty("HocKyNamHoc")]
-    public virtual ICollection<KetQuaRenLuyen> KetQuaRenLuyens { get; set; } = new List<KetQuaRenLuyen>();
+    public virtual ICollection<KetQuaRenLuyen       > KetQuaRenLuyens        { get; set; } = new List<KetQuaRenLuyen       >();
 
     [InverseProperty("HocKyNamHoc")]
-    public virtual ICollection<KhenThuong> KhenThuongs { get; set; } = new List<KhenThuong>();
+    public virtual ICollection<KhenThuong           > KhenThuongs            { get; set; } = new List<KhenThuong           >();
 
     [InverseProperty("HocKyNamHoc")]
     public virtual ICollection<ThongTinDangKyHocPhan> ThongTinDangKyHocPhans { get; set; } = new List<ThongTinDangKyHocPhan>();
 
     [InverseProperty("HocKyNamHoc")]
-    public virtual ICollection<ThongTinHocKyNamHoc> ThongTinHocKyNamHocs { get; set; } = new List<ThongTinHocKyNamHoc>();
+    public virtual ICollection<ThongTinHocKyNamHoc  > ThongTinHocKyNamHocs   { get; set; } = new List<ThongTinHocKyNamHoc  >();
 
     [InverseProperty("HocKyNamHoc")]
-    public virtual ICollection<ThongTinHocPhi> ThongTinHocPhis { get; set; } = new List<ThongTinHocPhi>();
+    public virtual ICollection<ThongTinHocPhi       > ThongTinHocPhis        { get; set; } = new List<ThongTinHocPhi       >();
 }

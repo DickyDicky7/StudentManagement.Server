@@ -5,16 +5,20 @@
         public static WebApplication MapAPI_BuoiHoc(this WebApplication app)
         {
             app
-                .MapPost(@"/buoi-hoc/get-many", InternalMethods.BuoiHoc_GetMany)
+                .MapPost (@"/buoi-hoc/get-many", InternalMethods.BuoiHoc_GetMany)
                 .WithTags(@"Get many, execution order: [filter by matching] body -> [skip] offset -> [take] limit");
 
             app
-                .MapPost(@"/buoi-hoc/add-many", InternalMethods.BuoiHoc_AddMany)
+                .MapPost (@"/buoi-hoc/add-many", InternalMethods.BuoiHoc_AddMany)
                 .WithTags(@"Add many, able to return just new records'id or new records | new records have id auto generated");
 
             app
+                .MapPut   (@"/buoi-hoc/update-many", InternalMethods.BuoiHoc_UpdateMany)
+                .WithTags (@"Update many");
+
+            app
                 .MapDelete(@"/buoi-hoc/remove-many", InternalMethods.BuoiHoc_RemoveMany)
-                .WithTags(@"Remove many");
+                .WithTags (@"Remove many");
 
             return app;
         }
@@ -24,7 +28,7 @@
             public static async Task<ResBody_GetMany<BuoiHoc>> BuoiHoc_GetMany(
                 [FromServices] ApplicationDbContext context,
                 [FromQuery(Name = "offset")] int offset, [FromQuery(Name = "limit")] int limit,
-                [FromBody] ReqBody_GetMany<ReqBody_BuoiHoc, BuoiHoc> reqBody_GetMany)
+                [FromBody] ReqBody_GetMany<  ReqBody_BuoiHoc,  BuoiHoc> reqBody_GetMany)
             {
                 ResBody_GetMany<BuoiHoc> resBody_GetMany = new()
                 {
@@ -39,13 +43,13 @@
                 return resBody_GetMany;
             }
 
-            public static async Task<ResBody_AddMany<BuoiHoc>> BuoiHoc_AddMany(
+            public static async Task<ResBody_AddMany<           BuoiHoc>> BuoiHoc_AddMany(
                 [FromServices] ApplicationDbContext context,
-                [FromBody] ReqBody_AddMany<JustForInsertReqBody_BuoiHoc, BuoiHoc> reqBody_AddMany)
+                [FromBody] ReqBody_AddMany<JustForInsertReqBody_BuoiHoc,  BuoiHoc> reqBody_AddMany)
             {
                 ResBody_AddMany<BuoiHoc> resBody_AddMany = new();
-                IEnumerable    <BuoiHoc> buoiHocs        = reqBody_AddMany
-                .ItemsToAdd.Select(itemToAdd => itemToAdd.ToModel());
+                List           <BuoiHoc> buoiHocs        = reqBody_AddMany
+                .ItemsToAdd.Select(itemToAdd => itemToAdd.ToModel()).ToList();
                 await   context.BuoiHocs.AddRangeAsync(buoiHocs);
                 resBody_AddMany.NumberOfRowsAffected = await context.SaveChangesAsync();
                 if (reqBody_AddMany.ReturnJustIds)
@@ -62,25 +66,39 @@
                 return resBody_AddMany;
             }
 
-            public static async Task<ResBody_RemoveMany<BuoiHoc>> BuoiHoc_RemoveMany(
+            public static async Task<ResBody_UpdateMany<BuoiHoc>> BuoiHoc_UpdateMany(
                 [FromServices] ApplicationDbContext context,
-                [FromBody] ReqBody_RemoveMany<ReqBody_BuoiHoc, BuoiHoc> reqBody_RemoveMany)
+                [FromBody] ReqBody_UpdateMany<  ReqBody_BuoiHoc,  BuoiHoc> reqBody_UpdateMany)
             {
-                ResBody_RemoveMany<BuoiHoc> resBody_RemoveMany = new();
-                IQueryable        <BuoiHoc> buoiHocs           = context.BuoiHocs.Where(
-                reqBody_RemoveMany.FilterBy.MatchExpression());
-                if (reqBody_RemoveMany.ReturnJustIds)
+                ResBody_UpdateMany<BuoiHoc> resBody_UpdateMany = new();
+                resBody_UpdateMany.NumberOfRowsAffected = await context.BuoiHocs.Where(
+                reqBody_UpdateMany.FilterBy.MatchExpression()).ExecuteUpdateAsync(reqBody_UpdateMany.UpdateTo.UpdateModel());
+                if (reqBody_UpdateMany.ReturnJustIds)
                 {
-                    resBody_RemoveMany.ResultJustIds = buoiHocs
-                    .Select(buoiHoc => buoiHoc.MaBuoiHoc);
+                    resBody_UpdateMany.ResultJustIds = new List<long   >();
                 }
                 else
                 {
-                    resBody_RemoveMany.Result        = buoiHocs;
+                    resBody_UpdateMany.Result        = new List<BuoiHoc>();
                 }
-                context.BuoiHocs
-                       .RemoveRange(buoiHocs);
-                resBody_RemoveMany.NumberOfRowsAffected = await context.SaveChangesAsync();
+                return resBody_UpdateMany;
+            }
+
+            public static async Task<ResBody_RemoveMany<BuoiHoc>> BuoiHoc_RemoveMany(
+                [FromServices] ApplicationDbContext context,
+                [FromBody] ReqBody_RemoveMany<  ReqBody_BuoiHoc,  BuoiHoc> reqBody_RemoveMany)
+            {
+                ResBody_RemoveMany<BuoiHoc> resBody_RemoveMany = new();
+                if (reqBody_RemoveMany.ReturnJustIds)
+                {
+                    resBody_RemoveMany.ResultJustIds = new List<long   >();
+                }
+                else
+                {
+                    resBody_RemoveMany.Result        = new List<BuoiHoc>();
+                }
+                resBody_RemoveMany.NumberOfRowsAffected = await context.BuoiHocs.Where(
+                reqBody_RemoveMany.FilterBy.MatchExpression()).ExecuteDeleteAsync();
                 return resBody_RemoveMany;
             }
 

@@ -6,6 +6,41 @@
         public string? TenChuyenNganh { get; set; }
         public long  ? MaKhoaDaoTao   { get; set; }
 
+        public override Expression<Func<
+            Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<ChuyenNganh>,
+            Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<ChuyenNganh>>> UpdateModel()
+        {
+            Expression<Func<
+                Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<ChuyenNganh>,
+                Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<ChuyenNganh>>> chain = setter => setter;
+
+            if (this.MaChuyenNganh != null)
+                chain = Helper.AppendSetterProperty(chain,
+                    setter =>
+                    setter.SetProperty(
+                        entity =>
+                        entity.MaChuyenNganh,
+                        this  .MaChuyenNganh));
+
+            if (this.TenChuyenNganh != null)
+                chain = Helper.AppendSetterProperty(chain,
+                    setter =>
+                    setter.SetProperty(
+                        entity =>
+                        entity.TenChuyenNganh,
+                        this  .TenChuyenNganh));
+
+            if (this.MaKhoaDaoTao != null)
+                chain = Helper.AppendSetterProperty(chain,
+                    setter =>
+                    setter.SetProperty(
+                        entity =>
+                        entity.MaKhoaDaoTao,
+                        this  .MaKhoaDaoTao));
+
+            return chain;
+        }
+
         public override Expression<Func<ChuyenNganh, bool>> MatchExpression()
         {
             return (model) =>

@@ -8,6 +8,57 @@
         public long   ? MaHocKyNamHoc      { get; set; }
         public long   ? MaSinhVien         { get; set; }
 
+        public override Expression<Func<
+            Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<KetQuaHocTap>,
+            Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<KetQuaHocTap>>> UpdateModel()
+        {
+            Expression<Func<
+                Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<KetQuaHocTap>,
+                Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<KetQuaHocTap>>> chain = setter => setter;
+
+            if (this.MaKetQuaHocTap != null)
+                chain = Helper.AppendSetterProperty(chain,
+                    setter =>
+                    setter.SetProperty(
+                        entity =>
+                        entity.MaKetQuaHocTap,
+                        this  .MaKetQuaHocTap));
+
+            if (this.DiemTrungBinhHocKy != null)
+                chain = Helper.AppendSetterProperty(chain,
+                    setter =>
+                    setter.SetProperty(
+                        entity =>
+                        entity.DiemTrungBinhHocKy,
+                        this  .DiemTrungBinhHocKy));
+
+            if (this.XepLoaiHocTap != null)
+                chain = Helper.AppendSetterProperty(chain,
+                    setter =>
+                    setter.SetProperty(
+                        entity =>
+                        entity.XepLoaiHocTap,
+                        this  .XepLoaiHocTap));
+
+            if (this.MaHocKyNamHoc != null)
+                chain = Helper.AppendSetterProperty(chain,
+                    setter =>
+                    setter.SetProperty(
+                        entity =>
+                        entity.MaHocKyNamHoc,
+                        this  .MaHocKyNamHoc));
+
+            if (this.MaSinhVien != null)
+                chain = Helper.AppendSetterProperty(chain,
+                    setter =>
+                    setter.SetProperty(
+                        entity =>
+                        entity.MaSinhVien,
+                        this  .MaSinhVien));
+
+            return chain;
+        }
+
         public override Expression<Func<KetQuaHocTap, bool>> MatchExpression()
         {
             return (model) =>

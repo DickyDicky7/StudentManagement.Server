@@ -11,25 +11,25 @@ public partial class BuoiHoc
 {
     [Key]
     [Column("ma_buoi_hoc")]
-    public long MaBuoiHoc { get; set; }
+    public long   MaBuoiHoc         { get; set; }
 
     [Column("ma_hoc_phan")]
-    public long MaHocPhan { get; set; }
+    public long   MaHocPhan         { get; set; }
 
     [Column("thu_hoc")]
-    public string ThuHoc { get; set; } = null!;
+    public string ThuHoc            { get; set; } = null!;
 
     [Column("ca_hoc")]
-    public string CaHoc { get; set; } = null!;
+    public string CaHoc             { get; set; } = null!;
 
     [Column("so_tiet_hoc")]
-    public string SoTietHoc { get; set; } = null!;
+    public string SoTietHoc         { get; set; } = null!;
 
     [Column("so_tuan_hoc_cach_nhau")]
     public string SoTuanHocCachNhau { get; set; } = null!;
 
     [Column("ma_phong_hoc")]
-    public string MaPhongHoc { get; set; } = null!;
+    public string MaPhongHoc        { get; set; } = null!;
 
     [ForeignKey("MaHocPhan")]
     [InverseProperty("BuoiHocs")]

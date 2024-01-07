@@ -5,16 +5,20 @@
         public static WebApplication MapAPI_BoMon(this WebApplication app)
         {
             app
-                .MapPost(@"/bo-mon/get-many", InternalMethods.BoMon_GetMany)
+                .MapPost (@"/bo-mon/get-many", InternalMethods.BoMon_GetMany)
                 .WithTags(@"Get many, execution order: [filter by matching] body -> [skip] offset -> [take] limit");
 
             app
-                .MapPost(@"/bo-mon/add-many", InternalMethods.BoMon_AddMany)
+                .MapPost (@"/bo-mon/add-many", InternalMethods.BoMon_AddMany)
                 .WithTags(@"Add many, able to return just new records'id or new records | new records have id auto generated");
 
             app
+                .MapPut   (@"/bo-mon/update-many", InternalMethods.BoMon_UpdateMany)
+                .WithTags (@"Update many");
+
+            app
                 .MapDelete(@"/bo-mon/remove-many", InternalMethods.BoMon_RemoveMany)
-                .WithTags(@"Remove many");
+                .WithTags (@"Remove many");
 
             return app;
         }
@@ -24,7 +28,7 @@
             public static async Task<ResBody_GetMany<BoMon>> BoMon_GetMany(
                 [FromServices] ApplicationDbContext context,
                 [FromQuery(Name = "offset")] int offset, [FromQuery(Name = "limit")] int limit,
-                [FromBody] ReqBody_GetMany<ReqBody_BoMon, BoMon> reqBody_GetMany)
+                [FromBody] ReqBody_GetMany<  ReqBody_BoMon , BoMon> reqBody_GetMany)
             {
                 ResBody_GetMany<BoMon> resBody_GetMany = new()
                 {
@@ -37,13 +41,13 @@
                 return resBody_GetMany;
             }
 
-            public static async Task<ResBody_AddMany<BoMon>> BoMon_AddMany(
+            public static async Task<ResBody_AddMany<           BoMon>> BoMon_AddMany(
                 [FromServices] ApplicationDbContext context,
-                [FromBody] ReqBody_AddMany<JustForInsertReqBody_BoMon, BoMon> reqBody_AddMany)
+                [FromBody] ReqBody_AddMany<JustForInsertReqBody_BoMon,  BoMon> reqBody_AddMany)
             {
                 ResBody_AddMany<BoMon> resBody_AddMany = new();
-                IEnumerable    <BoMon> boMons          = reqBody_AddMany
-                .ItemsToAdd.Select(itemToAdd => itemToAdd.ToModel());
+                List           <BoMon> boMons          = reqBody_AddMany
+                .ItemsToAdd.Select(itemToAdd => itemToAdd.ToModel()).ToList();
                 await   context.BoMons.AddRangeAsync(boMons);
                 resBody_AddMany.NumberOfRowsAffected = await context.SaveChangesAsync();
                 if (reqBody_AddMany.ReturnJustIds)
@@ -60,25 +64,39 @@
                 return resBody_AddMany;
             }
 
-            public static async Task<ResBody_RemoveMany<BoMon>> BoMon_RemoveMany(
+            public static async Task<ResBody_UpdateMany<BoMon>> BoMon_UpdateMany(
                 [FromServices] ApplicationDbContext context,
-                [FromBody] ReqBody_RemoveMany<ReqBody_BoMon, BoMon> reqBody_RemoveMany)
+                [FromBody] ReqBody_UpdateMany<  ReqBody_BoMon,  BoMon> reqBody_UpdateMany)
             {
-                ResBody_RemoveMany<BoMon> resBody_RemoveMany = new();
-                IQueryable        <BoMon> boMons             = context.BoMons.Where(
-                reqBody_RemoveMany.FilterBy.MatchExpression());
-                if (reqBody_RemoveMany.ReturnJustIds)
+                ResBody_UpdateMany<BoMon> resBody_UpdateMany = new();
+                resBody_UpdateMany.NumberOfRowsAffected = await context.BoMons.Where(
+                reqBody_UpdateMany.FilterBy.MatchExpression()).ExecuteUpdateAsync(reqBody_UpdateMany.UpdateTo.UpdateModel());
+                if (reqBody_UpdateMany.ReturnJustIds)
                 {
-                    resBody_RemoveMany.ResultJustIds = boMons
-                    .Select(boMon => boMon.MaBoMon);
+                    resBody_UpdateMany.ResultJustIds = new List<long >();
                 }
                 else
                 {
-                    resBody_RemoveMany.Result        = boMons;
+                    resBody_UpdateMany.Result        = new List<BoMon>();
                 }
-                context.BoMons
-                       .RemoveRange(boMons);
-                resBody_RemoveMany.NumberOfRowsAffected = await context.SaveChangesAsync();
+                return resBody_UpdateMany;
+            }
+
+            public static async Task<ResBody_RemoveMany<BoMon>> BoMon_RemoveMany(
+                [FromServices] ApplicationDbContext context,
+                [FromBody] ReqBody_RemoveMany<  ReqBody_BoMon,  BoMon> reqBody_RemoveMany)
+            {
+                ResBody_RemoveMany<BoMon> resBody_RemoveMany = new();
+                if (reqBody_RemoveMany.ReturnJustIds)
+                {
+                    resBody_RemoveMany.ResultJustIds = new List<long >();
+                }
+                else
+                {
+                    resBody_RemoveMany.Result        = new List<BoMon>();
+                }
+                resBody_RemoveMany.NumberOfRowsAffected = await context.BoMons.Where(
+                reqBody_RemoveMany.FilterBy.MatchExpression()).ExecuteDeleteAsync();
                 return resBody_RemoveMany;
             }
 

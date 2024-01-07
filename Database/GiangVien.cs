@@ -10,8 +10,8 @@ namespace StudentManagement.Server.Database;
 public partial class GiangVien
 {
     [Key]
-    [Column("ma_giang_vien")]
-    public long MaGiangVien { get; set; }
+    [Column( "ma_giang_vien")]
+    public long    MaGiangVien { get; set; }
 
     [Column("ten_giang_vien")]
     public string TenGiangVien { get; set; } = null!;

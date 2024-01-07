@@ -7,6 +7,49 @@
         public bool? HocLaiHayHocCaiThien    { get; set; }
         public long? MaBangDiemHocPhan       { get; set; }
 
+        public override Expression<Func<
+            Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<DanhSachDangKyHocPhan>,
+            Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<DanhSachDangKyHocPhan>>> UpdateModel()
+        {
+            Expression<Func<
+                Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<DanhSachDangKyHocPhan>,
+                Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<DanhSachDangKyHocPhan>>> chain = setter => setter;
+
+            if (this.MaThongTinDangKyHocPhan != null)
+                chain = Helper.AppendSetterProperty(chain,
+                    setter =>
+                    setter.SetProperty(
+                        entity =>
+                        entity.MaThongTinDangKyHocPhan,
+                        this  .MaThongTinDangKyHocPhan));
+
+            if (this.MaHocPhan != null)
+                chain = Helper.AppendSetterProperty(chain,
+                    setter =>
+                    setter.SetProperty(
+                        entity =>
+                        entity.MaHocPhan,
+                        this  .MaHocPhan));
+
+            if (this.HocLaiHayHocCaiThien != null)
+                chain = Helper.AppendSetterProperty(chain,
+                    setter =>
+                    setter.SetProperty(
+                        entity =>
+                        entity.HocLaiHayHocCaiThien,
+                        this  .HocLaiHayHocCaiThien));
+
+            if (this.MaBangDiemHocPhan != null)
+                chain = Helper.AppendSetterProperty(chain,
+                    setter =>
+                    setter.SetProperty(
+                        entity =>
+                        entity.MaBangDiemHocPhan,
+                        this  .MaBangDiemHocPhan));
+
+            return chain;
+        }
+
         public override Expression<Func<DanhSachDangKyHocPhan, bool>> MatchExpression()
         {
             return (model) =>

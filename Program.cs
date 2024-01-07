@@ -54,6 +54,19 @@ namespace StudentManagement.Server
 
             builder.Services.AddDbContext<ApplicationDbContext>();
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddDefaultPolicy
+                (policy =>
+                {
+                    policy.SetIsOriginAllowed(origin =>
+                    origin == "http://localhost:3000").
+                    AllowCredentials().
+                    AllowAnyHeader().
+                    AllowAnyMethod();
+                });
+            });
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -61,73 +74,30 @@ namespace StudentManagement.Server
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI();
+                app.UseSwaggerUI(options =>
+                {
+                    options.DefaultModelRendering(Swashbuckle.AspNetCore.SwaggerUI.ModelRendering.Model);
+                    options.DefaultModelExpandDepth(3);
+                });
             }
 
             app.UseHttpsRedirection();
+
+            app.UseCors();
+
             app.UseAuthentication();
             app.UseAuthorization();
 
-            var summaries = new[]
-            {
-                "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-            };
-
-            app.MapGet("/test", async ([FromServices] ApplicationDbContext context) =>
-            {
-                foreach (var item in await context.MonHocThuocBoMons.ToListAsync())
-                {
-                    System.Diagnostics.Debug.WriteLine(item.BoMon.TenBoMon);
-                }
-            });
-
-            app.MapGet("/add", async ([FromServices] ApplicationDbContext context) =>
-            {
-                await context.AddAsync<MonHocThuocBoMon>(new()
-                {
-                    MaBoMon = 2,
-                    TenMonHoc = "Đại Số Tuyến Tính",
-                    ConMoLop = true,
-                    LoaiMonHoc = "Đại Trà",
-                    DanhSachMaMonHocTienQuyet = Array.Empty<string>(),
-                    SoTinChiLyThuyet = 4,
-                    SoTinChiThucHanh = 0,
-                    TomTatMonHoc = "Mon học rất bổ ích"
-                });
-
-                await context.SaveChangesAsync();
-            });
-
-            app.MapGet("/thong-tin-hoc-ky-nam-hoc", async ([FromServices] ApplicationDbContext context) =>
-            {
-                return await context.ThongTinHocKyNamHocs.FirstAsync(thongTinHocKyNamHoc => true);
-            });
-
-            app.MapGet("/weatherforecast", (HttpContext httpContext) =>
-            {
-                var forecast = Enumerable.Range(1, 5).Select(index =>
-                    new WeatherForecast
-                    {
-                        Date = DateTime.Now.AddDays(index),
-                        TemperatureC = Random.Shared.Next(-20, 55),
-                        Summary = summaries[Random.Shared.Next(summaries.Length)]
-                    })
-                    .ToArray();
-                return forecast;
-            })
-            .WithName("GetWeatherForecast");
-            app.MapGet("login/test", () => "Hello world").RequireAuthorization();
-
-
             app.MapAPI_Authentication();
             app.MapAPI_File();
+            app.MapAPI_Helper();
             app.MapAPI_BangDiemHocPhan();
             app.MapAPI_BoMon();
             app.MapAPI_BuoiHoc();
             app.MapAPI_BuoiThi();
             app.MapAPI_ChuyenNganh();
             app.MapAPI_DanhSachDangKyHocPhan();
-            //app.MapAPI_GiangVien();
+            app.MapAPI_GiangVien();
             app.MapAPI_GiangVienThuocBoMon();
             app.MapAPI_GiangVienThuocKhoaDaoTao();
             app.MapAPI_HeDaoTao();
@@ -139,7 +109,7 @@ namespace StudentManagement.Server
             app.MapAPI_KhenThuong();
             app.MapAPI_KhoaDaoTao();
             app.MapAPI_KhoaHoc();
-            //app.MapAPI_MonHoc();
+            app.MapAPI_MonHoc();
             app.MapAPI_MonHocThuocBoMon();
             app.MapAPI_MonHocThuocKhoaDaoTao();
             app.MapAPI_SinhVien();
