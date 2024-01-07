@@ -1,13 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.VisualStudio.TextTemplating;
-using StudentManagement.Server.Database;
-using System.IdentityModel.Tokens.Jwt;
-using System.Net.WebSockets;
+﻿using Microsoft.IdentityModel.Tokens;
+using System.   IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Security.Cryptography;
 using System.Text;
-using System.Xml.Linq;
 
 namespace StudentManagement.Server.API
 {
