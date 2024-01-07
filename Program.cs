@@ -66,7 +66,7 @@
             app.MapAPI_BuoiThi();
             app.MapAPI_ChuyenNganh();
             app.MapAPI_DanhSachDangKyHocPhan();
-            //app.MapAPI_GiangVien();
+            app.MapAPI_GiangVien();
             app.MapAPI_GiangVienThuocBoMon();
             app.MapAPI_GiangVienThuocKhoaDaoTao();
             app.MapAPI_HeDaoTao();
@@ -78,7 +78,7 @@
             app.MapAPI_KhenThuong();
             app.MapAPI_KhoaDaoTao();
             app.MapAPI_KhoaHoc();
-            //app.MapAPI_MonHoc();
+            app.MapAPI_MonHoc();
             app.MapAPI_MonHocThuocBoMon();
             app.MapAPI_MonHocThuocKhoaDaoTao();
             app.MapAPI_SinhVien();
