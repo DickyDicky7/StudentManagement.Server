@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace StudentManagement.Server.Database;
 
 [Table("sinh_vien")]
-//[Index("Email"   , Name = "sinh_vien_unique_email"   , IsUnique = true)]
+[Index("Email", Name = "sinh_vien_unique_email", IsUnique = true)]
 //[Index("Username", Name = "sinh_vien_unique_username", IsUnique = true)]
 public partial class SinhVien
 {
