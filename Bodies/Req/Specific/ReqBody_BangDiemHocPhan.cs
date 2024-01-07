@@ -9,6 +9,7 @@
         public decimal? DiemGiuaKy        { get; set; }
         public decimal? DiemThucHanh      { get; set; }
         public decimal? DiemCuoiKy        { get; set; }
+        public decimal? DiemTong          { get; set; }
 
         public override Expression<Func<
             Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<BangDiemHocPhan>,
@@ -74,6 +75,14 @@
                         entity.DiemCuoiKy,
                         this  .DiemCuoiKy));
 
+            if (this.DiemTong != null)
+                chain = Helper.AppendSetterProperty(chain,
+                    setter =>
+                    setter.SetProperty(
+                        entity =>
+                        entity.DiemTong,
+                        this  .DiemTong));
+
             return chain;
         }
 
@@ -93,13 +102,18 @@
             (DiemThucHanh      == null ||
              DiemThucHanh      == model.DiemThucHanh)      &&
             (DiemCuoiKy        == null ||
-             DiemCuoiKy        == model.DiemCuoiKy);
+             DiemCuoiKy        == model.DiemCuoiKy)        &&
+            (DiemTong          == null ||
+             DiemTong          == model.DiemTong);
         }
     }
 
     public record class JustForInsertReqBody_BangDiemHocPhan : ReqBody_BangDiemHocPhan
     {
         [SwaggerSchema(ReadOnly = true)]
-        public new long? MaBangDiemHocPhan { get; set; }
+        public new long   ? MaBangDiemHocPhan { get; set; }
+
+        [SwaggerSchema(ReadOnly = true)]
+        public new decimal? DiemTong          { get; set; }
     }
 }

@@ -54,6 +54,11 @@
                 ResBody_AddMany<BangDiemHocPhan> resBody_AddMany  = new();
                 List           <BangDiemHocPhan> bangDiemHocPhans = reqBody_AddMany
                 .ItemsToAdd.Select(itemToAdd => itemToAdd.ToModel()).ToList();
+                bangDiemHocPhans
+                .ForEach(bangDiemHocPhan =>
+                {
+                bangDiemHocPhan.DiemTong= bangDiemHocPhan.TinhTongDiem();
+                });
                 await   context.BangDiemHocPhans.AddRangeAsync(bangDiemHocPhans);
                 resBody_AddMany.NumberOfRowsAffected = await context.SaveChangesAsync();
                 if (reqBody_AddMany.ReturnJustIds)
@@ -85,6 +90,15 @@
                 {
                     resBody_UpdateMany.Result        = new List<BangDiemHocPhan>();
                 }
+                List<BangDiemHocPhan> bangDiemHocPhans
+                = await context.BangDiemHocPhans.Where(reqBody_UpdateMany.FilterBy.MatchExpression()).ToListAsync();
+                bangDiemHocPhans
+                .ForEach(bangDiemHocPhan =>
+                {
+                bangDiemHocPhan.DiemTong = bangDiemHocPhan.TinhTongDiem();
+                context.BangDiemHocPhans.Where( row => row.MaBangDiemHocPhan == bangDiemHocPhan.MaBangDiemHocPhan)
+                .ExecuteUpdate(setter => setter.SetProperty(row => row.DiemTong,bangDiemHocPhan.DiemTong));
+                });
                 return resBody_UpdateMany;
             }
 

@@ -32,6 +32,9 @@ public partial class BangDiemHocPhan
     [Column("diem_cuoi_ky")]
     public decimal DiemCuoiKy        { get; set; }
 
+    [Column("diem_tong")]
+    public decimal DiemTong          { get; set; }
+
     [InverseProperty("BangDiemHocPhan")]
     public virtual DanhSachDangKyHocPhan? DanhSachDangKyHocPhan { get; set; }
 
