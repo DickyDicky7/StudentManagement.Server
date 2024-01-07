@@ -51,27 +51,48 @@ namespace StudentManagement.Server.API
                     }
                     else
                     {
+                        JwtStorage? user = await context.JwtStorages.FirstOrDefaultAsync(user => user.MaSinhVienHoacNhanVien == sinhVien.MaSinhVien);
                         List<Claim> claimList = new List<Claim>()
                         {
                             new Claim(ClaimTypes.Name, username),
-                            new Claim(ClaimTypes.Role, role    ),
+                            new Claim(ClaimTypes.Role,     role),
                             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
                         };
-                        var  accessToken =  GenerateAccessToken(configuration, claimList);
+                        var  accessToken =
+                        GenerateAccessToken(configuration, claimList);
                         var refreshToken = GenerateRefreshToken(configuration);
-                        await context.JwtStorages.AddAsync(new JwtStorage()
+                        if (user == null)
                         {
-                            MaSinhVienHoacNhanVien = sinhVien.MaSinhVien,
-                            Loai = "sv",
-                             AccessToken =  accessToken,
-                            RefreshToken = refreshToken,
-                        });
-                        await  context.SaveChangesAsync();
-                        return Results.Ok(new
+                            await context.JwtStorages.AddAsync(new JwtStorage()
+                            {
+                                MaSinhVienHoacNhanVien = sinhVien.MaSinhVien,
+                                Loai = "sv",
+                                 AccessToken =  accessToken,
+                                RefreshToken = refreshToken,
+                            });
+                            await  context.SaveChangesAsync();
+                            return Results.Ok(new
+                            {
+                                UserId = sinhVien.MaSinhVien,
+                                Role   = role,
+                                 AccessToken =  accessToken,
+                                RefreshToken = refreshToken,
+                            });
+                        }
+                        else
                         {
-                             AccessToken =  accessToken,
-                            RefreshToken = refreshToken,
-                        });
+                            user. AccessToken =  accessToken;
+                            user.RefreshToken = refreshToken;
+                            context.JwtStorages.Update(user);
+                            await  context.SaveChangesAsync();
+                            return Results.Ok(new
+                            {
+                                UserId = sinhVien.MaSinhVien,
+                                Role = role,
+                                 AccessToken =  accessToken,
+                                RefreshToken = refreshToken,
+                            });
+                        }
                     }
                 }
                 else
@@ -87,30 +108,50 @@ namespace StudentManagement.Server.API
                     }
                     else
                     {
+                        JwtStorage? user = await context.JwtStorages.FirstOrDefaultAsync(user => user.MaSinhVienHoacNhanVien == nhanVien.MaNhanVien);
                         List<Claim> claimList = new List<Claim>()
                         {
                             new Claim(ClaimTypes.Name, username),
                             new Claim(ClaimTypes.Role,     role),
                             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
                         };
-                        var  accessToken =  GenerateAccessToken(configuration, claimList);
+                        var  accessToken =
+                        GenerateAccessToken(configuration, claimList);
                         var refreshToken = GenerateRefreshToken(configuration);
-                        await context.JwtStorages.AddAsync(new JwtStorage()
+                        if (user == null)
                         {
-                            MaSinhVienHoacNhanVien = nhanVien.MaNhanVien,
-                            Loai = "nv",
-                             AccessToken =  accessToken,
-                            RefreshToken = refreshToken,
-                        });
-                        await context.SaveChangesAsync();
-                        return Results.Ok(new
+                            await context.JwtStorages.AddAsync(new JwtStorage()
+                            {
+                                MaSinhVienHoacNhanVien = nhanVien.MaNhanVien,
+                                Loai = "nv",
+                                 AccessToken =  accessToken,
+                                RefreshToken = refreshToken,
+                            });
+                            await context.SaveChangesAsync();
+                            return Results.Ok(new
+                            {
+                                UserId = nhanVien.MaNhanVien,
+                                Role   = role,
+                                 AccessToken =  accessToken,
+                                RefreshToken = refreshToken,
+                            });
+                        }
+                        else
                         {
-                                   Token =  accessToken,
-                            RefreshToken = refreshToken,
-                        });
+                            user. AccessToken =  accessToken;
+                            user.RefreshToken = refreshToken;
+                            context.JwtStorages.Update(user);
+                            await  context.SaveChangesAsync();
+                            return Results.Ok(new
+                            {
+                                UserId = nhanVien.MaNhanVien,
+                                Role   = role,
+                                 AccessToken =  accessToken,
+                                RefreshToken = refreshToken,
+                            });
+                        }
                     }
                 }
-
             }
             public static async Task<IResult> RefreshTokenHandler(
                 [FromServices] ApplicationDbContext context,
