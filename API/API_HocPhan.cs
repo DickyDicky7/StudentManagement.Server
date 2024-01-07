@@ -20,6 +20,14 @@
                 .MapDelete(@"/hoc-phan/remove-many", InternalMethods.HocPhan_RemoveMany)
                 .WithTags (@"Remove many");
 
+            app
+                .MapGet  (@"/hoc-phan/get-danh-sach-loai-hinh-thuc-thi", InternalMethods.HocPhan_GetDanhSachLoaiHinhThucThi)
+                .WithTags(@"Danh sách loại hình thức thi");
+
+            app
+                .MapGet  (@"/hoc-phan/get-danh-sach-loai-hoc-phan"     , InternalMethods.HocPhan_GetDanhSachLoaiHocPhan    )
+                .WithTags(@"Danh sách loại học phần"     );
+
             return app;
         }
 
@@ -106,6 +114,27 @@
                 return resBody_RemoveMany;
             }
 
+            public static async Task<IResult> HocPhan_GetDanhSachLoaiHinhThucThi(
+                )
+            {
+                await
+                Task.CompletedTask;
+                return Results.Ok(new ResBody_Helper<List<string>>()
+                {
+                    Result = HocPhan.DanhSachLoaiHinhThucThi,
+                });
+            }
+
+            public static async Task<IResult> HocPhan_GetDanhSachLoaiHocPhan    (
+                )
+            {
+                await
+                Task.CompletedTask;
+                return Results.Ok(new ResBody_Helper<List<string>>()
+                {
+                    Result = HocPhan.DanhSachLoaiHocPhan    ,
+                });
+            }
         }
     }
 }

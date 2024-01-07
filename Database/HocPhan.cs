@@ -71,3 +71,4 @@ public partial class HocPhan
     [InverseProperty("HocPhans")]
     public virtual MonHoc      MonHoc      { get; set; } = null!;
 }
+

@@ -43,3 +43,8 @@ public partial class BangDiemHocPhan
     [InverseProperty("BangDiemHocPhans")]
     public virtual SinhVien               SinhVien              { get; set; } = null!;
 }
+
+// Công thức
+// học phần lý thuyết: tổng điểm = 25%QT + 25%GK + 50% CK (TH để 0)
+// học phần thực hành: tổng điểm = 100%TH (QT, GK, CK để 0)
+// Điểm tổng của môn = 50% tổng điểm lt + 50% tổng điểm th
