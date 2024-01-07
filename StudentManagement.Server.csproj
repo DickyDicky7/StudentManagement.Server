@@ -17,7 +17,7 @@
                           Version="7.0.14">
             <PrivateAssets>all</PrivateAssets>
             <!--Turn this on later-->
-            <!--<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>-->
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL"
                           Version="7.0.11" />
