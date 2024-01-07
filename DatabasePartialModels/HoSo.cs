@@ -2,6 +2,7 @@
 {
     public partial class HoSo : IModel<HoSo>
     {
+        [NotMapped]
         [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
         public static List<string> DanhSachLoaiHoSo { get; } = new()
         {
