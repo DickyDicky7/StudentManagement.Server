@@ -38,80 +38,119 @@ namespace StudentManagement.Server.API
                 {
                     return Results.BadRequest("Password is empty");
                 }
-                if (role == "sv")
-                {
-                    SinhVien? sinhVien = await context.SinhViens.FirstOrDefaultAsync(sinhVien => sinhVien.Username == username);
-                    if (sinhVien == null)
-                    {
-                        return Results.BadRequest("User does not exists");
-                    }
-                    else if (password != sinhVien.UsernamePassword)
-                    {
-                        return Results.Unauthorized();
-                    }
-                    else
-                    {
-                        List<Claim> claimList = new List<Claim>()
-                        {
-                            new Claim(ClaimTypes.Name, username),
-                            new Claim(ClaimTypes.Role, role    ),
-                            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-                        };
-                        var  accessToken =  GenerateAccessToken(configuration, claimList);
-                        var refreshToken = GenerateRefreshToken(configuration);
-                        await context.JwtStorages.AddAsync(new JwtStorage()
-                        {
-                            MaSinhVienHoacNhanVien = sinhVien.MaSinhVien,
-                            Loai = "sv",
-                             AccessToken =  accessToken,
-                            RefreshToken = refreshToken,
-                        });
-                        await  context.SaveChangesAsync();
-                        return Results.Ok(new
-                        {
-                             AccessToken =  accessToken,
-                            RefreshToken = refreshToken,
-                        });
-                    }
-                }
-                else
-                {
-                    NhanVien? nhanVien = await context.NhanViens.FirstOrDefaultAsync(nhanVien => nhanVien.Username == username);
-                    if (nhanVien == null)
-                    {
-                        return Results.BadRequest("User does not exists");
-                    }
-                    else if (password != nhanVien.UsernamePassword)
-                    {
-                        return Results.Unauthorized();
-                    }
-                    else
-                    {
-                        List<Claim> claimList = new List<Claim>()
-                        {
-                            new Claim(ClaimTypes.Name, username),
-                            new Claim(ClaimTypes.Role,     role),
-                            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-                        };
-                        var  accessToken =  GenerateAccessToken(configuration, claimList);
-                        var refreshToken = GenerateRefreshToken(configuration);
-                        await context.JwtStorages.AddAsync(new JwtStorage()
-                        {
-                            MaSinhVienHoacNhanVien = nhanVien.MaNhanVien,
-                            Loai = "nv",
-                             AccessToken =  accessToken,
-                            RefreshToken = refreshToken,
-                        });
-                        await context.SaveChangesAsync();
-                        return Results.Ok(new
-                        {
-                                   Token =  accessToken,
-                            RefreshToken = refreshToken,
-                        });
-                    }
-                }
-
-            }
+				if (role == "sv")
+				{
+					SinhVien? sinhVien = await context.SinhViens.FirstOrDefaultAsync(sinhVien => sinhVien.Username == username);
+					if (sinhVien == null)
+					{
+						return Results.BadRequest("User does not exists");
+					}
+					else if (password != sinhVien.UsernamePassword)
+					{
+						return Results.Unauthorized();
+					}
+					else
+					{
+						JwtStorage? user = await context.JwtStorages.FirstOrDefaultAsync(user => user.MaSinhVienHoacNhanVien == sinhVien.MaSinhVien);
+						List<Claim> claimList = new List<Claim>()
+						{
+							new Claim(ClaimTypes.Name, username),
+							new Claim(ClaimTypes.Role, role),
+							new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+						};
+						var accessToken = GenerateAccessToken(configuration, claimList);
+						var refreshToken = GenerateRefreshToken(configuration);
+						if (user == null)
+						{
+							await context.JwtStorages.AddAsync(new JwtStorage()
+							{
+								MaSinhVienHoacNhanVien = sinhVien.MaSinhVien,
+								Loai = "sv",
+								AccessToken = accessToken,
+								RefreshToken = refreshToken
+							});
+							await context.SaveChangesAsync();
+							return Results.Ok(new
+							{
+								UserId = sinhVien.MaSinhVien,
+								Role = role,
+								AccessToken = accessToken,
+								RefreshToken = refreshToken
+							});
+						}
+						else
+						{
+							user.AccessToken = accessToken;
+							user.RefreshToken = refreshToken;
+							context.JwtStorages.Update(user);
+							await context.SaveChangesAsync();
+							return Results.Ok(new
+							{
+								UserId = sinhVien.MaSinhVien,
+								Role = role,
+								NewAccessToken = accessToken,
+								NewRefreshToken = refreshToken
+							});
+						}
+					}
+				}
+				else
+				{
+					NhanVien? nhanVien = await context.NhanViens.FirstOrDefaultAsync(nhanVien => nhanVien.Username == username);
+					if (nhanVien == null)
+					{
+						return Results.BadRequest("User does not exists");
+					}
+					else if (password != nhanVien.UsernamePassword)
+					{
+						return Results.Unauthorized();
+					}
+					else
+					{
+						JwtStorage? user = await context.JwtStorages.FirstOrDefaultAsync(user => user.MaSinhVienHoacNhanVien == nhanVien.MaNhanVien);
+						List<Claim> claimList = new List<Claim>()
+						{
+							new Claim(ClaimTypes.Name, username),
+							new Claim(ClaimTypes.Role, role),
+							new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+						};
+						var accessToken = GenerateAccessToken(configuration, claimList);
+						var refreshToken = GenerateRefreshToken(configuration);
+						if (user == null)
+						{
+							await context.JwtStorages.AddAsync(new JwtStorage()
+							{
+								MaSinhVienHoacNhanVien = nhanVien.MaNhanVien,
+								Loai = "nv",
+								AccessToken = accessToken,
+								RefreshToken = refreshToken
+							});
+							await context.SaveChangesAsync();
+							return Results.Ok(new
+							{
+								UserId = nhanVien.MaNhanVien,
+								Role = role,
+								Token = accessToken,
+								RefreshToken = refreshToken
+							});
+						}
+						else
+						{
+							user.AccessToken = accessToken;
+							user.RefreshToken = refreshToken;
+							context.JwtStorages.Update(user);
+							await context.SaveChangesAsync();
+							return Results.Ok(new
+							{
+								UserId = nhanVien.MaNhanVien,
+								Role = role,
+								NewAccessToken = accessToken,
+								NewRefreshToken = refreshToken
+							});
+						}
+					}
+				}
+			}
             public static async Task<IResult> RefreshTokenHandler(
                 [FromServices] ApplicationDbContext context,
                 [FromServices] IConfiguration configuration,
