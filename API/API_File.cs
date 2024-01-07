@@ -4,8 +4,14 @@
     {
         public static WebApplication MapAPI_File(this WebApplication app)
         {
-            app.MapPost("/upload", InternalMethods.UploadFileHandler);
-            //app.MapPost("/download", InternalMethods.DownloadFileHandler);
+            app
+                .MapPost  (@"/upload", InternalMethods.  UploadFileHandler)
+                .WithTags  (@"Upload");
+
+            //app
+            //    .MapPost(@"/download", InternalMethods.DownloadFileHandler)
+            //    .WithTags(@"Download");
+
             return app;
         }
         public static class InternalMethods

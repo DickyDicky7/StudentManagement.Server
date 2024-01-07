@@ -9,9 +9,16 @@ namespace StudentManagement.Server.API
     {
         public static WebApplication MapAPI_Authentication(this WebApplication app)
         {
-            app.MapPost("/login", InternalMethods.LogInHandler).AllowAnonymous();
-            app.MapPost("/refresh", InternalMethods.RefreshTokenHandler);
-            app.MapDelete("/logout", InternalMethods.LogOutHandler);
+            app
+                .MapPost  (@"/login"  , InternalMethods.LogInHandler       ).AllowAnonymous()
+                .WithTags (@"Auth");
+            app
+                .MapPost  (@"/refresh", InternalMethods.RefreshTokenHandler)
+                .WithTags (@"Auth");
+            app
+                .MapDelete(@"/logout" , InternalMethods.LogOutHandler      )
+                .WithTags (@"Auth");
+
             return app;
         }
         private static class InternalMethods
@@ -47,23 +54,23 @@ namespace StudentManagement.Server.API
                         List<Claim> claimList = new List<Claim>()
                         {
                             new Claim(ClaimTypes.Name, username),
-                            new Claim(ClaimTypes.Role, role),
+                            new Claim(ClaimTypes.Role, role    ),
                             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
                         };
-                        var accessToken = GenerateAccessToken(configuration, claimList);
+                        var  accessToken =  GenerateAccessToken(configuration, claimList);
                         var refreshToken = GenerateRefreshToken(configuration);
                         await context.JwtStorages.AddAsync(new JwtStorage()
                         {
                             MaSinhVienHoacNhanVien = sinhVien.MaSinhVien,
                             Loai = "sv",
-                            AccessToken = accessToken,
-                            RefreshToken = refreshToken
+                             AccessToken =  accessToken,
+                            RefreshToken = refreshToken,
                         });
-                        await context.SaveChangesAsync();
+                        await  context.SaveChangesAsync();
                         return Results.Ok(new
                         {
-                            AccessToken = accessToken,
-                            RefreshToken = refreshToken
+                             AccessToken =  accessToken,
+                            RefreshToken = refreshToken,
                         });
                     }
                 }
@@ -83,23 +90,23 @@ namespace StudentManagement.Server.API
                         List<Claim> claimList = new List<Claim>()
                         {
                             new Claim(ClaimTypes.Name, username),
-                            new Claim(ClaimTypes.Role, role),
+                            new Claim(ClaimTypes.Role,     role),
                             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
                         };
-                        var accessToken = GenerateAccessToken(configuration, claimList);
+                        var  accessToken =  GenerateAccessToken(configuration, claimList);
                         var refreshToken = GenerateRefreshToken(configuration);
                         await context.JwtStorages.AddAsync(new JwtStorage()
                         {
                             MaSinhVienHoacNhanVien = nhanVien.MaNhanVien,
                             Loai = "nv",
-                            AccessToken = accessToken,
-                            RefreshToken = refreshToken
+                             AccessToken =  accessToken,
+                            RefreshToken = refreshToken,
                         });
                         await context.SaveChangesAsync();
                         return Results.Ok(new
                         {
-                            Token = accessToken,
-                            RefreshToken = refreshToken
+                                   Token =  accessToken,
+                            RefreshToken = refreshToken,
                         });
                     }
                 }
@@ -108,7 +115,7 @@ namespace StudentManagement.Server.API
             public static async Task<IResult> RefreshTokenHandler(
                 [FromServices] ApplicationDbContext context,
                 [FromServices] IConfiguration configuration,
-                [FromQuery(Name = "accessToken")] string accessToken,
+                [FromQuery(Name =  "accessToken")] string  accessToken,
                 [FromQuery(Name = "refreshToken")] string refreshToken)
             {
                 if (accessToken == null || refreshToken == null)
@@ -121,7 +128,7 @@ namespace StudentManagement.Server.API
                     return Results.BadRequest("Invalid access token or refresh token");
                 }
                 string username = principal.Claims.First(claim => claim.Type == ClaimTypes.Name).Value;
-                string role = principal.Claims.First(claim => claim.Type == ClaimTypes.Role).Value;
+                string role     = principal.Claims.First(claim => claim.Type == ClaimTypes.Role).Value;
                 long id;
                 if (role == "sv")
                 {
@@ -144,7 +151,7 @@ namespace StudentManagement.Server.API
                 string newAccessToken = GenerateAccessToken(configuration, principal.Claims.ToList());
                 user.AccessToken = newAccessToken;
                 context.JwtStorages.Update(user);
-                await context.SaveChangesAsync();
+                await  context.SaveChangesAsync();
                 return Results.Ok(new
                 {
                     Token = newAccessToken
@@ -165,7 +172,7 @@ namespace StudentManagement.Server.API
                     return Results.BadRequest("Invalid access token");
                 }
                 string username = principal.Claims.First(claim => claim.Type == ClaimTypes.Name).Value;
-                string role = principal.Claims.First(claim => claim.Type == ClaimTypes.Role).Value;
+                string role     = principal.Claims.First(claim => claim.Type == ClaimTypes.Role).Value;
                 long id;
                 if (role == "sv")
                 {
@@ -176,28 +183,28 @@ namespace StudentManagement.Server.API
                     id = context.NhanViens.First(nhanVien => nhanVien.Username == username).MaNhanVien;
                 }
                 JwtStorage user = await context.JwtStorages.FirstAsync(user => (user.MaSinhVienHoacNhanVien == id && user.Loai == role));
-                context.JwtStorages.Remove(user);
-                await context.SaveChangesAsync();
+                context.JwtStorages.Remove (user);
+                await  context.SaveChangesAsync();
                 return Results.Ok();
             }
             public static string GenerateAccessToken(IConfiguration configuration, List<Claim> claims)
             {
-                var issuer = configuration["Jwt:Issuer"];
+                var issuer   = configuration["Jwt:Issuer"  ];
                 var audience = configuration["Jwt:Audience"];
                 var key = Encoding.UTF8.GetBytes(configuration["Jwt:Key"]!);
                 var tokenDescriptor = new SecurityTokenDescriptor
                 {
                     Subject = new ClaimsIdentity(claims),
                     Expires = DateTime.UtcNow.AddMinutes(10),
-                    Issuer = issuer,
+                    Issuer   = issuer  ,
                     Audience = audience,
                     SigningCredentials = new SigningCredentials(
                         new SymmetricSecurityKey(key),
-                        SecurityAlgorithms.HmacSha512Signature)
+                        SecurityAlgorithms.HmacSha512Signature ),
                 };
                 var tokenHandler = new JwtSecurityTokenHandler();
                 var token = tokenHandler.CreateToken(tokenDescriptor);
-                return tokenHandler.WriteToken(token);
+                return      tokenHandler. WriteToken(token);
             }
             public static string GenerateRefreshToken(IConfiguration configuration)
             {
@@ -207,15 +214,15 @@ namespace StudentManagement.Server.API
                     Subject = new ClaimsIdentity(new[]
                     {
                         new Claim(JwtRegisteredClaimNames.Sub, "refresh_token"),
-                        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                        new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString(), ClaimValueTypes.Integer64)
+                        new Claim(JwtRegisteredClaimNames.Jti,  Guid.NewGuid().ToString()),
+                        new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString() , ClaimValueTypes.Integer64)
                     }),
                     Expires = DateTime.UtcNow.AddHours(3),
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha512Signature)
                 };
                 var tokenHandler = new JwtSecurityTokenHandler();
                 var token = tokenHandler.CreateToken(tokenDescriptor);
-                return tokenHandler.WriteToken(token);
+                return      tokenHandler. WriteToken(token);
             }
             public static ClaimsPrincipal? GetPrincipalFromToken(
                 string? token,
@@ -224,10 +231,10 @@ namespace StudentManagement.Server.API
                 var tokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateAudience = false,
-                    ValidateIssuer = false,
+                    ValidateIssuer   = false,
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]!)),
-                    ValidateLifetime = false
+                    ValidateLifetime = false,
                 };
 
                 var tokenHandler = new JwtSecurityTokenHandler();
