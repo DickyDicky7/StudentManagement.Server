@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using System.Security.Claims;
 using Microsoft.VisualStudio.TextTemplating;
-using System.IdentityModel.Tokens.Jwt;
 using StudentManagement.Server.Database;
-using System.Security.Cryptography;
-using System.Xml.Linq;
+using System.IdentityModel.Tokens.Jwt;
 using System.Net.WebSockets;
+using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
+using System.Xml.Linq;
 
 namespace StudentManagement.Server.API
 {
@@ -50,8 +50,8 @@ namespace StudentManagement.Server.API
                     }
                     else
                     {
-						List<Claim> claimList = new List<Claim>()
-						{
+                        List<Claim> claimList = new List<Claim>()
+                        {
                             new Claim(ClaimTypes.Name, username),
                             new Claim(ClaimTypes.Role, role),
                             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
@@ -88,10 +88,10 @@ namespace StudentManagement.Server.API
                     {
                         List<Claim> claimList = new List<Claim>()
                         {
-							new Claim(ClaimTypes.Name, username),
+                            new Claim(ClaimTypes.Name, username),
                             new Claim(ClaimTypes.Role, role),
-							new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-						};
+                            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                        };
                         var accessToken = GenerateAccessToken(configuration, claimList);
                         var refreshToken = GenerateRefreshToken(configuration);
                         await context.JwtStorages.AddAsync(new JwtStorage()
@@ -109,7 +109,7 @@ namespace StudentManagement.Server.API
                         });
                     }
                 }
-                
+
             }
             public static async Task<IResult> RefreshTokenHandler(
                 [FromServices] ApplicationDbContext context,
@@ -151,37 +151,37 @@ namespace StudentManagement.Server.API
                 user.AccessToken = newAccessToken;
                 context.JwtStorages.Update(user);
                 await context.SaveChangesAsync();
-				return Results.Ok(new
+                return Results.Ok(new
                 {
                     Token = newAccessToken
                 });
             }
             public static async Task<IResult> LogOutHandler(
-				[FromServices] ApplicationDbContext context,
-				[FromServices] IConfiguration configuration,
-				[FromQuery(Name = "accessToken")] string accessToken)
+                [FromServices] ApplicationDbContext context,
+                [FromServices] IConfiguration configuration,
+                [FromQuery(Name = "accessToken")] string accessToken)
             {
                 if (accessToken == null)
                 {
                     return Results.BadRequest("Invalid client request");
                 }
-				ClaimsPrincipal? principal = GetPrincipalFromToken(accessToken, configuration);
-				if (principal == null)
-				{
-					return Results.BadRequest("Invalid access token");
-				}
-				string username = principal.Claims.First(claim => claim.Type == ClaimTypes.Name).Value;
-				string role = principal.Claims.First(claim => claim.Type == ClaimTypes.Role).Value;
-				long id;
-				if (role == "sv")
-				{
-					id = context.SinhViens.First(sinhVien => sinhVien.Username == username).MaSinhVien;
-				}
-				else
-				{
-					id = context.NhanViens.First(nhanVien => nhanVien.Username == username).MaNhanVien;
-				}
-				JwtStorage user = await context.JwtStorages.FirstAsync(user => (user.MaSinhVienHoacNhanVien == id && user.Loai == role));
+                ClaimsPrincipal? principal = GetPrincipalFromToken(accessToken, configuration);
+                if (principal == null)
+                {
+                    return Results.BadRequest("Invalid access token");
+                }
+                string username = principal.Claims.First(claim => claim.Type == ClaimTypes.Name).Value;
+                string role = principal.Claims.First(claim => claim.Type == ClaimTypes.Role).Value;
+                long id;
+                if (role == "sv")
+                {
+                    id = context.SinhViens.First(sinhVien => sinhVien.Username == username).MaSinhVien;
+                }
+                else
+                {
+                    id = context.NhanViens.First(nhanVien => nhanVien.Username == username).MaNhanVien;
+                }
+                JwtStorage user = await context.JwtStorages.FirstAsync(user => (user.MaSinhVienHoacNhanVien == id && user.Loai == role));
                 context.JwtStorages.Remove(user);
                 await context.SaveChangesAsync();
                 return Results.Ok();
@@ -198,7 +198,7 @@ namespace StudentManagement.Server.API
                     Issuer = issuer,
                     Audience = audience,
                     SigningCredentials = new SigningCredentials(
-                        new SymmetricSecurityKey(key), 
+                        new SymmetricSecurityKey(key),
                         SecurityAlgorithms.HmacSha512Signature)
                 };
                 var tokenHandler = new JwtSecurityTokenHandler();
@@ -207,7 +207,7 @@ namespace StudentManagement.Server.API
             }
             public static string GenerateRefreshToken(IConfiguration configuration)
             {
-				var key = Encoding.ASCII.GetBytes(configuration["Jwt:Key"]!);
+                var key = Encoding.ASCII.GetBytes(configuration["Jwt:Key"]!);
                 var tokenDescriptor = new SecurityTokenDescriptor
                 {
                     Subject = new ClaimsIdentity(new[]
@@ -219,10 +219,10 @@ namespace StudentManagement.Server.API
                     Expires = DateTime.UtcNow.AddHours(3),
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha512Signature)
                 };
-				var tokenHandler = new JwtSecurityTokenHandler();
-				var token = tokenHandler.CreateToken(tokenDescriptor);
-				return tokenHandler.WriteToken(token);
-			}
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var token = tokenHandler.CreateToken(tokenDescriptor);
+                return tokenHandler.WriteToken(token);
+            }
             public static ClaimsPrincipal? GetPrincipalFromToken(
                 string? token,
                 IConfiguration configuration)
@@ -244,27 +244,27 @@ namespace StudentManagement.Server.API
             }
             public static DateTime GetTokenExpiryTime(string token)
             {
-				var tokenHandler = new JwtSecurityTokenHandler();
+                var tokenHandler = new JwtSecurityTokenHandler();
 
-				if (tokenHandler.CanReadToken(token))
-				{
-					var jwtToken = tokenHandler.ReadToken(token) as JwtSecurityToken;
+                if (tokenHandler.CanReadToken(token))
+                {
+                    var jwtToken = tokenHandler.ReadToken(token) as JwtSecurityToken;
 
-					if (jwtToken != null)
-					{
-						// Check if the token has an expiration claim
-						if (jwtToken.Payload.TryGetValue(JwtRegisteredClaimNames.Exp, out var expValue) &&
-							expValue is long expUnix)
-						{
-							// Convert expiration time from Unix timestamp to DateTime
-							return DateTimeOffset.FromUnixTimeSeconds(expUnix).DateTime;
-						}
-					}
-				}
+                    if (jwtToken != null)
+                    {
+                        // Check if the token has an expiration claim
+                        if (jwtToken.Payload.TryGetValue(JwtRegisteredClaimNames.Exp, out var expValue) &&
+                            expValue is long expUnix)
+                        {
+                            // Convert expiration time from Unix timestamp to DateTime
+                            return DateTimeOffset.FromUnixTimeSeconds(expUnix).DateTime;
+                        }
+                    }
+                }
 
                 // Token is not valid or does not contain expiration information
                 return DateTime.MinValue;
-			}
+            }
         }
     }
 }
