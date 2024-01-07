@@ -82,10 +82,19 @@
                 return Results.Ok(resBody_AddMany);
             }
 
-            public static async Task<ResBody_UpdateMany<KetQuaRenLuyen>> KetQuaRenLuyen_UpdateMany(
+            public static async Task <IResult>          KetQuaRenLuyen_UpdateMany(
                 [FromServices] ApplicationDbContext context,
                 [FromBody] ReqBody_UpdateMany<  ReqBody_KetQuaRenLuyen,  KetQuaRenLuyen> reqBody_UpdateMany)
             {
+                if (reqBody_UpdateMany.UpdateTo.SoDiemRenLuyen != null
+                && (reqBody_UpdateMany.UpdateTo.SoDiemRenLuyen > 100
+                ||  reqBody_UpdateMany.UpdateTo.SoDiemRenLuyen < 000))
+                {
+                    return Results.BadRequest(new ResBody_Helper<string>()
+                    {
+                        Result = "invalid soDiemRenLuyen: soDiemRenLuyen must be between 0 and 100",
+                    });
+                }
                 ResBody_UpdateMany<KetQuaRenLuyen> resBody_UpdateMany = new();
                 resBody_UpdateMany.NumberOfRowsAffected = await context.KetQuaRenLuyens.Where(
                 reqBody_UpdateMany.FilterBy.MatchExpression()).ExecuteUpdateAsync(reqBody_UpdateMany.UpdateTo.UpdateModel());
@@ -97,7 +106,31 @@
                 {
                     resBody_UpdateMany.Result        = new List<KetQuaRenLuyen>();
                 }
-                return resBody_UpdateMany;
+                List<KetQuaRenLuyen> ketQuaRenLuyens =  await context.KetQuaRenLuyens
+                .Where(reqBody_UpdateMany.FilterBy.MatchExpression()).ToListAsync();
+                foreach
+                    (KetQuaRenLuyen  ketQuaRenLuyen in ketQuaRenLuyens)
+                {
+                    if  (ketQuaRenLuyen.SoDiemRenLuyen > 100
+                    ||   ketQuaRenLuyen.SoDiemRenLuyen < 000)
+                    {
+                        return  Results.BadRequest(new ResBody_Helper<string>()
+                        {
+                            Result = "invalid soDiemRenLuyen: soDiemRenLuyen must be between 0 and 100",
+                        });
+                    }
+                         Common.BacDiem bacDiem =
+                         ketQuaRenLuyen.TinhBacDiemRenLuyen()!;
+                         ketQuaRenLuyen.XepLoaiRenLuyen =    bacDiem.XepLoai !;
+                    await
+                        context.
+                        KetQuaRenLuyens.Where(row => row.MaKetQuaRenLuyen == ketQuaRenLuyen.MaKetQuaRenLuyen).
+                        ExecuteUpdateAsync(setter =>
+                                           setter.SetProperty(row =>
+                                                              row.XepLoaiRenLuyen,
+                                                   ketQuaRenLuyen.XepLoaiRenLuyen));
+                }
+                return Results.Ok(resBody_UpdateMany);
             }
 
             public static async Task<ResBody_RemoveMany<KetQuaRenLuyen>> KetQuaRenLuyen_RemoveMany(
