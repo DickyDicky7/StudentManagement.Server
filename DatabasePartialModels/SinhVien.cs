@@ -2,6 +2,7 @@
 {
     public partial class SinhVien : IModel<SinhVien>
     {
+        [NotMapped]
         [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
         public static List<string> DanhSachLoaiTinhTrangHocTap { get; } = new()
         {

@@ -11,6 +11,7 @@
               (bacDiem.NhoHonHoacBang != null && this.DiemTrungBinhHocKy <= bacDiem.NhoHonHoacBang)));
         }
 
+        [NotMapped]
         [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
         public static List<Common.BacDiem> ThangDiemDanhGiaKetQuaHocTap { get; } = new()
         {
@@ -64,5 +65,7 @@
                 LonHonHoacBang = 00.0m           ,
             }                                    ,
         };
+
+
     }
 }

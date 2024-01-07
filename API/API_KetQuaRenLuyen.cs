@@ -45,13 +45,27 @@
                 return resBody_GetMany;
             }
 
-            public static async Task<ResBody_AddMany<           KetQuaRenLuyen>> KetQuaRenLuyen_AddMany(
+            public static async Task<IResult> KetQuaRenLuyen_AddMany(
                 [FromServices] ApplicationDbContext context,
                 [FromBody] ReqBody_AddMany<JustForInsertReqBody_KetQuaRenLuyen,  KetQuaRenLuyen> reqBody_AddMany)
             {
                 ResBody_AddMany<KetQuaRenLuyen> resBody_AddMany = new();
                 List           <KetQuaRenLuyen> ketQuaRenLuyens = reqBody_AddMany
                 .ItemsToAdd.Select(itemToAdd => itemToAdd.ToModel()).ToList ();
+                foreach (KetQuaRenLuyen ketQuaRenLuyen in ketQuaRenLuyens)
+                {
+                    if  (ketQuaRenLuyen.SoDiemRenLuyen > 100
+                    ||   ketQuaRenLuyen.SoDiemRenLuyen < 000)
+                    {
+                        return  Results.BadRequest(new ResBody_Helper<string>()
+                        {
+                            Result = "invalid soDiemRenLuyen: soDiemRenLuyen must be between 0 and 100",
+                        });
+                    }
+                         Common.BacDiem bacDiem =
+                         ketQuaRenLuyen.TinhBacDiemRenLuyen()!;
+                         ketQuaRenLuyen.XepLoaiRenLuyen =    bacDiem.XepLoai !;
+                }
                 await   context.KetQuaRenLuyens.AddRangeAsync(ketQuaRenLuyens);
                 resBody_AddMany.NumberOfRowsAffected = await context.SaveChangesAsync();
                 if (reqBody_AddMany.ReturnJustIds)
@@ -65,7 +79,7 @@
                     resBody_AddMany.Result        = ketQuaRenLuyens
                     .Where (ketQuaRenLuyen => ketQuaRenLuyen.MaKetQuaRenLuyen != default);
                 }
-                return resBody_AddMany;
+                return Results.Ok(resBody_AddMany);
             }
 
             public static async Task<ResBody_UpdateMany<KetQuaRenLuyen>> KetQuaRenLuyen_UpdateMany(

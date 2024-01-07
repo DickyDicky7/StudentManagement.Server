@@ -11,6 +11,7 @@
               (bacDiem.NhoHonHoacBang != null && this.SoDiemRenLuyen <= bacDiem.NhoHonHoacBang)));
         }
 
+        [NotMapped]
         [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
         public static List<Common.BacDiem> ThangDiemDanhGiaKetQuaRenLuyen { get; } = new()
         {

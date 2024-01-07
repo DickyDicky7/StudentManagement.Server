@@ -78,6 +78,9 @@
     public record class JustForInsertReqBody_KetQuaRenLuyen : ReqBody_KetQuaRenLuyen
     {
         [SwaggerSchema(ReadOnly = true)]
-        public new long? MaKetQuaRenLuyen { get; set; }
+        public new long  ? MaKetQuaRenLuyen { get; set; }
+
+        [SwaggerSchema(ReadOnly = true)]
+        public new string?  XepLoaiRenLuyen { get; set; }
     }
 }

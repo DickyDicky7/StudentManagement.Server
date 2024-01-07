@@ -78,6 +78,12 @@
     public record class JustForInsertReqBody_KetQuaHocTap : ReqBody_KetQuaHocTap
     {
         [SwaggerSchema(ReadOnly = true)]
-        public new long? MaKetQuaHocTap { get; set; }
+        public new long   ? MaKetQuaHocTap     { get; set; }
+
+        [SwaggerSchema(ReadOnly = true)]
+        public new decimal? DiemTrungBinhHocKy { get; set; }
+        
+        [SwaggerSchema(ReadOnly = true)]
+        public new string ?  XepLoaiHocTap     { get; set; }
     }
 }

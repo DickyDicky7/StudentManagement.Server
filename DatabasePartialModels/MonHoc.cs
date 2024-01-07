@@ -2,6 +2,7 @@
 {
     public partial class MonHoc : IModel<MonHoc>
     {
+        [NotMapped]
         [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
         public static List<string> DanhSachCongThucTinhTongDiemMonHoc { get; } = new()
         {
