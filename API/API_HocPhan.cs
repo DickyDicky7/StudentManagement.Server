@@ -32,11 +32,17 @@
             {
                 ResBody_GetMany<HocPhan> resBody_GetMany = new()
                 {
-                    Result = await context.HocPhans
+                    Result =(await context.HocPhans
+                    .Include(row => row.  MonHoc)
+                    .OrderBy(row => row.MaMonHoc)
                     .Where(reqBody_GetMany.FilterBy
                     .MatchExpression())
                     .Skip(offset).Take(limit)
-                    .ToListAsync(),
+                    .ToListAsync()).Select(row =>
+                    {
+                        row.MonHoc.HocPhans = null!;
+                        return row;
+                    }),
                 };
                 return resBody_GetMany;
             }
