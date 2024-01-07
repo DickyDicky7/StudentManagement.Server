@@ -10,13 +10,13 @@ namespace StudentManagement.Server.API
         public static WebApplication MapAPI_Authentication(this WebApplication app)
         {
             app
-                .MapPost  (@"/login"  , InternalMethods.LogInHandler       ).AllowAnonymous()
+                .MapPost  (@"/auth/login"  , InternalMethods.LogInHandler       ).AllowAnonymous()
                 .WithTags (@"Auth");
             app
-                .MapPost  (@"/refresh", InternalMethods.RefreshTokenHandler)
+                .MapPost  (@"/auth/refresh", InternalMethods.RefreshTokenHandler)
                 .WithTags (@"Auth");
             app
-                .MapDelete(@"/logout" , InternalMethods.LogOutHandler      )
+                .MapDelete(@"/auth/logout" , InternalMethods.LogOutHandler      )
                 .WithTags (@"Auth");
 
             return app;
