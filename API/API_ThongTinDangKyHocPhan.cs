@@ -32,11 +32,26 @@
             {
                 ResBody_GetMany<ThongTinDangKyHocPhan> resBody_GetMany = new()
                 {
-                    Result = await context.ThongTinDangKyHocPhans
+                    Result =(await context.   ThongTinDangKyHocPhans
                     .Where(reqBody_GetMany.FilterBy
                     .MatchExpression())
                     .Skip(offset).Take(limit)
-                    .ToListAsync(),
+                    .    Include(row => row.  DanhSachDangKyHocPhans)
+                    .ThenInclude(row => row.                HocPhan )
+                    .ThenInclude(row => row.MonHoc)
+                    .OrderBy    (row => row.MaThongTinDangKyHocPhan )
+                    .ToListAsync()).Select(row =>
+                    {
+                        foreach (DanhSachDangKyHocPhan
+                                 danhSachDangKyHocPhan
+                        in   row.DanhSachDangKyHocPhans)
+                        {
+                            danhSachDangKyHocPhan.        ThongTinDangKyHocPhan  = null!;
+                            danhSachDangKyHocPhan.HocPhan.DanhSachDangKyHocPhans = null!;
+                            danhSachDangKyHocPhan.HocPhan.MonHoc.       HocPhans = null!;
+                        }
+                            return row;
+                    }),
                 };
                 return resBody_GetMany;
             }
