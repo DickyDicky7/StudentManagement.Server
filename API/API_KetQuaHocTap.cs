@@ -170,7 +170,7 @@
                 .    Include(row=>row.HocKyNamHoc)
                 .    Include(row=>row.DanhSachDangKyHocPhans)
                 .ThenInclude(row=>row.BangDiemHocPhan)
-                .ThenInclude(row=>row.HocPhan)
+                .ThenInclude(row=>row.        HocPhan)
                 .SingleOrDefaultAsync(thongTinDangKyHocPhan => thongTinDangKyHocPhan.MaSinhVien    == maSinhVien
                                                             && thongTinDangKyHocPhan.MaHocKyNamHoc == maHocKyNamHoc))!;
                 if (thongTinDangKyHocPhan == null)
@@ -182,14 +182,20 @@
                 }
 
                 thongTinDangKyHocPhan.SinhVien   .ThongTinDangKyHocPhans = null!;
+                thongTinDangKyHocPhan.SinhVien   .      BangDiemHocPhans = null!;
                 thongTinDangKyHocPhan.HocKyNamHoc.ThongTinDangKyHocPhans = null!;
+                thongTinDangKyHocPhan.HocKyNamHoc.              HocPhans = null!;
                 foreach (DanhSachDangKyHocPhan
                          danhSachDangKyHocPhan in thongTinDangKyHocPhan.
                          DanhSachDangKyHocPhans)
                 {
                     danhSachDangKyHocPhan.ThongTinDangKyHocPhan = null!;
+                    danhSachDangKyHocPhan.              HocPhan = null!;
                     danhSachDangKyHocPhan.BangDiemHocPhan.  DanhSachDangKyHocPhan  = null!;
+                    danhSachDangKyHocPhan.BangDiemHocPhan.               SinhVien  = null!;
                     danhSachDangKyHocPhan.BangDiemHocPhan.HocPhan.BangDiemHocPhans = null!;
+                    danhSachDangKyHocPhan.BangDiemHocPhan.HocPhan.HocKyNamHoc = null!;
+                    danhSachDangKyHocPhan.BangDiemHocPhan.HocPhan.DanhSachDangKyHocPhans = null!;
                 }
 
                 BangDiemChiTiet bangDiemChiTiet = new();
@@ -216,7 +222,8 @@
 
                 foreach (IGrouping<long, BangDiemHocPhan> group in groups)
                 {
-                    MonHoc monHoc =  (await context.MonHocs.FindAsync(group.Key))!;
+                    MonHoc monHoc   =(await context.MonHocs.FindAsync(group.Key))!;
+                    monHoc.HocPhans = null!;
                     BangDiemChiTietTungMonHoc bangDiemChiTietTungMonHoc   = new() ;
                     bangDiemChiTietTungMonHoc.MonHoc = monHoc;
 
