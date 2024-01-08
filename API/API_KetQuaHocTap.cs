@@ -181,6 +181,17 @@
                     });
                 }
 
+                thongTinDangKyHocPhan.SinhVien   .ThongTinDangKyHocPhans = null!;
+                thongTinDangKyHocPhan.HocKyNamHoc.ThongTinDangKyHocPhans = null!;
+                foreach (DanhSachDangKyHocPhan
+                         danhSachDangKyHocPhan in thongTinDangKyHocPhan.
+                         DanhSachDangKyHocPhans)
+                {
+                    danhSachDangKyHocPhan.ThongTinDangKyHocPhan = null!;
+                    danhSachDangKyHocPhan.BangDiemHocPhan.  DanhSachDangKyHocPhan  = null!;
+                    danhSachDangKyHocPhan.BangDiemHocPhan.HocPhan.BangDiemHocPhans = null!;
+                }
+
                 BangDiemChiTiet bangDiemChiTiet = new();
 
                 bangDiemChiTiet.SinhVien    = thongTinDangKyHocPhan.SinhVien   ;
