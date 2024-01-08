@@ -24,6 +24,10 @@
                 .MapGet  (@"/ket-qua-hoc-tap/get-thang-diem-danh-gia-ket-qua-hoc-tap", InternalMethods.KetQuaHocTap_GetThangDiemDanhGiaKetQuaHocTap)
                 .WithTags(@"Thang điểm đánh giá kết quả học tập");
 
+            app
+                .MapGet  (@"/ket-qua-hoc-tap/bang-diem-chi-tiet", InternalMethods.KetQuaHocTap_BangDiemChiTiet)
+                .WithTags(@"Bảng điểm chi tiết");
+
             return app;
         }
 
@@ -157,27 +161,102 @@
                 });
             }
 
-            //public static async Task<IResult> KetQuaHocTap_BangDiemChiTiet(
-            //    [FromServices] ApplicationDbContext context,
-            //    [FromQuery(Name = "ma-sinh-vien")] long maSinhVien, [FromQuery(Name = "ma-hoc-ky-nam-hoc")] long maHocKyNamHoc)
-            //{
-            //    ThongTinDangKyHocPhan thongTinDangKyHocPhan = (await context.ThongTinDangKyHocPhans
-            //    .    Include(row=>row.DanhSachDangKyHocPhans)
-            //    .ThenInclude(row=>row.BangDiemHocPhan)
-            //    .ThenInclude(row=>row.HocPhan)
-            //    .ThenInclude(row=>row. MonHoc)
-            //    .SingleOrDefaultAsync(thongTinDangKyHocPhan => thongTinDangKyHocPhan.MaSinhVien    == maSinhVien
-            //                                                && thongTinDangKyHocPhan.MaHocKyNamHoc == maHocKyNamHoc))!;
-            //    if (thongTinDangKyHocPhan == null)
-            //    {
-            //        return Results.BadRequest(new ResBody_Helper<string>()
-            //        {
-            //            Result = "invalid ma-sinh-vien or ma-hoc-ky-nam-hoc: ma-sinh-vien or ma-hoc-ky-nam-hoc not found",
-            //        });
-            //    }
+            public static async Task<IResult> KetQuaHocTap_BangDiemChiTiet(
+                [FromServices] ApplicationDbContext context,
+                [FromQuery(Name = "ma-sinh-vien")] long maSinhVien, [FromQuery(Name = "ma-hoc-ky-nam-hoc")] long maHocKyNamHoc)
+            {
+                ThongTinDangKyHocPhan thongTinDangKyHocPhan = (await context.ThongTinDangKyHocPhans
+                .    Include(row=>row.   SinhVien)
+                .    Include(row=>row.HocKyNamHoc)
+                .    Include(row=>row.DanhSachDangKyHocPhans)
+                .ThenInclude(row=>row.BangDiemHocPhan)
+                .ThenInclude(row=>row.HocPhan)
+                .SingleOrDefaultAsync(thongTinDangKyHocPhan => thongTinDangKyHocPhan.MaSinhVien    == maSinhVien
+                                                            && thongTinDangKyHocPhan.MaHocKyNamHoc == maHocKyNamHoc))!;
+                if (thongTinDangKyHocPhan == null)
+                {
+                    return Results.BadRequest(new ResBody_Helper<string>()
+                    {
+                        Result = "invalid ma-sinh-vien or ma-hoc-ky-nam-hoc: ma-sinh-vien or ma-hoc-ky-nam-hoc not found",
+                    });
+                }
 
-                
-            //}
+                BangDiemChiTiet bangDiemChiTiet = new();
+
+                bangDiemChiTiet.SinhVien    = thongTinDangKyHocPhan.SinhVien   ;
+                bangDiemChiTiet.HocKyNamHoc = thongTinDangKyHocPhan.HocKyNamHoc;
+
+                IEnumerable<BangDiemHocPhan>
+                    DanhSachBangDiemHocPhan = thongTinDangKyHocPhan.
+                DanhSachDangKyHocPhans.Select(row => row.BangDiemHocPhan);
+
+                KetQuaHocTap ketQuaHocTap = new();
+                bangDiemChiTiet.DiemTrungBinhHocKy =
+                ketQuaHocTap
+                .           TinhDiemTrungBinhHocKy(DanhSachBangDiemHocPhan);
+
+                bangDiemChiTiet.DanhSachBangDiemChiTietTungMonHoc = new();
+
+                IEnumerable<IGrouping<long, BangDiemHocPhan>> groups
+                =                   DanhSachBangDiemHocPhan
+                .GroupBy(
+                bangDiemHocPhan => bangDiemHocPhan .HocPhan.MaMonHoc,
+                BangDiemHocPhan => BangDiemHocPhan);
+
+                foreach (IGrouping<long, BangDiemHocPhan> group in groups)
+                {
+                    MonHoc monHoc =  (await context.MonHocs.FindAsync(group.Key))!;
+                    BangDiemChiTietTungMonHoc bangDiemChiTietTungMonHoc   = new() ;
+                    bangDiemChiTietTungMonHoc.MonHoc = monHoc;
+
+                    if (group.Count() > 2
+                    ||  group.Count() < 1)
+                    {
+                        return Results.StatusCode(500);
+                    }
+
+                    bangDiemChiTietTungMonHoc.DiemTongKet = 0.0m;
+                    foreach (BangDiemHocPhan bangDiemHocPhan in group)
+                    {
+                        if (bangDiemHocPhan.HocPhan.HinhThucThi == "bài kiểm tra lý thuyết cuối kỳ")
+                        {
+                            bangDiemChiTietTungMonHoc.DiemQuaTrinh = bangDiemHocPhan.DiemQuaTrinh;
+                            bangDiemChiTietTungMonHoc.DiemGiuaKy = bangDiemHocPhan.DiemGiuaKy;
+                            bangDiemChiTietTungMonHoc.DiemCuoiKy = bangDiemHocPhan.DiemCuoiKy;
+                        }
+                        else
+                        if (bangDiemHocPhan.HocPhan.HinhThucThi == "bài kiểm tra thực hành cuối kỳ")
+                        {
+                            bangDiemChiTietTungMonHoc.DiemThucHanh = bangDiemHocPhan.DiemThucHanh;
+                        }
+                        bangDiemChiTietTungMonHoc
+                           .DiemTongKet +=
+                        bangDiemHocPhan.TinhTongDiem() * 0.5m;
+                    }
+                    bangDiemChiTiet.DanhSachBangDiemChiTietTungMonHoc.Add(
+                    bangDiemChiTietTungMonHoc);
+                }
+
+                return Results.Ok(bangDiemChiTiet);
+            }
+
+            public record class BangDiemChiTietTungMonHoc
+            {
+                public MonHoc  MonHoc       { get; set; } = null!;
+                public decimal DiemQuaTrinh { get; set; }
+                public decimal DiemThucHanh { get; set; }
+                public decimal DiemGiuaKy   { get; set; }
+                public decimal DiemCuoiKy   { get; set; }
+                public decimal DiemTongKet  { get; set; }
+            }
+
+            public record class BangDiemChiTiet
+            {
+                public SinhVien    SinhVien    { get; set; } = null!;
+                public HocKyNamHoc HocKyNamHoc { get; set; } = null!;
+                public decimal     DiemTrungBinhHocKy { get; set; }
+                public List<BangDiemChiTietTungMonHoc> DanhSachBangDiemChiTietTungMonHoc { get; set; } = null!;
+            }
         }
     }
 }
