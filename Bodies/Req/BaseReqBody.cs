@@ -47,7 +47,7 @@
             foreach (PropertyInfo propertyInfo in this.GetType().GetProperties())
             {
                 model.GetType()
-                     .GetProperty(propertyInfo.Name)!
+                     .GetProperty(propertyInfo.Name)?
                 .SetValue(model , propertyInfo.GetValue(this));
             }
             return model;

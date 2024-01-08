@@ -49,7 +49,39 @@
             {
                 ResBody_AddMany<DanhSachDangKyHocPhan> resBody_AddMany        = new();
                 List           <DanhSachDangKyHocPhan> danhSachDangKyHocPhans = reqBody_AddMany
-                .ItemsToAdd.Select(itemToAdd => itemToAdd.ToModel()).ToList();
+                .ItemsToAdd.Select(itemToAdd =>
+                {
+                    BangDiemHocPhan bangDiemHocPhan = new()
+                    {
+                        MaHocPhan  = itemToAdd.MaHocPhan !.Value,
+                        MaSinhVien = itemToAdd.MaSinhVien!.Value,
+                        DiemQuaTrinh = 0.0m,
+                        DiemThucHanh = 0.0m,
+                        DiemGiuaKy   = 0.0m,
+                        DiemCuoiKy   = 0.0m,
+                        DiemTong     = 0.0m,
+                    };
+                    context.BangDiemHocPhans.Add(bangDiemHocPhan);
+                    ThongTinDangKyHocPhan
+                    thongTinDangKyHocPhan = context.
+                    ThongTinDangKyHocPhans.SingleOrDefault(row =>
+                                                           row.MaSinhVien    == itemToAdd.MaSinhVien &&
+                                                           row.MaHocKyNamHoc == itemToAdd.MaHocKyNamHoc)!;
+                    if (thongTinDangKyHocPhan == null)
+                    {
+                        thongTinDangKyHocPhan =  new()
+                        {
+                            MaSinhVien    = itemToAdd.MaSinhVien   !.Value,
+                            MaHocKyNamHoc = itemToAdd.MaHocKyNamHoc!.Value,
+                        };
+                        context.ThongTinDangKyHocPhans.Add(thongTinDangKyHocPhan);
+                    }
+                    context.SaveChanges();
+                    itemToAdd.      MaBangDiemHocPhan =       bangDiemHocPhan.      MaBangDiemHocPhan;
+                    itemToAdd.MaThongTinDangKyHocPhan = thongTinDangKyHocPhan.MaThongTinDangKyHocPhan;
+                    return itemToAdd.ToModel();
+                })
+                .ToList();
                 await   context.DanhSachDangKyHocPhans.AddRangeAsync(danhSachDangKyHocPhans);
                 resBody_AddMany.NumberOfRowsAffected = await context.SaveChangesAsync();
                 //if (reqBody_AddMany.ReturnJustIds)

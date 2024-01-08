@@ -66,6 +66,11 @@
 
     public record class JustForInsertReqBody_DanhSachDangKyHocPhan : ReqBody_DanhSachDangKyHocPhan
     {
-
+        [SwaggerSchema(ReadOnly = true)]
+        public new long? MaThongTinDangKyHocPhan { get; set; }
+        public     long? MaSinhVien              { get; set; }
+        public     long? MaHocKyNamHoc           { get; set; }
+        [SwaggerSchema(ReadOnly = true)]
+        public new long? MaBangDiemHocPhan       { get; set; }
     }
 }
