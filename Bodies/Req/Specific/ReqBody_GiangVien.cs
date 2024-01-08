@@ -16,7 +16,7 @@
 
         public override Expression<Func<
             Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<GiangVien>,
-            Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<GiangVien>>> UpdateModel()
+            Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<GiangVien>>> UpdateModelExpression()
         {
             Expression<Func<
             Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<GiangVien>,

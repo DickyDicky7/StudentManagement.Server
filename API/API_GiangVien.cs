@@ -69,8 +69,17 @@
                 [FromBody] ReqBody_UpdateMany<  ReqBody_GiangVien,  GiangVien> reqBody_UpdateMany)
             {
                 ResBody_UpdateMany<GiangVien> resBody_UpdateMany = new();
-                resBody_UpdateMany.NumberOfRowsAffected = await context.GiangViens.Where(
-                reqBody_UpdateMany.FilterBy.MatchExpression()).ExecuteUpdateAsync(reqBody_UpdateMany.UpdateTo.UpdateModel());
+                //resBody_UpdateMany.NumberOfRowsAffected = await context.GiangViens.Where(
+                //reqBody_UpdateMany.FilterBy.MatchExpression()).ExecuteUpdateAsync(reqBody_UpdateMany.UpdateTo.UpdateModelExpression());
+                List      <GiangVien> query = await
+                context   .GiangViens
+                .  Where(reqBody_UpdateMany.FilterBy.MatchExpression())
+                .ToListAsync();
+                query
+                .ForEach(reqBody_UpdateMany.UpdateTo.UpdateModel);
+                context   .GiangViens
+                .UpdateRange(query);
+                resBody_UpdateMany.NumberOfRowsAffected = await context.SaveChangesAsync();
                 if (reqBody_UpdateMany.ReturnJustIds)
                 {
                     resBody_UpdateMany.ResultJustIds = new List<long     >();
@@ -95,8 +104,14 @@
                 {
                     resBody_RemoveMany.Result        = new List<GiangVien>();
                 }
-                resBody_RemoveMany.NumberOfRowsAffected = await context.GiangViens.Where(
-                reqBody_RemoveMany.FilterBy.MatchExpression()).ExecuteDeleteAsync();
+                //resBody_RemoveMany.NumberOfRowsAffected = await context.GiangViens.Where(
+                //reqBody_RemoveMany.FilterBy.MatchExpression()).ExecuteDeleteAsync();
+                IQueryable<GiangVien> query =
+                context   .GiangViens
+                .Where(reqBody_RemoveMany.FilterBy.MatchExpression());
+                context   .GiangViens
+                .RemoveRange(query);
+                resBody_RemoveMany.NumberOfRowsAffected = await context.SaveChangesAsync();
                 return resBody_RemoveMany;
             }
 

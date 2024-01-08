@@ -8,7 +8,7 @@
 
         public override Expression<Func<
             Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<HocKyNamHoc>,
-            Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<HocKyNamHoc>>> UpdateModel()
+            Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<HocKyNamHoc>>> UpdateModelExpression()
         {
             Expression<Func<
                 Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<HocKyNamHoc>,

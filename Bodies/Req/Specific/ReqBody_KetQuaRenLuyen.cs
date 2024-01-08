@@ -10,7 +10,7 @@
 
         public override Expression<Func<
             Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<KetQuaRenLuyen>,
-            Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<KetQuaRenLuyen>>> UpdateModel()
+            Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<KetQuaRenLuyen>>> UpdateModelExpression()
         {
             Expression<Func<
                 Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<KetQuaRenLuyen>,

@@ -10,7 +10,7 @@
 
         public override Expression<Func<
             Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<KetQuaHocTap>,
-            Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<KetQuaHocTap>>> UpdateModel()
+            Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<KetQuaHocTap>>> UpdateModelExpression()
         {
             Expression<Func<
                 Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<KetQuaHocTap>,

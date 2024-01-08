@@ -7,7 +7,7 @@
 
         public override Expression<Func<
             Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<BoMon>,
-            Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<BoMon>>> UpdateModel()
+            Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<BoMon>>> UpdateModelExpression()
         {
             Expression<Func<
                 Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<BoMon>,

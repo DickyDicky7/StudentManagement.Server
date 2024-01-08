@@ -52,6 +52,23 @@
                 ResBody_AddMany<KetQuaHocTap> resBody_AddMany = new();
                 List           <KetQuaHocTap> ketQuaHocTaps   = reqBody_AddMany
                 .ItemsToAdd.Select(itemToAdd => itemToAdd.ToModel()).ToList();
+                foreach (KetQuaHocTap ketQuaHocTap in ketQuaHocTaps)
+                {
+                    ThongTinDangKyHocPhan
+                    thongTinDangKyHocPhan = context.
+                    ThongTinDangKyHocPhans
+                    .    Include(row => row.DanhSachDangKyHocPhans)
+                    .ThenInclude(row => row.BangDiemHocPhan)
+                    .ThenInclude(row => row.        HocPhan)
+                    .Single(row => row.MaSinhVien    == ketQuaHocTap.MaSinhVien
+                                && row.MaHocKyNamHoc == ketQuaHocTap.MaHocKyNamHoc);
+                    ketQuaHocTap.DiemTrungBinhHocKyTinh
+                    (thongTinDangKyHocPhan
+                    .DanhSachDangKyHocPhans
+                    .Select(row => row.BangDiemHocPhan));
+                    Common.BacDiem bacDiem = ketQuaHocTap.TinhBacDiemHocTap()!;
+                    ketQuaHocTap.XepLoaiHocTap =  bacDiem.XepLoai!;
+                }
                 await   context.KetQuaHocTaps.AddRangeAsync(ketQuaHocTaps);
                 resBody_AddMany.NumberOfRowsAffected = await context.SaveChangesAsync();
                 if (reqBody_AddMany.ReturnJustIds)
@@ -74,7 +91,7 @@
             {
                 ResBody_UpdateMany<KetQuaHocTap> resBody_UpdateMany = new();
                 resBody_UpdateMany.NumberOfRowsAffected = await context.KetQuaHocTaps.Where(
-                reqBody_UpdateMany.FilterBy.MatchExpression()).ExecuteUpdateAsync(reqBody_UpdateMany.UpdateTo.UpdateModel());
+                reqBody_UpdateMany.FilterBy.MatchExpression()).ExecuteUpdateAsync(reqBody_UpdateMany.UpdateTo.UpdateModelExpression());
                 if (reqBody_UpdateMany.ReturnJustIds)
                 {
                     resBody_UpdateMany.ResultJustIds = new List<long        >();
@@ -82,6 +99,31 @@
                 else
                 {
                     resBody_UpdateMany.Result        = new List<KetQuaHocTap>();
+                }
+                List    <KetQuaHocTap>ketQuaHocTaps = await context.KetQuaHocTaps
+                .Where(reqBody_UpdateMany.FilterBy.MatchExpression())
+                .ToListAsync();
+                foreach (KetQuaHocTap ketQuaHocTap in ketQuaHocTaps)
+                {
+                    ThongTinDangKyHocPhan
+                    thongTinDangKyHocPhan = context.
+                    ThongTinDangKyHocPhans
+                    .    Include(row => row.DanhSachDangKyHocPhans)
+                    .ThenInclude(row => row.BangDiemHocPhan)
+                    .ThenInclude(row => row.        HocPhan)
+                    .Single(row => row.MaSinhVien    == ketQuaHocTap.MaSinhVien
+                                && row.MaHocKyNamHoc == ketQuaHocTap.MaHocKyNamHoc);
+                    ketQuaHocTap.DiemTrungBinhHocKyTinh
+                    (thongTinDangKyHocPhan
+                    .DanhSachDangKyHocPhans
+                    .Select(row => row.BangDiemHocPhan));
+                    Common.BacDiem bacDiem = ketQuaHocTap.TinhBacDiemHocTap()!;
+                    ketQuaHocTap.XepLoaiHocTap =  bacDiem.XepLoai!;
+                    await
+                         context. KetQuaHocTaps.Where(row => row.MaKetQuaHocTap == ketQuaHocTap.MaKetQuaHocTap)
+                          .ExecuteUpdateAsync(setter =>
+                          setter.SetProperty (row => row.DiemTrungBinhHocKy, ketQuaHocTap.DiemTrungBinhHocKy)
+                                .SetProperty (row => row.     XepLoaiHocTap, ketQuaHocTap.     XepLoaiHocTap) );
                 }
                 return resBody_UpdateMany;
             }
@@ -114,6 +156,28 @@
                     Result = KetQuaHocTap.ThangDiemDanhGiaKetQuaHocTap,
                 });
             }
+
+            //public static async Task<IResult> KetQuaHocTap_BangDiemChiTiet(
+            //    [FromServices] ApplicationDbContext context,
+            //    [FromQuery(Name = "ma-sinh-vien")] long maSinhVien, [FromQuery(Name = "ma-hoc-ky-nam-hoc")] long maHocKyNamHoc)
+            //{
+            //    ThongTinDangKyHocPhan thongTinDangKyHocPhan = (await context.ThongTinDangKyHocPhans
+            //    .    Include(row=>row.DanhSachDangKyHocPhans)
+            //    .ThenInclude(row=>row.BangDiemHocPhan)
+            //    .ThenInclude(row=>row.HocPhan)
+            //    .ThenInclude(row=>row. MonHoc)
+            //    .SingleOrDefaultAsync(thongTinDangKyHocPhan => thongTinDangKyHocPhan.MaSinhVien    == maSinhVien
+            //                                                && thongTinDangKyHocPhan.MaHocKyNamHoc == maHocKyNamHoc))!;
+            //    if (thongTinDangKyHocPhan == null)
+            //    {
+            //        return Results.BadRequest(new ResBody_Helper<string>()
+            //        {
+            //            Result = "invalid ma-sinh-vien or ma-hoc-ky-nam-hoc: ma-sinh-vien or ma-hoc-ky-nam-hoc not found",
+            //        });
+            //    }
+
+                
+            //}
         }
     }
 }

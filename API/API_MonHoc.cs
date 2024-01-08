@@ -73,8 +73,17 @@
                 [FromBody] ReqBody_UpdateMany<  ReqBody_MonHoc,  MonHoc> reqBody_UpdateMany)
             {
                 ResBody_UpdateMany<MonHoc> resBody_UpdateMany = new();
-                resBody_UpdateMany.NumberOfRowsAffected = await context.MonHocs.Where(
-                reqBody_UpdateMany.FilterBy.MatchExpression()).ExecuteUpdateAsync(reqBody_UpdateMany.UpdateTo.UpdateModel());
+                //resBody_UpdateMany.NumberOfRowsAffected = await context.MonHocs.Where(
+                //reqBody_UpdateMany.FilterBy.MatchExpression()).ExecuteUpdateAsync(reqBody_UpdateMany.UpdateTo.UpdateModelExpression());
+                List      <MonHoc> query = await
+                context   .MonHocs
+                .  Where(reqBody_UpdateMany.FilterBy.MatchExpression())
+                .ToListAsync();
+                query
+                .ForEach(reqBody_UpdateMany.UpdateTo.UpdateModel);
+                context   .MonHocs
+                .UpdateRange(query);
+                resBody_UpdateMany.NumberOfRowsAffected = await context.SaveChangesAsync();
                 if (reqBody_UpdateMany.ReturnJustIds)
                 {
                     resBody_UpdateMany.ResultJustIds = new List<long  >();
@@ -99,8 +108,14 @@
                 {
                     resBody_RemoveMany.Result        = new List<MonHoc>();
                 }
-                resBody_RemoveMany.NumberOfRowsAffected = await context.MonHocs.Where(
-                reqBody_RemoveMany.FilterBy.MatchExpression()).ExecuteDeleteAsync();
+                //resBody_RemoveMany.NumberOfRowsAffected = await context.MonHocs.Where(
+                //reqBody_RemoveMany.FilterBy.MatchExpression()).ExecuteDeleteAsync();
+                IQueryable<MonHoc> query =
+                context   .MonHocs
+                .Where(reqBody_RemoveMany.FilterBy.MatchExpression());
+                context   .MonHocs
+                .RemoveRange(query);
+                resBody_RemoveMany.NumberOfRowsAffected = await context.SaveChangesAsync();
                 return resBody_RemoveMany;
             }
 

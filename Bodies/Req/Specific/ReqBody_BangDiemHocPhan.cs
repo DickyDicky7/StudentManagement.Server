@@ -13,7 +13,7 @@
 
         public override Expression<Func<
             Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<BangDiemHocPhan>,
-            Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<BangDiemHocPhan>>> UpdateModel()
+            Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<BangDiemHocPhan>>> UpdateModelExpression()
         {
             Expression<Func<
                 Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<BangDiemHocPhan>,

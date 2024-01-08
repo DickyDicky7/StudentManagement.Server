@@ -66,6 +66,21 @@
             }                                    ,
         };
 
+        public decimal TinhDiemTrungBinhHocKy(IEnumerable<BangDiemHocPhan> danhSachBangDiemHocPhanHocKyNay)
+        {
+            return danhSachBangDiemHocPhanHocKyNay
+            .GroupBy(
+            bangDiemHocPhan => bangDiemHocPhan.HocPhan.MaMonHoc,
+            bangDiemHocPhan => bangDiemHocPhan,       (maMonHoc, danhSachBangDiemHocPhan) =>
+            danhSachBangDiemHocPhan.Select(
+                bangDiemHocPhan =>
+                bangDiemHocPhan.DiemTong
+                ).Sum() * 0.5m).Average();
+        }
 
+        public    void DiemTrungBinhHocKyTinh(IEnumerable<BangDiemHocPhan> danhSachBangDiemHocPhanHocKyNay)
+        {
+            this.DiemTrungBinhHocKy = this.TinhDiemTrungBinhHocKy(danhSachBangDiemHocPhanHocKyNay);
+        }
     }
 }

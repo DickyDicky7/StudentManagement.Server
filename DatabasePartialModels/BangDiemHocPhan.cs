@@ -2,6 +2,11 @@
 {
     public partial class BangDiemHocPhan : IModel<BangDiemHocPhan>
     {
+        public    void TinhDiemTong()
+        {
+            this.DiemTong = this.TinhTongDiem();
+        }
+
         public decimal TinhTongDiem()
         {
             if (this.HocPhan != null)

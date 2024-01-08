@@ -57,7 +57,7 @@
                 bangDiemHocPhans
                 .ForEach(bangDiemHocPhan =>
                 {
-                bangDiemHocPhan.DiemTong= bangDiemHocPhan.TinhTongDiem();
+                bangDiemHocPhan.TinhDiemTong();
                 });
                 await   context.BangDiemHocPhans.AddRangeAsync(bangDiemHocPhans);
                 resBody_AddMany.NumberOfRowsAffected = await context.SaveChangesAsync();
@@ -81,7 +81,7 @@
             {
                 ResBody_UpdateMany<BangDiemHocPhan> resBody_UpdateMany = new();
                 resBody_UpdateMany.NumberOfRowsAffected = await context.BangDiemHocPhans.Where(
-                reqBody_UpdateMany.FilterBy.MatchExpression()).ExecuteUpdateAsync(reqBody_UpdateMany.UpdateTo.UpdateModel());
+                reqBody_UpdateMany.FilterBy.MatchExpression()).ExecuteUpdateAsync(reqBody_UpdateMany.UpdateTo.UpdateModelExpression());
                 if (reqBody_UpdateMany.ReturnJustIds)
                 {
                     resBody_UpdateMany.ResultJustIds = new List<long           >();
@@ -95,7 +95,7 @@
                 bangDiemHocPhans
                 .ForEach(bangDiemHocPhan =>
                 {
-                bangDiemHocPhan.DiemTong = bangDiemHocPhan.TinhTongDiem();
+                bangDiemHocPhan.TinhDiemTong();
                 context.BangDiemHocPhans.Where( row => row.MaBangDiemHocPhan == bangDiemHocPhan.MaBangDiemHocPhan)
                 .ExecuteUpdate(setter => setter.SetProperty(row => row.DiemTong,bangDiemHocPhan.DiemTong));
                 });

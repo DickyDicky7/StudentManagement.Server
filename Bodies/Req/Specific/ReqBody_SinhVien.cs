@@ -20,7 +20,7 @@
 
         public override Expression<Func<
             Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<SinhVien>,
-            Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<SinhVien>>> UpdateModel()
+            Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<SinhVien>>> UpdateModelExpression()
         {
             Expression<Func<
                 Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<SinhVien>,

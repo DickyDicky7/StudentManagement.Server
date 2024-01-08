@@ -11,7 +11,7 @@
 
         public override Expression<Func<
             Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<HoSo>,
-            Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<HoSo>>> UpdateModel()
+            Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<HoSo>>> UpdateModelExpression()
         {
             Expression<Func<
                 Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<HoSo>,

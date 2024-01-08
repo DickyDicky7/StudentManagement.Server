@@ -14,7 +14,7 @@
 
         public override Expression<Func<
             Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<MonHocThuocKhoaDaoTao>,
-            Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<MonHocThuocKhoaDaoTao>>> UpdateModel()
+            Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<MonHocThuocKhoaDaoTao>>> UpdateModelExpression()
         {
             Expression<Func<
                 Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<MonHocThuocKhoaDaoTao>,

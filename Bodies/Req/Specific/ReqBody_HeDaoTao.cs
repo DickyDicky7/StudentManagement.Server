@@ -7,7 +7,7 @@
 
         public override Expression<Func<
             Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<HeDaoTao>,
-            Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<HeDaoTao>>> UpdateModel()
+            Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<HeDaoTao>>> UpdateModelExpression()
         {
             Expression<Func<
                 Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<HeDaoTao>,

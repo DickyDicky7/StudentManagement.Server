@@ -9,7 +9,7 @@
 
         public override Expression<Func<
             Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<KhoaHoc>,
-            Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<KhoaHoc>>> UpdateModel()
+            Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<KhoaHoc>>> UpdateModelExpression()
         {
             Expression<Func<
                 Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<KhoaHoc>,

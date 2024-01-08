@@ -13,7 +13,7 @@
 
         public override Expression<Func<
             Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<MonHoc>,
-            Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<MonHoc>>> UpdateModel()
+            Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<MonHoc>>> UpdateModelExpression()
         {
             Expression<Func<
                 Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<MonHoc>,

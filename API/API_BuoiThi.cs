@@ -72,7 +72,7 @@
             {
                 ResBody_UpdateMany<BuoiThi> resBody_UpdateMany = new();
                 resBody_UpdateMany.NumberOfRowsAffected = await context.BuoiThis.Where(
-                reqBody_UpdateMany.FilterBy.MatchExpression()).ExecuteUpdateAsync(reqBody_UpdateMany.UpdateTo.UpdateModel());
+                reqBody_UpdateMany.FilterBy.MatchExpression()).ExecuteUpdateAsync(reqBody_UpdateMany.UpdateTo.UpdateModelExpression());
                 if (reqBody_UpdateMany.ReturnJustIds)
                 {
                     resBody_UpdateMany.ResultJustIds = new List<long   >();

@@ -16,7 +16,7 @@
 
         public override Expression<Func<
             Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<HocPhan>,
-            Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<HocPhan>>> UpdateModel()
+            Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<HocPhan>>> UpdateModelExpression()
         {
             Expression<Func<
                 Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<HocPhan>,

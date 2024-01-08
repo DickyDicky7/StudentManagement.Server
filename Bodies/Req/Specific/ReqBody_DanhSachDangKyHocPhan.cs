@@ -9,7 +9,7 @@
 
         public override Expression<Func<
             Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<DanhSachDangKyHocPhan>,
-            Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<DanhSachDangKyHocPhan>>> UpdateModel()
+            Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<DanhSachDangKyHocPhan>>> UpdateModelExpression()
         {
             Expression<Func<
                 Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<DanhSachDangKyHocPhan>,

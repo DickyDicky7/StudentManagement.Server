@@ -69,8 +69,17 @@
                 [FromBody] ReqBody_UpdateMany<  ReqBody_MonHocThuocBoMon,  MonHocThuocBoMon> reqBody_UpdateMany)
             {
                 ResBody_UpdateMany<MonHocThuocBoMon> resBody_UpdateMany = new();
-                resBody_UpdateMany.NumberOfRowsAffected = await context.MonHocThuocBoMons.Where(
-                reqBody_UpdateMany.FilterBy.MatchExpression()).ExecuteUpdateAsync(reqBody_UpdateMany.UpdateTo.UpdateModel());
+                //resBody_UpdateMany.NumberOfRowsAffected = await context.MonHocThuocBoMons.Where(
+                //reqBody_UpdateMany.FilterBy.MatchExpression()).ExecuteUpdateAsync(reqBody_UpdateMany.UpdateTo.UpdateModelExpression());
+                List      <MonHocThuocBoMon> query = await
+                context   .MonHocThuocBoMons
+                .  Where(reqBody_UpdateMany.FilterBy.MatchExpression())
+                .ToListAsync();
+                query
+                .ForEach(reqBody_UpdateMany.UpdateTo.UpdateModel);
+                context   .MonHocThuocBoMons
+                .UpdateRange(query);
+                resBody_UpdateMany.NumberOfRowsAffected = await context.SaveChangesAsync();
                 if (reqBody_UpdateMany.ReturnJustIds)
                 {
                     resBody_UpdateMany.ResultJustIds = new List<long            >();
@@ -95,8 +104,14 @@
                 {
                     resBody_RemoveMany.Result        = new List<MonHocThuocBoMon>();
                 }
-                resBody_RemoveMany.NumberOfRowsAffected = await context.MonHocThuocBoMons.Where(
-                reqBody_RemoveMany.FilterBy.MatchExpression()).ExecuteDeleteAsync();
+                //resBody_RemoveMany.NumberOfRowsAffected = await context.MonHocThuocBoMons.Where(
+                //reqBody_RemoveMany.FilterBy.MatchExpression()).ExecuteDeleteAsync();
+                IQueryable<MonHocThuocBoMon> query =
+                context   .MonHocThuocBoMons
+                .Where(reqBody_RemoveMany.FilterBy.MatchExpression());
+                context   .MonHocThuocBoMons
+                .RemoveRange(query);
+                resBody_RemoveMany.NumberOfRowsAffected = await context.SaveChangesAsync();
                 return resBody_RemoveMany;
             }
 

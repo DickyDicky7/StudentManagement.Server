@@ -71,8 +71,17 @@
                 [FromBody] ReqBody_UpdateMany<  ReqBody_MonHocThuocKhoaDaoTao,  MonHocThuocKhoaDaoTao> reqBody_UpdateMany)
             {
                 ResBody_UpdateMany<MonHocThuocKhoaDaoTao> resBody_UpdateMany = new();
-                resBody_UpdateMany.NumberOfRowsAffected = await context.MonHocThuocKhoaDaoTaos.Where(
-                reqBody_UpdateMany.FilterBy.MatchExpression()).ExecuteUpdateAsync(reqBody_UpdateMany.UpdateTo.UpdateModel());
+                //resBody_UpdateMany.NumberOfRowsAffected = await context.MonHocThuocKhoaDaoTaos.Where(
+                //reqBody_UpdateMany.FilterBy.MatchExpression()).ExecuteUpdateAsync(reqBody_UpdateMany.UpdateTo.UpdateModelExpression());
+                List      <MonHocThuocKhoaDaoTao> query = await
+                context   .MonHocThuocKhoaDaoTaos
+                .  Where(reqBody_UpdateMany.FilterBy.MatchExpression())
+                .ToListAsync();
+                query
+                .ForEach(reqBody_UpdateMany.UpdateTo.UpdateModel);
+                context   .MonHocThuocKhoaDaoTaos
+                .UpdateRange(query);
+                resBody_UpdateMany.NumberOfRowsAffected = await context.SaveChangesAsync();
                 if (reqBody_UpdateMany.ReturnJustIds)
                 {
                     resBody_UpdateMany.ResultJustIds = new List<long                 >();
@@ -97,8 +106,14 @@
                 {
                     resBody_RemoveMany.Result        = new List<MonHocThuocKhoaDaoTao>();
                 }
-                resBody_RemoveMany.NumberOfRowsAffected = await context.MonHocThuocKhoaDaoTaos.Where(
-                reqBody_RemoveMany.FilterBy.MatchExpression()).ExecuteDeleteAsync();
+                //resBody_RemoveMany.NumberOfRowsAffected = await context.MonHocThuocKhoaDaoTaos.Where(
+                //reqBody_RemoveMany.FilterBy.MatchExpression()).ExecuteDeleteAsync();
+                IQueryable<MonHocThuocKhoaDaoTao> query =
+                context   .MonHocThuocKhoaDaoTaos
+                .Where(reqBody_RemoveMany.FilterBy.MatchExpression());
+                context   .MonHocThuocKhoaDaoTaos
+                .RemoveRange(query);
+                resBody_RemoveMany.NumberOfRowsAffected = await context.SaveChangesAsync();
                 return resBody_RemoveMany;
             }
 

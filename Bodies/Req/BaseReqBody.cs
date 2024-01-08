@@ -2,6 +2,20 @@
 {
     public abstract record class BaseReqBody<T> where T : class, IModel<T>, new()
     {
+        public virtual void UpdateModel(T model)
+        {
+            foreach (PropertyInfo propertyInfo in this.GetType().GetProperties())
+            {
+                if (propertyInfo.GetValue(this) != null)
+                {
+                    model
+                        .GetType()
+                        .GetProperty(propertyInfo.Name)!
+                    .SetValue(model, propertyInfo.GetValue(this));
+                }
+            }
+        }
+
         public virtual bool Match(T model)
         {
             bool matchingResult = true;
@@ -23,7 +37,7 @@
 
         public abstract Expression<Func<
             Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<T>,
-            Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<T>>> UpdateModel();
+            Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<T>>> UpdateModelExpression();
 
         public abstract Expression<Func<T, bool>> MatchExpression();
 

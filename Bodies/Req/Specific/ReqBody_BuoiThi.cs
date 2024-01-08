@@ -12,7 +12,7 @@
 
         public override Expression<Func<
             Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<BuoiThi>,
-            Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<BuoiThi>>> UpdateModel()
+            Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<BuoiThi>>> UpdateModelExpression()
         {
             Expression<Func<
                 Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<BuoiThi>,
