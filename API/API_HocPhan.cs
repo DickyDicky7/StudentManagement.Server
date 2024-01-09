@@ -41,6 +41,7 @@
                 ResBody_GetMany<HocPhan> resBody_GetMany = new()
                 {
                     Result =(await context.HocPhans
+                    .Include(row => row.GiangVien)
                     .Include(row => row.  MonHoc)
                     .OrderBy(row => row.MaMonHoc)
                     .Where(reqBody_GetMany.FilterBy
@@ -48,7 +49,8 @@
                     .Skip(offset).Take(limit)
                     .ToListAsync()).Select(row =>
                     {
-                        row.MonHoc.HocPhans = null!;
+                        row.MonHoc   .HocPhans = null!;
+                        row.GiangVien.HocPhans = null!;
                         return row;
                     }),
                 };

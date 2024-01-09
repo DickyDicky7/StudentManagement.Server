@@ -41,8 +41,14 @@
                     .Where(reqBody_GetMany.FilterBy
                     .MatchExpression())
                     .Skip(offset).Take(limit)
+                    .Include(row =>    row.SinhVien         )
+                    .OrderBy(row =>    row.MaBangDiemHocPhan)
                     .ToListAsync()
-                    ),
+                    ).Select(row =>
+                    {
+                        row.SinhVien.BangDiemHocPhans = null!;
+                        return row;
+                    }),
                 };
                 return resBody_GetMany;
             }
