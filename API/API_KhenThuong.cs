@@ -114,6 +114,19 @@
                 foreach (ReqBody_XetKhenThuongTungSinhVienHocKyNamHoc
                          reqBody_XetKhenThuongTungSinhVienHocKyNamHoc in reqBody_XetKhenThuong.DanhSachXetKhenThuong)
                 {
+                    KhenThuong khenThuongDaCo = (await context.KhenThuongs.SingleOrDefaultAsync(
+                    khenThuong => khenThuong.MaHocKyNamHoc == reqBody_XetKhenThuongTungSinhVienHocKyNamHoc.MaHocKyNamHoc &&
+                                  khenThuong.MaSinhVien    == reqBody_XetKhenThuongTungSinhVienHocKyNamHoc.MaSinhVien))!;
+
+                    if (khenThuongDaCo != null)
+                    {
+                        resBody_XetKhenThuong.DanhSachXetKhenThuongKetQua.Add(new()
+                        {
+                            LyDoTuChoiXetKhenThuong = "KhenThuong already exists",
+                        });
+                        continue;
+                    }
+
                     KetQuaHocTap ketQuaHocTap = (await context.KetQuaHocTaps.SingleOrDefaultAsync(ketQuaHocTap =>
                     ketQuaHocTap.MaSinhVien    == reqBody_XetKhenThuongTungSinhVienHocKyNamHoc.MaSinhVien &&
                     ketQuaHocTap.MaHocKyNamHoc == reqBody_XetKhenThuongTungSinhVienHocKyNamHoc.MaHocKyNamHoc))!;
