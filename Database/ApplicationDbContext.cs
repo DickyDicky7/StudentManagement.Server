@@ -8,11 +8,13 @@ public partial class ApplicationDbContext : DbContext
 {
     public ApplicationDbContext()
     {
+        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
     }
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {
+        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
     }
 
     public virtual DbSet<BangDiemHocPhan> BangDiemHocPhans { get; set; }
