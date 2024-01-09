@@ -1,6 +1,6 @@
 ﻿namespace StudentManagement.Server.Database
 {
-    public partial class GiangVienThuocKhoaDaoTao : IModel<GiangVienThuocKhoaDaoTao>
+    public partial class GiangVienThuocKhoaDaoTao : GiangVien, IModel<GiangVienThuocKhoaDaoTao>
     {
 
     }

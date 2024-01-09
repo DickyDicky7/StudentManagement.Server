@@ -1,6 +1,6 @@
 ﻿namespace StudentManagement.Server.Database
 {
-    public partial class MonHocThuocBoMon : IModel<MonHocThuocBoMon>
+    public partial class MonHocThuocBoMon : MonHoc, IModel<MonHocThuocBoMon>
     {
 
     }
