@@ -20,6 +20,10 @@
                 .MapDelete(@"/khen-thuong/remove-many", InternalMethods.KhenThuong_RemoveMany)
                 .WithTags (@"Remove many");
 
+            app
+                .MapPost (@"/khen-thuong/xet-khen-thuong", InternalMethods.KhenThuong_XetKhenThuong)
+                .WithTags(@"Xét khen thưởng");
+
             return app;
         }
 
@@ -100,6 +104,90 @@
                 return resBody_RemoveMany;
             }
 
+            public static async Task<IResult> KhenThuong_XetKhenThuong(
+                [FromServices] ApplicationDbContext context,
+                [FromBody] ReqBody_XetKhenThuong reqBody_XetKhenThuong)
+            {
+                ResBody_XetKhenThuong resBody_XetKhenThuong = new();
+                resBody_XetKhenThuong.DanhSachXetKhenThuongKetQua = new();
+
+                foreach (ReqBody_XetKhenThuongTungSinhVienHocKyNamHoc
+                         reqBody_XetKhenThuongTungSinhVienHocKyNamHoc in reqBody_XetKhenThuong.DanhSachXetKhenThuong)
+                {
+                    KetQuaHocTap ketQuaHocTap = (await context.KetQuaHocTaps.SingleOrDefaultAsync(ketQuaHocTap =>
+                    ketQuaHocTap.MaSinhVien    == reqBody_XetKhenThuongTungSinhVienHocKyNamHoc.MaSinhVien &&
+                    ketQuaHocTap.MaHocKyNamHoc == reqBody_XetKhenThuongTungSinhVienHocKyNamHoc.MaHocKyNamHoc))!;
+                    if (ketQuaHocTap == null)
+                    {
+                        resBody_XetKhenThuong.DanhSachXetKhenThuongKetQua.Add(new()
+                        {
+                             LyDoTuChoiXetKhenThuong = "Related KetQuaHocTap not found",
+                        });
+                        continue;
+                    }
+                    KetQuaRenLuyen ketQuaRenLuyen = (await context.KetQuaRenLuyens.SingleOrDefaultAsync(ketQuaRenLuyen =>
+                    ketQuaRenLuyen.MaSinhVien    == reqBody_XetKhenThuongTungSinhVienHocKyNamHoc.MaSinhVien &&
+                    ketQuaRenLuyen.MaHocKyNamHoc == reqBody_XetKhenThuongTungSinhVienHocKyNamHoc.MaHocKyNamHoc))!;
+                    if (ketQuaRenLuyen == null)
+                    {
+
+                        resBody_XetKhenThuong.DanhSachXetKhenThuongKetQua.Add(new()
+                        {
+                            LyDoTuChoiXetKhenThuong = "Related KetQuaRenLuyen not found",
+                        });
+                        continue;
+                    }
+                    KhenThuong khenThuong = new()
+                    {
+                        MaHocKyNamHoc = reqBody_XetKhenThuongTungSinhVienHocKyNamHoc.MaHocKyNamHoc,
+                        MaSinhVien    = reqBody_XetKhenThuongTungSinhVienHocKyNamHoc.MaSinhVien  ,
+                        XepLoaiKhenThuong = string.Empty,
+                    };
+                    bool duDieuKienKhenThuong = khenThuong.KiemTraDuDieuKienKhenThuong(ketQuaHocTap, ketQuaRenLuyen);
+                    if ( duDieuKienKhenThuong )
+                    {
+                        khenThuong.QuyetDinhXepLoaiKhenThuong(ketQuaHocTap, ketQuaRenLuyen);
+                        context                   .KhenThuongs.Add(khenThuong);
+                        resBody_XetKhenThuong.DanhSachXetKhenThuongKetQua.Add(new()
+                        {
+                             KetQuaKhenThuong = khenThuong,
+                        });
+                    }
+                    else
+                    {
+                        resBody_XetKhenThuong.DanhSachXetKhenThuongKetQua.Add(new()
+                        {
+                            LyDoTuChoiXetKhenThuong = "KetQuaHocTap hay KetQuaRenLuyen not meet requirements",
+                        });
+                    }
+                }
+                await  context.SaveChangesAsync();
+                return Results.Ok(resBody_XetKhenThuong);
+            }
+
+            public record class ReqBody_XetKhenThuongTungSinhVienHocKyNamHoc
+            {
+                public long MaSinhVien    { get; set; }
+                public long MaHocKyNamHoc { get; set; }
+            }
+
+            public record class ReqBody_XetKhenThuong
+            {
+                public List<ReqBody_XetKhenThuongTungSinhVienHocKyNamHoc> DanhSachXetKhenThuong       { get; set; } = null!;
+            }
+
+            public record class ResBody_XetKhenThuong
+            {
+                public List<ResBody_XetKhenThuongTungSinhVienHocKyNamHoc> DanhSachXetKhenThuongKetQua { get; set; } = null!;
+            }
+
+            public record class ResBody_XetKhenThuongTungSinhVienHocKyNamHoc
+            {
+                [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+                public string    ? LyDoTuChoiXetKhenThuong { get; set; }
+                [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+                public KhenThuong?        KetQuaKhenThuong { get; set; }
+            }
         }
     }
 }
